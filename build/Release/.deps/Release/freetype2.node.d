@@ -1,0 +1,1 @@
+cmd_Release/freetype2.node := ./gyp-mac-tool flock ./Release/linker.lock c++ -bundle -Wl,-search_paths_first -mmacosx-version-min=10.5 -arch x86_64 -L./Release  -o Release/freetype2.node Release/obj.target/freetype2/src/freetype2.o Release/obj.target/freetype2/src/fontface.o -undefined dynamic_lookup /usr/local/opt/freetype/lib/libfreetype.a

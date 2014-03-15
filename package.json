@@ -1,0 +1,30 @@
+{
+  "name": "sfnt",
+  "version": "0.0.0",
+  "description": "Parse SFNT type fonts like TrueType, OpenType, and WOFF.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ericfreese/sfnt"
+  },
+  "keywords": [
+    "font",
+    "webfont",
+    "parse",
+    "sfnt",
+    "ttf",
+    "otf",
+    "woff",
+    "truetype",
+    "opentype"
+  ],
+  "author": "Eric Freese",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ericfreese/sfnt/issues"
+  },
+  "homepage": "https://github.com/ericfreese/sfnt"
+}
