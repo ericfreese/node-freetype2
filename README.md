@@ -1,24 +1,26 @@
 # Node FreeType
 
-A Node C++ Addon using FreeType to parse font files.
+A Node C++ addon that uses FreeType to parse font files.
 
 FreeType is a freely available software library to render fonts. http://www.freetype.org/
 
-    $ npm install freetype2
+## Install
 
-    var fs = require('fs'),
-        freetype = require('freetype2');
-    
-    fs.readFile(process.argv[2], function(err, buffer) {
-      if (!!buffer) {
-        var fontface = freetype.parse(buffer);
-        console.log(fontface);
-      }
-    });
+`npm install freetype2`
 
-    $ node your.js '/path/to/a/font.otf'
+## Usage
 
-`freetype.parse` returns a `FontFace` object with the following properties:
+``` javascript
+var fs = require('fs'),
+    freetype = require('freetype2');
+
+fs.readFile('/path/to/a/font.woff', function(err, buffer) {
+  var fontface = freetype.parse(buffer);
+  console.log(fontface);
+});
+```
+
+The module exports a `parse` function, which takes the raw font file data and returns a `FontFace` object with the following properties:
 
     {
       num_faces: 1,
@@ -41,4 +43,6 @@ FreeType is a freely available software library to render fonts. http://www.free
       available_characters: [ 32, 33, 34, 35, ... ]
     }
 
-Font.available_characters is an array of character values that are mapped in the font. Use `.toString(16)` to get a hex string representation.
+`available_characters` is an array of character values that the font maps to glyphs. Use `.toString(16)` to get a hex string representation.
+
+Built for https://github.com/ericfreese/font-viewer.

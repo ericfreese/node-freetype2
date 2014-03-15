@@ -1,16 +1,17 @@
 {
-  "name": "sfnt",
+  "name": "freetype2",
   "version": "0.0.0",
-  "description": "Parse SFNT type fonts like TrueType, OpenType, and WOFF.",
-  "main": "index.js",
+  "description": "A Node C++ Addon that uses FreeType to parse font files.",
+  "main": "build/Release/freetype2",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ericfreese/sfnt"
+    "url": "https://github.com/ericfreese/node-freetype2"
   },
   "keywords": [
+    "freetype",
     "font",
     "webfont",
     "parse",
@@ -24,7 +25,7 @@
   "author": "Eric Freese",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ericfreese/sfnt/issues"
+    "url": "https://github.com/ericfreese/node-freetype2/issues"
   },
-  "homepage": "https://github.com/ericfreese/sfnt"
+  "homepage": "https://github.com/ericfreese/node-freetype2"
 }
