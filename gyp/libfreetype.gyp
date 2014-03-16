@@ -57,11 +57,6 @@
           '../vendor/freetype/include',
         ],
       },
-      'link_settings': {
-        'libraries': [
-          '-lfreetype',
-        ],
-      },
     }
   ]
 }
