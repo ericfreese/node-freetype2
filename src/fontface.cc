@@ -1,5 +1,4 @@
-#include <node.h>
-#include <node_buffer.h>
+#include <nan.h>
 #include <vector>
 #include "fontface.h"
 
@@ -22,35 +21,29 @@ void FontFace::Init() {
   Local<FunctionTemplate> tpl = FunctionTemplate::New(New);
   tpl->SetClassName(String::NewSymbol("FontFace"));
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
-  constructor = Persistent<Function>::New(tpl->GetFunction());
+  NanAssignPersistent(Function, constructor, tpl->GetFunction());
 }
 
-Handle<Value> FontFace::New(const Arguments& args) {
-  HandleScope scope;
+NAN_METHOD(FontFace::New) {
+  NanScope();
 
-  if (args.IsConstructCall()) {
-    FontFace* obj = new FontFace(
-      (FT_Byte*)node::Buffer::Data(args[0]->ToObject()),
-      (FT_Long)node::Buffer::Length(args[0]->ToObject())
-    );
+  FontFace* obj = new FontFace(
+    (FT_Byte*)node::Buffer::Data(args[0]->ToObject()),
+    (FT_Long)node::Buffer::Length(args[0]->ToObject())
+  );
 
-    obj->SetObjectProperties(args.This());
+  obj->SetObjectProperties(args.This());
+  obj->Wrap(args.This());
 
-    obj->Wrap(args.This());
-    return args.This();
-  } else {
-    const int argc = 1;
-    Local<Value> argv[argc] = { args[0] };
-    return scope.Close(constructor->NewInstance(argc, argv));
-  }
+  NanReturnValue(args.This());
 }
 
-Handle<Value> FontFace::NewInstance(const Arguments& args) {
-  HandleScope scope;
+Handle<Value> FontFace::NewInstance(_NAN_METHOD_ARGS_TYPE args) {
+  NanScope();
 
   const unsigned argc = 1;
   Handle<Value> argv[argc] = { args[0] };
-  Local<Object> instance = constructor->NewInstance(argc, argv);
+  Local<Object> instance = NanPersistentToLocal(constructor)->NewInstance(argc, argv);
 
   return scope.Close(instance);
 }
@@ -90,12 +83,15 @@ void FontFace::SetObjectProperties(Handle<Object> obj) {
   obj->Set(String::NewSymbol("underline_position"), Integer::New(this->face->underline_position));
   obj->Set(String::NewSymbol("underline_thickness"), Integer::New(this->face->underline_thickness));
 
-  obj->Set(String::NewSymbol("available_characters"), this->AvailableCharacters());
+  std::vector<FT_UInt> acv = this->AvailableCharacters();
+  Local<Array> aca = Array::New(acv.size());
+  for (size_t i = 0; i < acv.size(); i++) {
+    aca->Set(i, Integer::New(acv.at(i)));
+  }
+  obj->Set(String::NewSymbol("available_characters"), aca);
 }
 
-Handle<Array> FontFace::AvailableCharacters() {
-  HandleScope handle_scope;
-
+std::vector<FT_UInt> FontFace::AvailableCharacters() {
   FT_ULong charcode;
   FT_UInt gindex;
   std::vector<FT_UInt> charVect;
@@ -106,11 +102,5 @@ Handle<Array> FontFace::AvailableCharacters() {
     charcode = FT_Get_Next_Char(this->face, charcode, &gindex);
   }
 
-  Local<Array> charArray = Array::New(charVect.size());
-
-  for (size_t i = 0; i < charVect.size(); i++) {
-    charArray->Set(i, Integer::New(charVect.at(i)));
-  }
-
-  return handle_scope.Close(charArray);
+  return charVect;
 }

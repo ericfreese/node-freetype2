@@ -8,7 +8,10 @@
       'sources': [
         'src/freetype2.cc',
         'src/fontface.cc'
-      ]
+      ],
+      "include_dirs" : [
+        "<!(node -e \"require('nan')\")"
+      ],
     }
   ]
 }

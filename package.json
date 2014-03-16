@@ -1,6 +1,6 @@
 {
   "name": "freetype2",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Parse font files with FreeType.",
   "main": "build/Release/freetype2",
   "scripts": {
@@ -27,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/ericfreese/node-freetype2/issues"
   },
-  "homepage": "https://github.com/ericfreese/node-freetype2"
+  "homepage": "https://github.com/ericfreese/node-freetype2",
+  "dependencies": {
+    "nan": "^0.8.0"
+  }
 }

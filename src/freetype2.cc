@@ -1,11 +1,11 @@
-#include <node.h>
+#include <nan.h>
 #include "fontface.h"
 
 using namespace v8;
 
-Handle<Value> CreateFontFace(const Arguments& args) {
-  HandleScope scope;
-  return scope.Close(FontFace::NewInstance(args));
+NAN_METHOD(CreateFontFace) {
+  NanScope();
+  NanReturnValue(FontFace::NewInstance(args));
 }
 
 void Init(Handle<Object> exports) {
