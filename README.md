@@ -1,5 +1,7 @@
 # Node FreeType
 
+[![Build Status](https://travis-ci.org/ericfreese/node-freetype2.png?branch=master)](https://travis-ci.org/ericfreese/node-freetype2)
+
 A Node native addon that uses FreeType to parse font files.
 
 FreeType is a freely available software library to render fonts. http://www.freetype.org/
@@ -15,6 +17,7 @@ var fs = require('fs'),
     freetype = require('freetype2');
 
 fs.readFile('/path/to/a/font.woff', function(err, buffer) {
+  if (!!err) throw err;
   var fontface = freetype.parse(buffer);
   console.log(fontface);
 });
