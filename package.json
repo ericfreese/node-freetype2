@@ -1,6 +1,6 @@
 {
   "name": "freetype2",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Parse font files with FreeType.",
   "main": "build/Release/freetype2",
   "scripts": {

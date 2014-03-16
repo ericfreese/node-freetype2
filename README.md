@@ -1,6 +1,6 @@
 # Node FreeType
 
-A Node C++ addon that uses FreeType to parse font files.
+A Node native addon that uses FreeType to parse font files.
 
 FreeType is a freely available software library to render fonts. http://www.freetype.org/
 
