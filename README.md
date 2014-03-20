@@ -1,8 +1,9 @@
 # Node FreeType
 
+[![NPM version](https://badge.fury.io/js/freetype2.png)](http://badge.fury.io/js/freetype2)
 [![Build Status](https://travis-ci.org/ericfreese/node-freetype2.png?branch=master)](https://travis-ci.org/ericfreese/node-freetype2)
 
-A Node native addon that uses FreeType to parse font files.
+FreeType bindings for Node.js.
 
 FreeType is a freely available software library to render fonts. http://www.freetype.org/
 
@@ -14,38 +15,47 @@ FreeType is a freely available software library to render fonts. http://www.free
 
 ``` javascript
 var fs = require('fs'),
-    freetype = require('freetype2');
+    ft = require('freetype2');
 
 fs.readFile('/path/to/a/font.woff', function(err, buffer) {
   if (!!err) throw err;
-  var fontface = freetype.parse(buffer);
-  console.log(fontface);
+  var face = ft.New_Memory_Face(buffer, 0);
+  console.log(face);
 });
 ```
 
-The module exports a `parse` function, which takes the raw font file data and returns a `FontFace` object with the following properties:
+The module exposes the following functions from FreeType:
 
-    {
-      num_faces: 1,
-      face_index: 0,
-      face_flags: 537,
-      style_flags: 2,
-      num_glyphs: 233,
-      family_name: 'Nexa Bold',
-      style_name: 'Regular',
-      num_fixed_sizes: 0,
-      num_charmaps: 4,
-      units_per_EM: 1000,
-      ascender: 750,
-      descender: -250,
-      height: 1000,
-      max_advance_width: 1159,
-      max_advance_height: 1000,
-      underline_position: -100,
-      underline_thickness: 50,
-      available_characters: [ 32, 33, 34, 35, ... ]
-    }
+    New_Memory_Face
+    Select_Size
+    Request_Size
+    Set_Char_Size
+    Load_Glyph
+    Load_Char
+    Render_Glyph
+    Select_Charmap
+    Set_Charmap
+    Get_Charmap_Index
+    Get_Char_Index
+    Get_First_Char
+    Get_Next_Char
 
-`available_characters` is an array of character values that the font maps to glyphs. Use `.toString(16)` to get a hex string representation.
+### Coming Soon
 
-Built for https://github.com/ericfreese/font-viewer.
+    Set_Pixel_Sizes
+    Set_Transform
+    Get_Kerning
+    Get_Track_Kerning
+    Get_Glyph_Name
+    Get_Postscript_Name
+    Get_Name_Index
+    Get_SubGlyph_Info
+
+## To do
+
+- Error checking. Throw type/argument and FreeType error exceptions.
+- Glyph outline processing: http://www.freetype.org/freetype2/docs/reference/ft2-outline_processing.html
+
+---
+
+Originally built for https://github.com/ericfreese/font-viewer.

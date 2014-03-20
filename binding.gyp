@@ -6,8 +6,10 @@
         'gyp/libfreetype.gyp:libfreetype'
       ],
       'sources': [
-        'src/freetype2.cc',
-        'src/fontface.cc'
+        'src/init.cc',
+        'src/FreeType2.cc',
+        'src/FontFace.cc',
+        'src/Glyph.cc',
       ],
       "include_dirs" : [
         "<!(node -e \"require('nan')\")"

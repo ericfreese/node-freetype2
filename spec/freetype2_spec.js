@@ -1,74 +1,27 @@
 var fs = require('fs'),
-    freeTypePath = '../build/Release/freetype2';
+    tv4 = require('tv4'),
+    ft = require('../build/Release/freetype2'),
+    schema = require('./schema'),
+    buffer = fs.readFileSync(__dirname + '/fonts/OpenBaskerville-0.0.53/OpenBaskerville-0.0.53.otf');
 
-describe('freetype', function() {
-  it('loads successfully via require()', function() {
-    var loadFreeType = function() {
-      var ft = require(freeTypePath);
-    };
-
-    expect(loadFreeType).not.toThrow();
+describe('#New_Memory_Face', function() {
+  it('matches the schema', function() {
+    var f = ft.New_Memory_Face(buffer, 0);
+    expect(tv4.validate(f, schema.FontFace)).toBe(true);
   });
 });
 
-describe('freetype.parse()', function() {
-  var ft;
-
-  beforeEach(function() {
-    ft = require(freeTypePath);
+describe('#Get_Char_Index', function() {
+  it('returns the correct glyph index', function() {
+    var f = ft.New_Memory_Face(buffer, 0);
+    expect(ft.Get_Char_Index(f, 'A'.charCodeAt(0))).toBe(28);
   });
+});
 
-  var isValidFontFaceObject = function(fontFace) {
-    var expectedOwnProperties = [
-      'num_faces',
-      'face_index',
-      'face_flags',
-      'style_flags',
-      'num_glyphs',
-      'family_name',
-      'style_name',
-      'num_fixed_sizes',
-      'num_charmaps',
-      'units_per_EM',
-      'ascender',
-      'descender',
-      'height',
-      'max_advance_width',
-      'max_advance_height',
-      'underline_position',
-      'underline_thickness',
-      'available_characters'
-    ];
-
-    expectedOwnProperties.forEach(function(p) {
-      expect(fontFace.hasOwnProperty(p)).toBe(true);
-    });
-  };
-
-  it ('supports .otf', function() {
-    var parseFont = function() {
-      var f = ft.parse(fs.readFileSync(__dirname + '/fonts/OpenBaskerville-0.0.53/OpenBaskerville-0.0.53.otf'));
-      isValidFontFaceObject(f);
-    };
-
-    expect(parseFont).not.toThrow();
-  });
-
-  it ('supports .ttf', function() {
-    var parseFont = function() {
-      var f = ft.parse(fs.readFileSync(__dirname + '/fonts/OpenBaskerville-0.0.53/OpenBaskerville-0.0.53.ttf'));
-      isValidFontFaceObject(f);
-    };
-
-    expect(parseFont).not.toThrow();
-  });
-
-  it ('supports .woff', function() {
-    var parseFont = function() {
-      var f = ft.parse(fs.readFileSync(__dirname + '/fonts/OpenBaskerville-0.0.53/OpenBaskerville-0.0.53.woff'));
-      isValidFontFaceObject(f);
-    };
-
-    expect(parseFont).not.toThrow();
+describe('#Load_Glyph', function() {
+  it('matches the schema', function() {
+    var f = ft.New_Memory_Face(buffer, 0);
+    ft.Load_Glyph(f, 28, ft.LOAD_NO_SCALE);
+    expect(tv4.validate(f.glyph, schema.Glyph)).toBe(true);
   });
 });
