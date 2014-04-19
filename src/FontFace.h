@@ -1,5 +1,5 @@
-#ifndef __SRC_FONTFACE_H
-#define __SRC_FONTFACE_H
+#ifndef NODE_FREETYPE2_FONTFACE_H
+#define NODE_FREETYPE2_FONTFACE_H
 
 #include "FreeType2.h"
 #include "Glyph.h"

@@ -148,7 +148,7 @@ NAN_METHOD(FreeType2::New_Memory_Face) {
                      (FT_Long)node::Buffer::Length(args[0]->ToObject()),
                      args[1]->Int32Value(),
                      &ftFace);
-  v8::Handle<v8::Object> faceObj = FontFace::constructor->NewInstance();
+  v8::Handle<v8::Object> faceObj = NanPersistentToLocal(FontFace::constructor)->NewInstance();
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(faceObj);
   fontFace->ftFace = ftFace;
   NanReturnValue(faceObj);
@@ -165,11 +165,11 @@ NAN_METHOD(FreeType2::Request_Size) {
   NanScope();
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Handle<v8::Object>::Cast(args[0]));
   FT_Size_RequestRec req = {
-    .type = static_cast<FT_Size_Request_Type>(args[1]->Int32Value()),
-    .width = args[2]->Int32Value(),
-    .height = args[3]->Int32Value(),
-    .horiResolution = args[4]->Int32Value(),
-    .vertResolution = args[5]->Int32Value()
+    static_cast<FT_Size_Request_Type>(args[1]->Int32Value()),
+    args[2]->Int32Value(),
+    args[3]->Int32Value(),
+    args[4]->Int32Value(),
+    args[5]->Int32Value()
   };
   FT_Request_Size(fontFace->ftFace, &req);
   NanReturnUndefined();

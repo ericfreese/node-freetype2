@@ -1,5 +1,5 @@
-#ifndef __SRC_FREETYPE2_H
-#define __SRC_FREETYPE2_H
+#ifndef NODE_FREETYPE2_FREETYPE2_H
+#define NODE_FREETYPE2_FREETYPE2_H
 
 #include <nan.h>
 #include <ft2build.h>
