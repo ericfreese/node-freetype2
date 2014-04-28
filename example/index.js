@@ -57,5 +57,7 @@ fs.readFile(process.argv[2], function(err, buffer) {
 
   //FT_GLYPH_FORMAT_OUTLINE
   ft.Load_Glyph(face, 28, ft.LOAD_DEFAULT);
-  console.log(face.glyph.format === ft.GLYPH_FORMAT_OUTLINE);
+  if (face.glyph.format === ft.GLYPH_FORMAT_OUTLINE) {
+    
+  }
 });

@@ -274,6 +274,26 @@ NAN_METHOD(FreeType2::Get_Next_Char) {
   NanReturnValue(v8::Integer::New(charcode));
 }
 
+NAN_METHOD(FreeType2::Outline_Decompose) {
+  NanScope();
+  FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Handle<v8::Object>::Cast(args[0]));
+  
+  FT_OutlineGlyph gOutline;
+  FT_Error getErr = FT_Get_Glyph( fontFace->ftFace->glyph, (FT_Glyph*)&gOutline );
+  if (getErr) {
+    NanReturnValue(v8::Integer::New(getErr));  
+  } else {
+
+    FT_Outline_Funcs outlineInterface;
+    
+    FT_Error outErr = FT_Outline_Decompose(&gOutline->outline, &_interface, this );
+
+  }
+    
+  // FT_ULong charcode = FT_Get_Next_Char(fontFace->ftFace, args[1]->Int32Value(), &gindex);
+  // v8::Handle<v8::Object>::Cast(args[2])->Set(NanSymbol("gindex"), v8::Integer::New(gindex));
+  NanReturnValue(v8::Integer::New(0));
+}
 
 
 
