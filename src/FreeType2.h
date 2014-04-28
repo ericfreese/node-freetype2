@@ -35,6 +35,8 @@ class FreeType2 : public node::ObjectWrap {
     static NAN_METHOD(Get_Char_Index);
     static NAN_METHOD(Get_First_Char);
     static NAN_METHOD(Get_Next_Char);
+    static NAN_METHOD(Outline_Decompose);
+    
     // static NAN_METHOD(Get_Name_Index);
     // static NAN_METHOD(Get_SubGlyph_Info);
 
