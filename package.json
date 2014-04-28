@@ -4,7 +4,9 @@
   "description": "FreeType bindings for Node.js.",
   "main": "build/Release/freetype2",
   "scripts": {
-    "test": "jasmine-node spec"
+    "test": "jasmine-node spec",
+    "build": "node-gyp build",
+    "example": "node example/index.js spec/fonts/OpenBaskerville-0.0.53/OpenBaskerville-0.0.53.woff"
   },
   "repository": {
     "type": "git",

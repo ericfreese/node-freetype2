@@ -23,5 +23,34 @@ fs.readFile(process.argv[2], function(err, buffer) {
     return chars;
   }
 
-  console.log(getAvailableCharacters(face));
+  var chars = getAvailableCharacters(face);
+  console.log("Found "+chars.length+" available characters");
+
+  if ( ft.HAS_KERNING(face) ) {
+    var kernings = [];
+
+    //need to set a size before asking for kerning...
+    ft.Set_Char_Size(face, 100, 100, 1000, 1000);
+
+
+    for (var i=0; i<chars.length; i++) {
+      var left = ft.Get_Char_Index(face, chars[i]);
+
+      for (var j=0; j<chars.length; j++) {
+        var right = ft.Get_Char_Index(face, chars[j]);
+        var kern = { x:0, y:0 };
+        var err = ft.Get_Kerning(face, left, right, ft.KERNING_UNSCALED, kern);
+        if (!err && kern.x !== 0) {
+          kernings.push({
+            left: left,
+            right: right,
+            value: kern.x
+          });
+        } 
+      }
+    }
+    console.log("Found "+kernings.length+" kerning pairs");
+  } else {
+    console.warn("No kerning information in font file.");
+  }
 });
