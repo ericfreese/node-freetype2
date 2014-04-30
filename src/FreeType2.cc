@@ -22,7 +22,7 @@ void FreeType2::Init(v8::Handle<v8::Object> exports) {
   NODE_SET_METHOD(exports, "Load_Char", Load_Char);
   // NODE_SET_METHOD(exports, "Set_Transform", Set_Transform);
   NODE_SET_METHOD(exports, "Render_Glyph", Render_Glyph);
-  // NODE_SET_METHOD(exports, "Get_Kerning", Get_Kerning);
+  NODE_SET_METHOD(exports, "Get_Kerning", Get_Kerning);
   // NODE_SET_METHOD(exports, "Get_Track_Kerning", Get_Track_Kerning);
   // NODE_SET_METHOD(exports, "Get_Glyph_Name", Get_Glyph_Name);
   // NODE_SET_METHOD(exports, "Get_Postscript_Name", Get_Postscript_Name);
@@ -200,6 +200,22 @@ NAN_METHOD(FreeType2::Load_Char) {
   NanReturnUndefined();
 }
 
+NAN_METHOD(FreeType2::Get_Kerning) {
+  NanScope();
+  FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Handle<v8::Object>::Cast(args[0]));
+  FT_Vector kerning;
+  FT_Error err = FT_Get_Kerning(fontFace->ftFace,
+                   args[1]->Int32Value(),  //left_glyph 
+                   args[2]->Int32Value(),  //right_glyph
+                   args[3]->Int32Value(),  //kern_mode
+                   &kerning);              //kerning
+  if (!err) {
+    v8::Handle<v8::Object>::Cast(args[4])->Set(NanSymbol("x"), v8::Integer::New(kerning.x));
+    v8::Handle<v8::Object>::Cast(args[4])->Set(NanSymbol("y"), v8::Integer::New(kerning.y));
+  }
+  NanReturnValue(v8::Integer::New(err));
+}
+
 NAN_METHOD(FreeType2::Render_Glyph) {
   NanScope();
   Glyph* glyph = node::ObjectWrap::Unwrap<Glyph>(v8::Handle<v8::Object>::Cast(args[0]));
@@ -250,5 +266,8 @@ NAN_METHOD(FreeType2::Get_Next_Char) {
   v8::Handle<v8::Object>::Cast(args[2])->Set(NanSymbol("gindex"), v8::Integer::New(gindex));
   NanReturnValue(v8::Integer::New(charcode));
 }
+
+
+
 
 FT_Library FreeType2::library;
