@@ -9,7 +9,7 @@
         'src/init.cc',
         'src/FreeType2.cc',
         'src/FontFace.cc',
-        'src/Glyph.cc',
+        'src/GlyphSlot.cc',
       ],
       "include_dirs" : [
         "<!(node -e \"require('nan')\")"

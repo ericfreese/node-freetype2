@@ -196,8 +196,8 @@ NAN_GETTER(FontFace::acc_underline_thickness) {
 NAN_GETTER(FontFace::acc_glyph) {
   NanScope();
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(args.This());
-  v8::Handle<v8::Object> glyphObj = NanPersistentToLocal(Glyph::constructor)->NewInstance();
-  Glyph* glyph = node::ObjectWrap::Unwrap<Glyph>(glyphObj);
-  glyph->ftGlyph = fontFace->ftFace->glyph;
+  v8::Handle<v8::Object> glyphObj = NanPersistentToLocal(GlyphSlot::constructor)->NewInstance();
+  GlyphSlot* glyph = node::ObjectWrap::Unwrap<GlyphSlot>(glyphObj);
+  glyph->ftGlyphSlot = fontFace->ftFace->glyph;
   NanReturnValue(glyphObj);
 }

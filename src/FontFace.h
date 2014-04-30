@@ -2,7 +2,7 @@
 #define NODE_FREETYPE2_FONTFACE_H
 
 #include "FreeType2.h"
-#include "Glyph.h"
+#include "GlyphSlot.h"
 
 #include <vector>
 

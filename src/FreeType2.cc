@@ -7,7 +7,7 @@ void FreeType2::Init(v8::Handle<v8::Object> exports) {
   FT_Init_FreeType(&library);
 
   FontFace::Init(exports);
-  Glyph::Init(exports);
+  GlyphSlot::Init(exports);
 
   char version[32];
   sprintf(version, "%i.%i.%i", FREETYPE_MAJOR, FREETYPE_MINOR, FREETYPE_PATCH);
@@ -218,8 +218,8 @@ NAN_METHOD(FreeType2::Get_Kerning) {
 
 NAN_METHOD(FreeType2::Render_Glyph) {
   NanScope();
-  Glyph* glyph = node::ObjectWrap::Unwrap<Glyph>(v8::Handle<v8::Object>::Cast(args[0]));
-  FT_Render_Glyph(glyph->ftGlyph, static_cast<FT_Render_Mode>(args[1]->Int32Value()));
+  GlyphSlot* glyph = node::ObjectWrap::Unwrap<GlyphSlot>(v8::Handle<v8::Object>::Cast(args[0]));
+  FT_Render_Glyph(glyph->ftGlyphSlot, static_cast<FT_Render_Mode>(args[1]->Int32Value()));
   NanReturnUndefined();
 }
 
