@@ -18,6 +18,21 @@ describe('#Get_Char_Index', function() {
   });
 });
 
+describe('#Get_Kerning', function() {
+  it('returns the correct kerning', function() {
+    var face = ft.New_Memory_Face(buffer, 0);
+    ft.Set_Char_Size(face, 100, 100, 1000, 1000);
+
+    var left = ft.Get_Char_Index(face, 'y'.charCodeAt(0));
+    var right = ft.Get_Char_Index(face, 'b'.charCodeAt(0));
+    var obj = {};
+    var err = ft.Get_Kerning(face, left, right, ft.KERNING_UNSCALED, obj);
+    expect(err).toBe(0);
+    expect(obj.x).toBe(-43);
+    expect(obj.y).toBe(0);
+  })
+})
+
 describe('#Load_Glyph', function() {
   it('matches the schema', function() {
     var f = ft.New_Memory_Face(buffer, 0);

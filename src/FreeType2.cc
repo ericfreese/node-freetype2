@@ -23,7 +23,6 @@ void FreeType2::Init(v8::Handle<v8::Object> exports) {
   // NODE_SET_METHOD(exports, "Set_Transform", Set_Transform);
   NODE_SET_METHOD(exports, "Render_Glyph", Render_Glyph);
   NODE_SET_METHOD(exports, "Get_Kerning", Get_Kerning);
-  NODE_SET_METHOD(exports, "HAS_KERNING", HAS_KERNING);
   // NODE_SET_METHOD(exports, "Get_Track_Kerning", Get_Track_Kerning);
   // NODE_SET_METHOD(exports, "Get_Glyph_Name", Get_Glyph_Name);
   // NODE_SET_METHOD(exports, "Get_Postscript_Name", Get_Postscript_Name);
@@ -215,12 +214,6 @@ NAN_METHOD(FreeType2::Get_Kerning) {
     v8::Handle<v8::Object>::Cast(args[4])->Set(NanSymbol("y"), v8::Integer::New(kerning.y));
   }
   NanReturnValue(v8::Integer::New(err));
-}
-
-NAN_METHOD(FreeType2::HAS_KERNING) {
-  NanScope();
-  FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Handle<v8::Object>::Cast(args[0]));
-  NanReturnValue(v8::Boolean::New( FT_HAS_KERNING(fontFace->ftFace) ));
 }
 
 NAN_METHOD(FreeType2::Render_Glyph) {
