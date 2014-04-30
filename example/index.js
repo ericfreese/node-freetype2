@@ -26,7 +26,8 @@ fs.readFile(process.argv[2], function(err, buffer) {
   var chars = getAvailableCharacters(face);
   console.log("Found "+chars.length+" available characters");
 
-  if ( ft.HAS_KERNING(face) ) {
+  //check if we have kerning in the font file
+  if ( (face.face_flags & ft.FACE_FLAG_KERNING) === ft.FACE_FLAG_KERNING ) {
     var kernings = [];
 
     //need to set a size before asking for kerning...
