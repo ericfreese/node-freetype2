@@ -47,6 +47,7 @@ fs.readFile(process.argv[2], function(err, buffer) {
             right: right,
             value: kern.x
           });
+
         } 
       }
     }
