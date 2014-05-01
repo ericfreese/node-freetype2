@@ -1,5 +1,7 @@
 #include "FreeType2.h"
 #include "FontFace.h"
+#include "ftglyph.h"
+#include "ftoutln.h"
 
 void FreeType2::Init(v8::Handle<v8::Object> exports) {
   NanScope();
@@ -33,6 +35,9 @@ void FreeType2::Init(v8::Handle<v8::Object> exports) {
   NODE_SET_METHOD(exports, "Get_Char_Index", Get_Char_Index);
   NODE_SET_METHOD(exports, "Get_First_Char", Get_First_Char);
   NODE_SET_METHOD(exports, "Get_Next_Char", Get_Next_Char);
+  NODE_SET_METHOD(exports, "Outline_Decompose", Outline_Decompose);
+
+  
   // NODE_SET_METHOD(exports, "Get_Name_Index", Get_Name_Index);
   // NODE_SET_METHOD(exports, "Get_SubGlyph_Info", Get_SubGlyph_Info);
 
@@ -274,27 +279,133 @@ NAN_METHOD(FreeType2::Get_Next_Char) {
   NanReturnValue(v8::Integer::New(charcode));
 }
 
+typedef struct OutlineContext {
+  v8::Handle<v8::Object> functions;
+} OutlineContext;
+
 NAN_METHOD(FreeType2::Outline_Decompose) {
   NanScope();
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Handle<v8::Object>::Cast(args[0]));
   
-  FT_OutlineGlyph gOutline;
-  FT_Error getErr = FT_Get_Glyph( fontFace->ftFace->glyph, (FT_Glyph*)&gOutline );
+  FT_Outline_Funcs outline_funcs;
+  outline_funcs.shift = 0;
+  outline_funcs.delta = 0;
+  outline_funcs.move_to = move_to;
+  outline_funcs.line_to = line_to;
+  outline_funcs.conic_to = quad_to;
+  outline_funcs.cubic_to = cubic_to;
+
+  OutlineContext context;
+  context.functions = v8::Handle<v8::Object>::Cast(args[1]);
+
+  FT_Glyph glyph;
+  FT_Error getErr = FT_Get_Glyph( fontFace->ftFace->glyph, &glyph );
   if (getErr) {
     NanReturnValue(v8::Integer::New(getErr));  
+  } else if (fontFace->ftFace->glyph->format != FT_GLYPH_FORMAT_OUTLINE) {
+    NanReturnValue(v8::Integer::New(1)); //error, font doesn't have outline format
   } else {
-
-    FT_Outline_Funcs outlineInterface;
-    
-    FT_Error outErr = FT_Outline_Decompose(&gOutline->outline, &_interface, this );
-
+    FT_OutlineGlyph outline_glyph = (FT_OutlineGlyph)glyph;
+    FT_Error outErr = FT_Outline_Decompose(&outline_glyph->outline, &outline_funcs, &context );
+    FT_Done_Glyph( glyph );
+    NanReturnValue(v8::Integer::New(outErr));
   }
-    
-  // FT_ULong charcode = FT_Get_Next_Char(fontFace->ftFace, args[1]->Int32Value(), &gindex);
-  // v8::Handle<v8::Object>::Cast(args[2])->Set(NanSymbol("gindex"), v8::Integer::New(gindex));
-  NanReturnValue(v8::Integer::New(0));
 }
 
+int FreeType2::move_to(const FT_Vector* to, void *p) {
+  OutlineContext *context = (OutlineContext*)p;
 
+  v8::Handle<v8::Object> funcs = v8::Handle<v8::Object>::Cast(context->functions);
+  if (funcs->IsObject() && funcs->Has(NanSymbol("move_to"))) {
+    v8::Handle<v8::Value> fn = funcs->Get(NanSymbol("move_to"));
+    if (!fn->IsFunction()) {
+      v8::ThrowException(v8::String::New("move_to for Outline_Decompose must be a function"));
+      return 1;
+    }
+    v8::Handle<v8::Value> args[2];
+    args[0] = v8::Integer::New(to->x);
+    args[1] = v8::Integer::New(to->y);
+
+    v8::Handle<v8::Function>::Cast(fn)->Call( v8::Context::GetCurrent()->Global(), 2, args );
+    return 0;
+  } else {
+    v8::ThrowException(v8::String::New("must define a move_to() function for Outline_Decompose"));
+    return 1;
+  }
+}
+
+int FreeType2::line_to(const FT_Vector* to, void *p) {
+  OutlineContext *context = (OutlineContext*)p;
+  
+  v8::Handle<v8::Object> funcs = v8::Handle<v8::Object>::Cast(context->functions);
+  if (funcs->IsObject() && funcs->Has(NanSymbol("line_to"))) {
+    v8::Handle<v8::Value> fn = funcs->Get(NanSymbol("line_to"));
+    if (!fn->IsFunction()) {
+      v8::ThrowException(v8::String::New("line_to for Outline_Decompose must be a function"));
+      return 1;
+    }
+    v8::Handle<v8::Value> args[2];
+    args[0] = v8::Integer::New(to->x);
+    args[1] = v8::Integer::New(to->y);
+
+    v8::Handle<v8::Function>::Cast(fn)->Call( v8::Context::GetCurrent()->Global(), 2, args );
+    return 0;
+  } else {
+    v8::ThrowException(v8::String::New("must define a line_to() function for Outline_Decompose"));
+    return 1;
+  }
+}
+
+int FreeType2::quad_to(const FT_Vector*  cp, const FT_Vector*  to, void *p) {
+  OutlineContext *context = (OutlineContext*)p;
+  
+  v8::Handle<v8::Object> funcs = v8::Handle<v8::Object>::Cast(context->functions);
+  if (funcs->IsObject() && funcs->Has(NanSymbol("quad_to"))) {
+    v8::Handle<v8::Value> fn = funcs->Get(NanSymbol("quad_to"));
+    if (!fn->IsFunction()) {
+      v8::ThrowException(v8::String::New("quad_to for Outline_Decompose must be a function"));
+      return 1;
+    }
+    v8::Handle<v8::Value> args[4];
+    args[0] = v8::Integer::New(cp->x);
+    args[1] = v8::Integer::New(cp->y);
+    args[2] = v8::Integer::New(to->x);
+    args[3] = v8::Integer::New(to->y);
+
+    v8::Handle<v8::Function>::Cast(fn)->Call( v8::Context::GetCurrent()->Global(), 4, args );
+    return 0;
+  } else {
+    v8::ThrowException(v8::String::New("must define a quad_to() function for Outline_Decompose"));
+    return 1;
+  }
+}
+
+int FreeType2::cubic_to(const FT_Vector*  cp1,
+         const FT_Vector*  cp2,
+         const FT_Vector*  to,
+         void *p) {
+  OutlineContext *context = (OutlineContext*)p;
+  v8::Handle<v8::Object> funcs = v8::Handle<v8::Object>::Cast(context->functions);
+  if (funcs->IsObject() && funcs->Has(NanSymbol("cubic_to"))) {
+    v8::Handle<v8::Value> fn = funcs->Get(NanSymbol("cubic_to"));
+    if (!fn->IsFunction()) {
+      v8::ThrowException(v8::String::New("cubic_to for Outline_Decompose must be a function"));
+      return 1;
+    }
+    v8::Handle<v8::Value> args[6];
+    args[0] = v8::Integer::New(cp1->x);
+    args[1] = v8::Integer::New(cp1->y);
+    args[2] = v8::Integer::New(cp2->x);
+    args[3] = v8::Integer::New(cp2->y);
+    args[4] = v8::Integer::New(to->y);
+    args[5] = v8::Integer::New(to->y);
+
+    v8::Handle<v8::Function>::Cast(fn)->Call( v8::Context::GetCurrent()->Global(), 6, args );
+    return 0;
+  } else {
+    v8::ThrowException(v8::String::New("must define a cubic_to() function for Outline_Decompose"));
+    return 1;
+  }
+}
 
 FT_Library FreeType2::library;

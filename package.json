@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jasmine-node spec",
     "build": "node-gyp build",
-    "example": "node example/index.js spec/fonts/OpenBaskerville-0.0.53/OpenBaskerville-0.0.53.ttf"
+    "example": "node example/index.js spec/fonts/OpenBaskerville-0.0.53/OpenBaskerville-0.0.53.otf"
   },
   "repository": {
     "type": "git",
