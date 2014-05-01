@@ -5,8 +5,7 @@
   "main": "build/Release/freetype2",
   "scripts": {
     "test": "jasmine-node spec",
-    "build": "node-gyp build",
-    "example": "node example/index.js spec/fonts/OpenBaskerville-0.0.53/OpenBaskerville-0.0.53.otf"
+    "build": "node-gyp build"
   },
   "repository": {
     "type": "git",
