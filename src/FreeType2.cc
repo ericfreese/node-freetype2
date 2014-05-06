@@ -390,7 +390,7 @@ int FreeType2::cubic_to(const FT_Vector*  cp1,
     args[1] = v8::Integer::New(cp1->y);
     args[2] = v8::Integer::New(cp2->x);
     args[3] = v8::Integer::New(cp2->y);
-    args[4] = v8::Integer::New(to->y);
+    args[4] = v8::Integer::New(to->x);
     args[5] = v8::Integer::New(to->y);
 
     v8::Handle<v8::Function>::Cast(fn)->Call( v8::Context::GetCurrent()->Global(), 6, args );
