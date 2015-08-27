@@ -4,10 +4,10 @@ var fs = require('fs'),
     schema = require('./schema'),
     buffer = fs.readFileSync(__dirname + '/fonts/OpenBaskerville-0.0.53/OpenBaskerville-0.0.53.otf');
 
-describe('#New_Memory_Face', function() {
+describe('FontFace from New_Memory_Face', function() {
   it('matches the schema', function() {
     var f = ft.New_Memory_Face(buffer, 0);
-    expect(tv4.validate(f, schema.FontFace)).toBe(true);
+    expect(tv4.validate(f, schema.FontFace)).toBe(true, !!tv4.error ? tv4.error.toString() : undefined);
   });
 });
 
@@ -37,6 +37,6 @@ describe('#Load_Glyph', function() {
   it('matches the schema', function() {
     var f = ft.New_Memory_Face(buffer, 0);
     ft.Load_Glyph(f, 28, ft.LOAD_NO_SCALE);
-    expect(tv4.validate(f.glyph, schema.Glyph)).toBe(true);
+    expect(tv4.validate(f.glyph, schema.Glyph)).toBe(true, !!tv4.error ? tv4.error.toString() : undefined);
   });
 });

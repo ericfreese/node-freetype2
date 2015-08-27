@@ -8,24 +8,21 @@
 
 class GlyphSlot : public node::ObjectWrap {
   public:
-    explicit GlyphSlot();
-    ~GlyphSlot();
-
     static void Init(v8::Handle<v8::Object>);
     static v8::Persistent<v8::Function> constructor;
-    static NAN_METHOD(New);
 
     FT_GlyphSlot ftGlyphSlot;
 
   private:
-    static NAN_GETTER(acc_metrics);
-    static NAN_GETTER(acc_format);
-    static NAN_GETTER(acc_bitmap);
-    static NAN_GETTER(acc_bitmap_left);
-    static NAN_GETTER(acc_bitmap_top);
-    static NAN_GETTER(acc_lsb_delta);
-    static NAN_GETTER(acc_rsb_delta);
+    static void New(const v8::FunctionCallbackInfo<v8::Value>& args);
 
+    static void acc_metrics(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+    static void acc_format(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+    static void acc_bitmap(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+    static void acc_bitmap_left(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+    static void acc_bitmap_top(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+    static void acc_lsb_delta(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+    static void acc_rsb_delta(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
 };
 
 #endif
