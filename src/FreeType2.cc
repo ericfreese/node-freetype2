@@ -172,10 +172,10 @@ void FreeType2::Request_Size(const v8::FunctionCallbackInfo<v8::Value>& args) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Handle<v8::Object>::Cast(args[0]));
   FT_Size_RequestRec req = {
     static_cast<FT_Size_Request_Type>(args[1]->Int32Value()),
-    args[2]->Int32Value(),
-    args[3]->Int32Value(),
-    args[4]->Int32Value(),
-    args[5]->Int32Value()
+    static_cast<FT_Long>(args[2]->Int32Value()),
+    static_cast<FT_Long>(args[3]->Int32Value()),
+    static_cast<FT_UInt>(args[4]->Int32Value()),
+    static_cast<FT_UInt>(args[5]->Int32Value())
   };
   FT_Request_Size(fontFace->ftFace, &req);
 }
