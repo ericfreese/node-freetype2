@@ -1,9 +1,12 @@
 # Node FreeType
 
+**CURRENTLY ONLY WORKS WITH NODE v0.12**
+
 [![NPM version](https://badge.fury.io/js/freetype2.png)](http://badge.fury.io/js/freetype2)
 [![Build Status](https://travis-ci.org/ericfreese/node-freetype2.png?branch=master)](https://travis-ci.org/ericfreese/node-freetype2)
 
 FreeType bindings for Node.js.
+
 
 FreeType is a freely available software library to render fonts. http://www.freetype.org/
 
@@ -26,35 +29,36 @@ fs.readFile('/path/to/a/font.woff', function(err, buffer) {
 
 The module exposes the following functions from FreeType:
 
-    New_Memory_Face
-    Select_Size
-    Request_Size
-    Set_Char_Size
-    Load_Glyph
-    Load_Char
-    Render_Glyph
-    Select_Charmap
-    Set_Charmap
-    Get_Charmap_Index
-    Get_Char_Index
-    Get_First_Char
-    Get_Next_Char
+    ft.New_Memory_Face(buffer, face_index)
+    ft.Select_Size(face, strike_index)
+    ft.Request_Size(face, type, width, height, horiResolution, vertResolution)
+    ft.Set_Char_Size(face, char_width, char_height, horz_resolution, vert_resolution)
+    ft.Load_Glyph(face, glyph_index, load_flags)
+    ft.Load_Char(face, char_code, load_flags)
+    ft.Render_Glyph(slot, render_mode)
+    ft.Get_Kerning(face, left_glyph, right_glyph, kern_mode, akerning)
+    ft.Select_Charmap(face, encoding)
+    ft.Set_Charmap(face, charmap_index)
+    ft.Get_Charmap_Index(face)
+    ft.Get_Char_Index(face, charcode)
+    ft.Get_First_Char(face, agindex)
+    ft.Get_Next_Char(face, char_code, agindex)
 
-### Coming Soon
+See [Freetype2 documentation](http://www.freetype.org/freetype2/docs/reference/ft2-index.html) for more info.
 
-    Set_Pixel_Sizes
-    Set_Transform
-    Get_Kerning
-    Get_Track_Kerning
-    Get_Glyph_Name
-    Get_Postscript_Name
-    Get_Name_Index
-    Get_SubGlyph_Info
 
 ## To do
 
-- Error checking. Throw type/argument and FreeType error exceptions.
+- Error checking. Return int error code as needed.
 - Glyph outline processing: http://www.freetype.org/freetype2/docs/reference/ft2-outline_processing.html
+- Implement following methods:
+    - `ft.Set_Pixel_Sizes`
+    - `ft.Set_Transform`
+    - `ft.Get_Track_Kerning`
+    - `ft.Get_Glyph_Name`
+    - `ft.Get_Postscript_Name`
+    - `ft.Get_Name_Index`
+    - `ft.Get_SubGlyph_Info`
 
 ---
 

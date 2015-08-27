@@ -162,7 +162,7 @@ void FreeType2::Select_Size(const v8::FunctionCallbackInfo<v8::Value>& args) {
   v8::HandleScope scope(isolate);
 
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Handle<v8::Object>::Cast(args[0]));
-  FT_Select_Size(fontFace->ftFace, args[0]->Int32Value());
+  FT_Select_Size(fontFace->ftFace, args[1]->Int32Value());
 }
 
 void FreeType2::Request_Size(const v8::FunctionCallbackInfo<v8::Value>& args) {
@@ -205,6 +205,14 @@ void FreeType2::Load_Char(const v8::FunctionCallbackInfo<v8::Value>& args) {
   FT_Load_Char(fontFace->ftFace, args[1]->Int32Value(), args[2]->Int32Value());
 }
 
+void FreeType2::Render_Glyph(const v8::FunctionCallbackInfo<v8::Value>& args) {
+  v8::Isolate* isolate = v8::Isolate::GetCurrent();
+  v8::HandleScope scope(isolate);
+
+  GlyphSlot* glyph = node::ObjectWrap::Unwrap<GlyphSlot>(v8::Handle<v8::Object>::Cast(args[0]));
+  FT_Render_Glyph(glyph->ftGlyphSlot, static_cast<FT_Render_Mode>(args[1]->Int32Value()));
+}
+
 void FreeType2::Get_Kerning(const v8::FunctionCallbackInfo<v8::Value>& args) {
   v8::Isolate* isolate = v8::Isolate::GetCurrent();
   v8::HandleScope scope(isolate);
@@ -221,14 +229,6 @@ void FreeType2::Get_Kerning(const v8::FunctionCallbackInfo<v8::Value>& args) {
     v8::Handle<v8::Object>::Cast(args[4])->Set(v8::String::NewFromUtf8(isolate, "y"), v8::Integer::New(isolate, kerning.y));
   }
   args.GetReturnValue().Set(v8::Integer::New(isolate, err));
-}
-
-void FreeType2::Render_Glyph(const v8::FunctionCallbackInfo<v8::Value>& args) {
-  v8::Isolate* isolate = v8::Isolate::GetCurrent();
-  v8::HandleScope scope(isolate);
-
-  GlyphSlot* glyph = node::ObjectWrap::Unwrap<GlyphSlot>(v8::Handle<v8::Object>::Cast(args[0]));
-  FT_Render_Glyph(glyph->ftGlyphSlot, static_cast<FT_Render_Mode>(args[1]->Int32Value()));
 }
 
 void FreeType2::Select_Charmap(const v8::FunctionCallbackInfo<v8::Value>& args) {
