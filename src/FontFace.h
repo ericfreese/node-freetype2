@@ -8,38 +8,38 @@
 
 class FontFace : public node::ObjectWrap {
   public:
-    static void Init(v8::Handle<v8::Object>);
-    static v8::Persistent<v8::Function> constructor;
-
+    static v8::Local<v8::Function> GetConstructor();
     FT_Face ftFace;
 
   private:
     explicit FontFace();
     ~FontFace();
 
-    static void New(const v8::FunctionCallbackInfo<v8::Value>& args);
+    static NAN_METHOD(New);
+    static v8::Local<v8::FunctionTemplate> CreateConstructorTemplate();
+    static Nan::Persistent<v8::Function> constructor;
 
-    static void acc_num_faces(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_face_index(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_face_flags(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_style_flags(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_num_glyphs(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_family_name(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_style_name(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_num_fixed_sizes(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_available_sizes(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_num_charmaps(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_charmaps(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_bbox(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_units_per_EM(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_ascender(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_descender(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_height(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_max_advance_width(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_max_advance_height(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_underline_position(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_underline_thickness(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
-    static void acc_glyph(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info);
+    static NAN_GETTER(acc_num_faces);
+    static NAN_GETTER(acc_face_index);
+    static NAN_GETTER(acc_face_flags);
+    static NAN_GETTER(acc_style_flags);
+    static NAN_GETTER(acc_num_glyphs);
+    static NAN_GETTER(acc_family_name);
+    static NAN_GETTER(acc_style_name);
+    static NAN_GETTER(acc_num_fixed_sizes);
+    static NAN_GETTER(acc_available_sizes);
+    static NAN_GETTER(acc_num_charmaps);
+    static NAN_GETTER(acc_charmaps);
+    static NAN_GETTER(acc_bbox);
+    static NAN_GETTER(acc_units_per_EM);
+    static NAN_GETTER(acc_ascender);
+    static NAN_GETTER(acc_descender);
+    static NAN_GETTER(acc_height);
+    static NAN_GETTER(acc_max_advance_width);
+    static NAN_GETTER(acc_max_advance_height);
+    static NAN_GETTER(acc_underline_position);
+    static NAN_GETTER(acc_underline_thickness);
+    static NAN_GETTER(acc_glyph);
 };
 
 #endif

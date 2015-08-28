@@ -30,8 +30,9 @@
     "configure": "pangyp configure",
     "prebuild": "npm run configure",
     "build": "pangyp build",
+    "rebuild": "pangyp rebuild",
     "test": "jasmine-node spec",
-    "dev": "watch 'printf \"\\033[2J\\033[0f\" && npm run build && npm run test' src spec"
+    "dev": "watch 'printf \"\\033[2J\\033[0f\" && npm run build && npm test' src spec"
   },
   "dependencies": {
     "nan": "^2.0.8"

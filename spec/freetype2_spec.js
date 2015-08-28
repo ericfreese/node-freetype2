@@ -30,8 +30,8 @@ describe('#Get_Kerning', function() {
     expect(err).toBe(0);
     expect(obj.x).toBe(-43);
     expect(obj.y).toBe(0);
-  })
-})
+  });
+});
 
 describe('#Load_Glyph', function() {
   it('matches the schema', function() {

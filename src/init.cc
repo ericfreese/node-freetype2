@@ -1,7 +1,7 @@
 #include "FreeType2.h"
 
-void init(v8::Handle<v8::Object> exports) {
-  FreeType2::Init(exports);
+NAN_MODULE_INIT(init) {
+  FreeType2::Init(target);
 }
 
 NODE_MODULE(freetype2, init)

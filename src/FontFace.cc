@@ -1,44 +1,59 @@
 #include "FontFace.h"
 
-void FontFace::Init(v8::Handle<v8::Object> exports) {
-  v8::Isolate* isolate = v8::Isolate::GetCurrent();
+Nan::Persistent<v8::Function> FontFace::constructor;
 
-  v8::Local<v8::FunctionTemplate> constructorTemplate = v8::FunctionTemplate::New(isolate, New);
-  constructorTemplate->SetClassName(v8::String::NewFromUtf8(isolate, "FontFace"));
+v8::Local<v8::FunctionTemplate> FontFace::CreateConstructorTemplate() {
+  Nan::EscapableHandleScope scope;
+
+  v8::Local<v8::FunctionTemplate> constructorTemplate = Nan::New<v8::FunctionTemplate>(New);
+  constructorTemplate->SetClassName(Nan::New("FontFace").ToLocalChecked());
 
   v8::Local<v8::ObjectTemplate> instanceTemplate = constructorTemplate->InstanceTemplate();
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "num_faces"), acc_num_faces);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "face_index"), acc_face_index);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "face_flags"), acc_face_flags);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "style_flags"), acc_style_flags);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "num_glyphs"), acc_num_glyphs);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "family_name"), acc_family_name);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "style_name"), acc_style_name);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "num_fixed_sizes"), acc_num_fixed_sizes);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "available_sizes"), acc_available_sizes);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "num_charmaps"), acc_num_charmaps);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "charmaps"), acc_charmaps);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "bbox"), acc_bbox);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "units_per_EM"), acc_units_per_EM);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "ascender"), acc_ascender);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "descender"), acc_descender);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "height"), acc_height);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "max_advance_width"), acc_max_advance_width);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "max_advance_height"), acc_max_advance_height);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "underline_position"), acc_underline_position);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "underline_thickness"), acc_underline_thickness);
-  instanceTemplate->SetAccessor(v8::String::NewFromUtf8(isolate, "glyph"), acc_glyph);
+  Nan::SetAccessor(instanceTemplate, Nan::New("num_faces").ToLocalChecked(), acc_num_faces);
+  Nan::SetAccessor(instanceTemplate, Nan::New("face_index").ToLocalChecked(), acc_face_index);
+  Nan::SetAccessor(instanceTemplate, Nan::New("face_flags").ToLocalChecked(), acc_face_flags);
+  Nan::SetAccessor(instanceTemplate, Nan::New("style_flags").ToLocalChecked(), acc_style_flags);
+  Nan::SetAccessor(instanceTemplate, Nan::New("num_glyphs").ToLocalChecked(), acc_num_glyphs);
+  Nan::SetAccessor(instanceTemplate, Nan::New("family_name").ToLocalChecked(), acc_family_name);
+  Nan::SetAccessor(instanceTemplate, Nan::New("style_name").ToLocalChecked(), acc_style_name);
+  Nan::SetAccessor(instanceTemplate, Nan::New("num_fixed_sizes").ToLocalChecked(), acc_num_fixed_sizes);
+  Nan::SetAccessor(instanceTemplate, Nan::New("available_sizes").ToLocalChecked(), acc_available_sizes);
+  Nan::SetAccessor(instanceTemplate, Nan::New("num_charmaps").ToLocalChecked(), acc_num_charmaps);
+  Nan::SetAccessor(instanceTemplate, Nan::New("charmaps").ToLocalChecked(), acc_charmaps);
+  Nan::SetAccessor(instanceTemplate, Nan::New("bbox").ToLocalChecked(), acc_bbox);
+  Nan::SetAccessor(instanceTemplate, Nan::New("units_per_EM").ToLocalChecked(), acc_units_per_EM);
+  Nan::SetAccessor(instanceTemplate, Nan::New("ascender").ToLocalChecked(), acc_ascender);
+  Nan::SetAccessor(instanceTemplate, Nan::New("descender").ToLocalChecked(), acc_descender);
+  Nan::SetAccessor(instanceTemplate, Nan::New("height").ToLocalChecked(), acc_height);
+  Nan::SetAccessor(instanceTemplate, Nan::New("max_advance_width").ToLocalChecked(), acc_max_advance_width);
+  Nan::SetAccessor(instanceTemplate, Nan::New("max_advance_height").ToLocalChecked(), acc_max_advance_height);
+  Nan::SetAccessor(instanceTemplate, Nan::New("underline_position").ToLocalChecked(), acc_underline_position);
+  Nan::SetAccessor(instanceTemplate, Nan::New("underline_thickness").ToLocalChecked(), acc_underline_thickness);
+  Nan::SetAccessor(instanceTemplate, Nan::New("glyph").ToLocalChecked(), acc_glyph);
   instanceTemplate->SetInternalFieldCount(1);
 
-  constructor.Reset(isolate, constructorTemplate->GetFunction());
+  return scope.Escape(constructorTemplate);
 }
 
-v8::Persistent<v8::Function> FontFace::constructor;
+v8::Local<v8::Function> FontFace::GetConstructor() {
+  Nan::EscapableHandleScope scope;
 
-void FontFace::New(const v8::FunctionCallbackInfo<v8::Value>& args) {
+  v8::Local<v8::Function> localConstructor;
+
+  if (constructor.IsEmpty()) {
+    localConstructor = Nan::GetFunction(CreateConstructorTemplate()).ToLocalChecked();
+    constructor.Reset(localConstructor);
+  } else {
+    localConstructor = Nan::New(constructor);
+  }
+
+  return scope.Escape(localConstructor);
+}
+
+NAN_METHOD(FontFace::New) {
   FontFace* fontFace = new FontFace();
-  fontFace->Wrap(args.This());
-  args.GetReturnValue().Set(args.This());
+  fontFace->Wrap(info.This());
+  info.GetReturnValue().Set(info.This());
 }
 
 FontFace::FontFace() {}
@@ -47,141 +62,135 @@ FontFace::~FontFace() {
   FT_Done_Face(this->ftFace);
 }
 
-void FontFace::acc_num_faces(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_num_faces) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::Integer::New(v8::Isolate::GetCurrent(), fontFace->ftFace->num_faces));
+  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->num_faces));
 }
 
-void FontFace::acc_face_index(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_face_index) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::Integer::New(v8::Isolate::GetCurrent(), fontFace->ftFace->face_index));
+  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->face_index));
 }
 
-void FontFace::acc_face_flags(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_face_flags) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::Integer::New(v8::Isolate::GetCurrent(), fontFace->ftFace->face_flags));
+  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->face_flags));
 }
 
-void FontFace::acc_style_flags(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_style_flags) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::Integer::New(v8::Isolate::GetCurrent(), fontFace->ftFace->style_flags));
+  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->style_flags));
 }
 
-void FontFace::acc_num_glyphs(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_num_glyphs) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::Integer::New(v8::Isolate::GetCurrent(), fontFace->ftFace->num_glyphs));
+  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->num_glyphs));
 }
 
-void FontFace::acc_family_name(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_family_name) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), fontFace->ftFace->family_name));
+  info.GetReturnValue().Set(Nan::New(fontFace->ftFace->family_name).ToLocalChecked());
 }
 
-void FontFace::acc_style_name(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_style_name) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), fontFace->ftFace->style_name));
+  info.GetReturnValue().Set(Nan::New(fontFace->ftFace->style_name).ToLocalChecked());
 }
 
-void FontFace::acc_num_fixed_sizes(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_num_fixed_sizes) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::Integer::New(v8::Isolate::GetCurrent(), fontFace->ftFace->num_fixed_sizes));
+  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->num_fixed_sizes));
 }
 
-void FontFace::acc_available_sizes(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
-  v8::Isolate* isolate = v8::Isolate::GetCurrent();
-
+NAN_GETTER(FontFace::acc_available_sizes) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  v8::Handle<v8::Array> available_sizes = v8::Array::New(isolate, fontFace->ftFace->num_fixed_sizes);
+  v8::Local<v8::Array> available_sizes = Nan::New<v8::Array>(fontFace->ftFace->num_fixed_sizes);
 
   for (int i = 0; i < fontFace->ftFace->num_fixed_sizes; i++) {
-    v8::Handle<v8::Object> size = v8::Object::New(isolate);
-    size->Set(v8::String::NewFromUtf8(isolate, "height"), v8::Integer::New(isolate, fontFace->ftFace->available_sizes[i].height));
-    size->Set(v8::String::NewFromUtf8(isolate, "width"), v8::Integer::New(isolate, fontFace->ftFace->available_sizes[i].width));
-    size->Set(v8::String::NewFromUtf8(isolate, "size"), v8::Number::New(isolate, fontFace->ftFace->available_sizes[i].size));
-    size->Set(v8::String::NewFromUtf8(isolate, "x_ppem"), v8::Number::New(isolate, fontFace->ftFace->available_sizes[i].x_ppem));
-    size->Set(v8::String::NewFromUtf8(isolate, "y_ppem"), v8::Number::New(isolate, fontFace->ftFace->available_sizes[i].y_ppem));
+    v8::Local<v8::Object> size = Nan::New<v8::Object>();
+    size->Set(Nan::New("height").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->available_sizes[i].height));
+    size->Set(Nan::New("width").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->available_sizes[i].width));
+    size->Set(Nan::New("size").ToLocalChecked(), Nan::New((double)fontFace->ftFace->available_sizes[i].size));
+    size->Set(Nan::New("x_ppem").ToLocalChecked(), Nan::New((double)fontFace->ftFace->available_sizes[i].x_ppem));
+    size->Set(Nan::New("y_ppem").ToLocalChecked(), Nan::New((double)fontFace->ftFace->available_sizes[i].y_ppem));
     available_sizes->Set(i, size);
   }
 
   info.GetReturnValue().Set(available_sizes);
 }
 
-void FontFace::acc_num_charmaps(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_num_charmaps) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::Integer::New(v8::Isolate::GetCurrent(), fontFace->ftFace->num_charmaps));
+  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->num_charmaps));
 }
 
-void FontFace::acc_charmaps(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
-  v8::Isolate* isolate = v8::Isolate::GetCurrent();
+NAN_GETTER(FontFace::acc_charmaps) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  v8::Handle<v8::Array> charmaps = v8::Array::New(isolate, fontFace->ftFace->num_charmaps);
+  v8::Local<v8::Array> charmaps = Nan::New<v8::Array>(fontFace->ftFace->num_charmaps);
   for (int i = 0; i < fontFace->ftFace->num_charmaps; i++) {
-    v8::Handle<v8::Object> charmap = v8::Object::New(isolate);
-    charmap->Set(v8::String::NewFromUtf8(isolate, "encoding"), v8::Integer::New(isolate, fontFace->ftFace->charmaps[i]->encoding));
-    charmap->Set(v8::String::NewFromUtf8(isolate, "platform_id"), v8::Integer::New(isolate, fontFace->ftFace->charmaps[i]->platform_id));
-    charmap->Set(v8::String::NewFromUtf8(isolate, "encoding_id"), v8::Integer::New(isolate, fontFace->ftFace->charmaps[i]->encoding_id));
+    v8::Local<v8::Object> charmap = Nan::New<v8::Object>();
+    charmap->Set(Nan::New("encoding").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->charmaps[i]->encoding));
+    charmap->Set(Nan::New("platform_id").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->charmaps[i]->platform_id));
+    charmap->Set(Nan::New("encoding_id").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->charmaps[i]->encoding_id));
     charmaps->Set(i, charmap);
   }
   info.GetReturnValue().Set(charmaps);
 }
 
-void FontFace::acc_bbox(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
-  v8::Isolate* isolate = v8::Isolate::GetCurrent();
+NAN_GETTER(FontFace::acc_bbox) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  v8::Handle<v8::Object> bbox = v8::Object::New(isolate);
-  bbox->Set(v8::String::NewFromUtf8(isolate, "xMin"), v8::Integer::New(isolate, fontFace->ftFace->bbox.xMin));
-  bbox->Set(v8::String::NewFromUtf8(isolate, "xMax"), v8::Integer::New(isolate, fontFace->ftFace->bbox.xMax));
-  bbox->Set(v8::String::NewFromUtf8(isolate, "yMin"), v8::Integer::New(isolate, fontFace->ftFace->bbox.yMin));
-  bbox->Set(v8::String::NewFromUtf8(isolate, "yMax"), v8::Integer::New(isolate, fontFace->ftFace->bbox.yMax));
+  v8::Local<v8::Object> bbox = Nan::New<v8::Object>();
+  bbox->Set(Nan::New("xMin").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->bbox.xMin));
+  bbox->Set(Nan::New("xMax").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->bbox.xMax));
+  bbox->Set(Nan::New("yMin").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->bbox.yMin));
+  bbox->Set(Nan::New("yMax").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->bbox.yMax));
   info.GetReturnValue().Set(bbox);
 }
 
-void FontFace::acc_units_per_EM(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_units_per_EM) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::Integer::New(v8::Isolate::GetCurrent(), fontFace->ftFace->units_per_EM));
+  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->units_per_EM));
 }
 
-void FontFace::acc_ascender(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_ascender) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::Integer::New(v8::Isolate::GetCurrent(), fontFace->ftFace->ascender));
+  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->ascender));
 }
 
-void FontFace::acc_descender(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_descender) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::Integer::New(v8::Isolate::GetCurrent(), fontFace->ftFace->descender));
+  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->descender));
 }
 
-void FontFace::acc_height(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_height) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::Integer::New(v8::Isolate::GetCurrent(), fontFace->ftFace->height));
+  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->height));
 }
 
-void FontFace::acc_max_advance_width(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_max_advance_width) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::Integer::New(v8::Isolate::GetCurrent(), fontFace->ftFace->max_advance_width));
+  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->max_advance_width));
 }
 
-void FontFace::acc_max_advance_height(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_max_advance_height) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::Integer::New(v8::Isolate::GetCurrent(), fontFace->ftFace->max_advance_height));
+  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->max_advance_height));
 }
 
-void FontFace::acc_underline_position(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_underline_position) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::Integer::New(v8::Isolate::GetCurrent(), fontFace->ftFace->underline_position));
+  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->underline_position));
 }
 
-void FontFace::acc_underline_thickness(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
+NAN_GETTER(FontFace::acc_underline_thickness) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(v8::Integer::New(v8::Isolate::GetCurrent(), fontFace->ftFace->underline_thickness));
+  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->underline_thickness));
 }
 
-void FontFace::acc_glyph(v8::Local<v8::String> property, const v8::PropertyCallbackInfo<v8::Value>& info) {
-  v8::Isolate* isolate = v8::Isolate::GetCurrent();
-
+NAN_GETTER(FontFace::acc_glyph) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
 
-  v8::Local<v8::Object> glyphSlotWrapper = v8::Local<v8::Function>::New(isolate, GlyphSlot::constructor)->NewInstance();
+  v8::Local<v8::Object> glyphSlotWrapper = Nan::NewInstance(GlyphSlot::GetConstructor()).ToLocalChecked();
   GlyphSlot* glyphSlot = node::ObjectWrap::Unwrap<GlyphSlot>(glyphSlotWrapper);
   glyphSlot->ftGlyphSlot = fontFace->ftFace->glyph;
 
