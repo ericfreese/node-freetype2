@@ -1,12 +1,9 @@
 # Node FreeType
 
-**CURRENTLY ONLY WORKS WITH NODE v0.12**
-
 [![NPM version](https://badge.fury.io/js/freetype2.png)](http://badge.fury.io/js/freetype2)
 [![Build Status](https://travis-ci.org/ericfreese/node-freetype2.png?branch=master)](https://travis-ci.org/ericfreese/node-freetype2)
 
 FreeType bindings for Node.js.
-
 
 FreeType is a freely available software library to render fonts. http://www.freetype.org/
 
@@ -45,7 +42,6 @@ The module exposes the following functions from FreeType:
     ft.Get_Next_Char(face, char_code, agindex)
 
 See [Freetype2 documentation](http://www.freetype.org/freetype2/docs/reference/ft2-index.html) for more info.
-
 
 ## To do
 
