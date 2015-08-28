@@ -3,14 +3,6 @@
   "version": "0.2.0",
   "description": "FreeType bindings for Node.js.",
   "main": "build/Release/freetype2",
-  "scripts": {
-    "test": "jasmine-node spec --growl",
-    "clean": "pangyp clean",
-    "configure": "pangyp configure",
-    "build": "pangyp build",
-    "rebuild": "pangyp rebuild",
-    "dev": "gulp dev"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ericfreese/node-freetype2"
@@ -33,11 +25,18 @@
     "url": "https://github.com/ericfreese/node-freetype2/issues"
   },
   "homepage": "https://github.com/ericfreese/node-freetype2",
+  "scripts": {
+    "clean": "pangyp clean",
+    "configure": "pangyp configure",
+    "prebuild": "npm run configure",
+    "build": "pangyp build",
+    "test": "jasmine-node spec",
+    "dev": "watch 'printf \"\\033[2J\\033[0f\" && npm run build && npm run test' src spec"
+  },
   "dependencies": {
     "nan": "^2.0.8"
   },
   "devDependencies": {
-    "gulp": "~3.9",
     "jasmine-node": "~1.14",
     "pangyp": "~2.3",
     "tv4": "^1.0.16"
