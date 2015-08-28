@@ -36,8 +36,6 @@ void FontFace::Init(v8::Handle<v8::Object> exports) {
 v8::Persistent<v8::Function> FontFace::constructor;
 
 void FontFace::New(const v8::FunctionCallbackInfo<v8::Value>& args) {
-  v8::Isolate* isolate = v8::Isolate::GetCurrent();
-
   FontFace* fontFace = new FontFace();
   fontFace->Wrap(args.This());
   args.GetReturnValue().Set(args.This());

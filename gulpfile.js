@@ -6,22 +6,22 @@ gulp.task('clearconsole', function() {
 });
 
 gulp.task('configure', function(cb) {
-  exec('node-gyp configure', cb).stdout.pipe(process.stdout);
+  exec('npm run-script configure', cb).stdout.pipe(process.stdout);
 });
 
 gulp.task('build', ['configure'], function(cb) {
-  exec('node-gyp build', cb).stdout.pipe(process.stdout);
+  exec('npm run-script build', cb).stdout.pipe(process.stdout);
 });
 
 gulp.task('test', ['build'], function(cb) {
-  exec('jasmine-node spec --growl', cb).stdout.pipe(process.stdout);
+  exec('npm run-script test', cb).stdout.pipe(process.stdout);
 });
 
 gulp.task('watch', function() {
   gulp.watch([ 'src/**', 'spec/**' ], [ 'clearconsole', 'test' ]);
 });
 
-gulp.task('default', [
+gulp.task('dev', [
   'watch',
   'test'
 ]);
