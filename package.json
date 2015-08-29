@@ -1,6 +1,6 @@
 {
   "name": "freetype2",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "FreeType bindings for Node.js.",
   "main": "build/Release/freetype2",
   "repository": {
