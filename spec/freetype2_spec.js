@@ -36,7 +36,17 @@ describe('#Get_Kerning', function() {
 describe('#Load_Glyph', function() {
   it('matches the schema', function() {
     var f = ft.New_Memory_Face(buffer, 0);
-    ft.Load_Glyph(f, 28, ft.LOAD_NO_SCALE);
+    ft.Load_Glyph(f, 28, ft.LOAD_DEFAULT);
     expect(tv4.validate(f.glyph, schema.Glyph)).toBe(true, !!tv4.error ? tv4.error.toString() : undefined);
+  });
+});
+
+describe('#Render_Glyph', function() {
+  it('bitmap buffer length should equal its pitch multiplied by the number of rows', function() {
+    var f = ft.New_Memory_Face(buffer, 0);
+    ft.Set_Char_Size(f, 0, 40 << 6, 0, 0);
+    ft.Load_Glyph(f, 28, ft.LOAD_DEFAULT);
+    ft.Render_Glyph(f.glyph, ft.RENDER_MODE_MONO);
+    expect(f.glyph.bitmap.buffer.length).toBe(f.glyph.bitmap.pitch * f.glyph.bitmap.rows);
   });
 });

@@ -67,14 +67,15 @@ NAN_GETTER(GlyphSlot::acc_format) {
 
 NAN_GETTER(GlyphSlot::acc_bitmap) {
   GlyphSlot* glyphSlot = node::ObjectWrap::Unwrap<GlyphSlot>(info.This());
+
   v8::Local<v8::Object> bitmap = Nan::New<v8::Object>();
   bitmap->Set(Nan::New("rows").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.rows));
   bitmap->Set(Nan::New("width").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.width));
   bitmap->Set(Nan::New("pitch").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.pitch));
-  bitmap->Set(Nan::New("buffer").ToLocalChecked(), Nan::NewBuffer((char*)glyphSlot->ftGlyphSlot->bitmap.buffer, glyphSlot->ftGlyphSlot->bitmap.width * glyphSlot->ftGlyphSlot->bitmap.rows).ToLocalChecked());
+  bitmap->Set(Nan::New("buffer").ToLocalChecked(), Nan::CopyBuffer((char*)glyphSlot->ftGlyphSlot->bitmap.buffer, glyphSlot->ftGlyphSlot->bitmap.pitch * glyphSlot->ftGlyphSlot->bitmap.rows).ToLocalChecked());
   bitmap->Set(Nan::New("num_grays").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.num_grays));
   bitmap->Set(Nan::New("pixel_mode").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.pixel_mode));
-  bitmap->Set(Nan::New("palette_mode").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.palette_mode));
+
   info.GetReturnValue().Set(bitmap);
 }
 

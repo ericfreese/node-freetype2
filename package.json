@@ -26,11 +26,11 @@
   },
   "homepage": "https://github.com/ericfreese/node-freetype2",
   "scripts": {
-    "clean": "pangyp clean",
-    "configure": "pangyp configure",
+    "clean": "node-gyp clean",
+    "configure": "node-gyp configure",
     "prebuild": "npm run configure",
-    "build": "pangyp build",
-    "rebuild": "pangyp rebuild",
+    "build": "node-gyp build",
+    "rebuild": "node-gyp rebuild",
     "test": "jasmine-node spec",
     "dev": "watch 'printf \"\\033[2J\\033[0f\" && npm run build && npm test' src spec"
   },
@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "jasmine-node": "~1.14",
-    "pangyp": "~2.3",
+    "node-gyp": "^3.0.3",
     "tv4": "^1.0.16"
   }
 }

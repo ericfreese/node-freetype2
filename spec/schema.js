@@ -93,7 +93,6 @@ exports.Glyph = {
         pitch:        { type: 'integer' },
         num_grays:    { type: 'integer' },
         pixel_mode:   { type: 'integer' },
-        palette_mode: { type: 'integer' },
       },
       required: [
         'rows',
@@ -101,8 +100,7 @@ exports.Glyph = {
         'pitch',
         'buffer',
         'num_grays',
-        'pixel_mode',
-        'palette_mode'
+        'pixel_mode'
       ]
     },
     bitmap_left:       { type: 'integer' },
