@@ -1,13 +1,25 @@
+os:
+  - linux
 sudo: false
 language: node_js
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
 node_js:
   - "4"
   - "0.12"
   - "0.10"
-  - "iojs"
+  - "iojs-v3"
   - "iojs-v2"
   - "iojs-v1"
-matrix:
-  fast_finish: true
-  allow_failures:
-    - node_js: iojs
+# matrix:
+#   fast_finish: true
+#   allow_failures:
+#     - node_js: iojs
+install:
+  - export CXX=g++-4.8
+  - $CXX --version
+  - npm i
