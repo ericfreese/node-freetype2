@@ -5,7 +5,9 @@ fs.readFile(process.argv[2], function(err, buffer) {
   if (!!err) throw err;
 
   // Create a font face
-  var face = ft.New_Memory_Face(buffer, 0);
+  var face = {};
+  ft.New_Memory_Face(buffer, 0, face);
+  face = face.face;
 
   // Get all available characters
   // See note at http://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html#FT_Get_First_Char
@@ -25,7 +27,7 @@ fs.readFile(process.argv[2], function(err, buffer) {
 
   var chars = getAvailableCharacters(face);
   console.log("Found "+chars.length+" available characters");
-  
+
   if ( (face.face_flags & ft.FACE_FLAG_KERNING) === ft.FACE_FLAG_KERNING ) {
     var kernings = [];
 
@@ -47,7 +49,7 @@ fs.readFile(process.argv[2], function(err, buffer) {
             value: kern.x
           });
 
-        } 
+        }
       }
     }
     console.log("Found "+kernings.length+" kerning pairs");

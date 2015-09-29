@@ -14,10 +14,10 @@ NAN_MODULE_INIT(FreeType2::Init) {
   Nan::SetMethod(target, "Select_Size", Select_Size);
   Nan::SetMethod(target, "Request_Size", Request_Size);
   Nan::SetMethod(target, "Set_Char_Size", Set_Char_Size);
-  // Nan::SetMethod(target, "Set_Pixel_Sizes", Set_Pixel_Sizes);
+  Nan::SetMethod(target, "Set_Pixel_Sizes", Set_Pixel_Sizes);
   Nan::SetMethod(target, "Load_Glyph", Load_Glyph);
   Nan::SetMethod(target, "Load_Char", Load_Char);
-  // Nan::SetMethod(target, "Set_Transform", Set_Transform);
+  Nan::SetMethod(target, "Set_Transform", Set_Transform);
   Nan::SetMethod(target, "Render_Glyph", Render_Glyph);
   Nan::SetMethod(target, "Get_Kerning", Get_Kerning);
   // Nan::SetMethod(target, "Get_Track_Kerning", Get_Track_Kerning);
@@ -139,22 +139,31 @@ FreeType2::~FreeType2() {
 
 NAN_METHOD(FreeType2::New_Memory_Face) {
   FT_Face ftFace;
-  FT_New_Memory_Face(library,
-                     (FT_Byte*)node::Buffer::Data(info[0]->ToObject()),
-                     (FT_Long)node::Buffer::Length(info[0]->ToObject()),
-                     info[1]->Int32Value(),
-                     &ftFace);
+  FT_Error err = FT_New_Memory_Face(
+    library,
+    (FT_Byte*)node::Buffer::Data(info[0]->ToObject()),
+    (FT_Long)node::Buffer::Length(info[0]->ToObject()),
+    info[1]->Int32Value(),
+    (info.Length() > 2) ? &ftFace : NULL
+  );
 
-  v8::Local<v8::Object> fontFaceWrapper = Nan::NewInstance(FontFace::GetConstructor()).ToLocalChecked();
-  FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(fontFaceWrapper);
-  fontFace->ftFace = ftFace;
+  if (!err) {
+    v8::Local<v8::Object> fontFaceWrapper = Nan::NewInstance(FontFace::GetConstructor()).ToLocalChecked();
+    FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(fontFaceWrapper);
+    fontFace->ftFace = ftFace;
 
-  info.GetReturnValue().Set(fontFaceWrapper);
+    if (info.Length() > 2) {
+      v8::Local<v8::Object>::Cast(info[2])->Set(Nan::New("face").ToLocalChecked(), fontFaceWrapper);
+    }
+  }
+
+  info.GetReturnValue().Set(Nan::New((int32_t)err));
 }
 
 NAN_METHOD(FreeType2::Select_Size) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Local<v8::Object>::Cast(info[0]));
-  FT_Select_Size(fontFace->ftFace, info[1]->Int32Value());
+  FT_Error err = FT_Select_Size(fontFace->ftFace, info[1]->Int32Value());
+  info.GetReturnValue().Set(Nan::New((int32_t)err));
 }
 
 NAN_METHOD(FreeType2::Request_Size) {
@@ -166,56 +175,107 @@ NAN_METHOD(FreeType2::Request_Size) {
     static_cast<FT_UInt>(info[4]->Int32Value()),
     static_cast<FT_UInt>(info[5]->Int32Value())
   };
-  FT_Request_Size(fontFace->ftFace, &req);
+  FT_Error err = FT_Request_Size(fontFace->ftFace, &req);
+  info.GetReturnValue().Set(Nan::New((int32_t)err));
 }
 
 NAN_METHOD(FreeType2::Set_Char_Size) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Local<v8::Object>::Cast(info[0]));
-  FT_Set_Char_Size(fontFace->ftFace,
-                   info[1]->Int32Value(),
-                   info[2]->Int32Value(),
-                   info[3]->Int32Value(),
-                   info[4]->Int32Value());
+  FT_Error err = FT_Set_Char_Size(
+    fontFace->ftFace,
+    info[1]->Int32Value(),
+    info[2]->Int32Value(),
+    info[3]->Int32Value(),
+    info[4]->Int32Value()
+  );
+  info.GetReturnValue().Set(Nan::New((int32_t)err));
+}
+
+NAN_METHOD(FreeType2::Set_Pixel_Sizes) {
+  FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Local<v8::Object>::Cast(info[0]));
+  FT_Error err = FT_Set_Pixel_Sizes(
+    fontFace->ftFace,
+    info[1]->Int32Value(),
+    info[2]->Int32Value()
+  );
+  info.GetReturnValue().Set(Nan::New((int32_t)err));
 }
 
 NAN_METHOD(FreeType2::Load_Glyph) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Local<v8::Object>::Cast(info[0]));
-  FT_Load_Glyph(fontFace->ftFace, info[1]->Int32Value(), info[2]->Int32Value());
+  FT_Error err = FT_Load_Glyph(fontFace->ftFace, info[1]->Int32Value(), info[2]->Int32Value());
+  info.GetReturnValue().Set(Nan::New((int32_t)err));
 }
 
 NAN_METHOD(FreeType2::Load_Char) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Local<v8::Object>::Cast(info[0]));
-  FT_Load_Char(fontFace->ftFace, info[1]->Int32Value(), info[2]->Int32Value());
+  FT_Error err = FT_Load_Char(fontFace->ftFace, info[1]->Int32Value(), info[2]->Int32Value());
+  info.GetReturnValue().Set(Nan::New((int32_t)err));
+}
+
+NAN_METHOD(FreeType2::Set_Transform) {
+  FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Local<v8::Object>::Cast(info[0]));
+  FT_Matrix matrix;
+  FT_Vector delta;
+
+  if (info[1]->IsArray()) {
+    matrix.xx = (FT_Fixed)v8::Local<v8::Object>::Cast(info[1])->Get(0)->Int32Value();
+    matrix.xy = (FT_Fixed)v8::Local<v8::Object>::Cast(info[1])->Get(1)->Int32Value();
+    matrix.yx = (FT_Fixed)v8::Local<v8::Object>::Cast(info[1])->Get(2)->Int32Value();
+    matrix.yy = (FT_Fixed)v8::Local<v8::Object>::Cast(info[1])->Get(3)->Int32Value();
+  }
+
+  if (info[2]->IsArray()) {
+    delta.x = (FT_Fixed)v8::Local<v8::Object>::Cast(info[2])->Get(0)->Int32Value();
+    delta.y = (FT_Fixed)v8::Local<v8::Object>::Cast(info[2])->Get(1)->Int32Value();
+  }
+
+  if (info[1]->IsArray() && info[2]->IsArray()) {
+    FT_Set_Transform(fontFace->ftFace, &matrix, &delta);
+  } else if (info[1]->IsArray()) {
+    FT_Set_Transform(fontFace->ftFace, &matrix, 0);
+  } else if (info[2]->IsArray()) {
+    FT_Set_Transform(fontFace->ftFace, 0, &delta);
+  } else {
+    FT_Set_Transform(fontFace->ftFace, 0, 0);
+  }
 }
 
 NAN_METHOD(FreeType2::Render_Glyph) {
   GlyphSlot* glyph = node::ObjectWrap::Unwrap<GlyphSlot>(v8::Local<v8::Object>::Cast(info[0]));
-  FT_Render_Glyph(glyph->ftGlyphSlot, static_cast<FT_Render_Mode>(info[1]->Int32Value()));
+  FT_Error err = FT_Render_Glyph(glyph->ftGlyphSlot, static_cast<FT_Render_Mode>(info[1]->Int32Value()));
+  info.GetReturnValue().Set(Nan::New((int32_t)err));
 }
 
 NAN_METHOD(FreeType2::Get_Kerning) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Local<v8::Object>::Cast(info[0]));
   FT_Vector kerning;
-  FT_Error err = FT_Get_Kerning(fontFace->ftFace,
-                   info[1]->Int32Value(),  //left_glyph
-                   info[2]->Int32Value(),  //right_glyph
-                   info[3]->Int32Value(),  //kern_mode
-                   &kerning);              //kerning
+  FT_Error err = FT_Get_Kerning(
+    fontFace->ftFace,
+    info[1]->Int32Value(),
+    info[2]->Int32Value(),
+    info[3]->Int32Value(),
+    &kerning
+  );
+
   if (!err) {
     v8::Local<v8::Object>::Cast(info[4])->Set(Nan::New("x").ToLocalChecked(), Nan::New((int32_t)kerning.x));
     v8::Local<v8::Object>::Cast(info[4])->Set(Nan::New("y").ToLocalChecked(), Nan::New((int32_t)kerning.y));
   }
+
   info.GetReturnValue().Set(Nan::New((int32_t)err));
 }
 
 NAN_METHOD(FreeType2::Select_Charmap) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Local<v8::Object>::Cast(info[0]));
-  FT_Select_Charmap(fontFace->ftFace, static_cast<FT_Encoding>(info[1]->Int32Value()));
+  FT_Error err = FT_Select_Charmap(fontFace->ftFace, static_cast<FT_Encoding>(info[1]->Int32Value()));
+  info.GetReturnValue().Set(Nan::New((int32_t)err));
 }
 
 NAN_METHOD(FreeType2::Set_Charmap) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Local<v8::Object>::Cast(info[0]));
-  FT_Set_Charmap(fontFace->ftFace, fontFace->ftFace->charmaps[info[1]->Int32Value()]);
+  FT_Error err = FT_Set_Charmap(fontFace->ftFace, fontFace->ftFace->charmaps[info[1]->Int32Value()]);
+  info.GetReturnValue().Set(Nan::New((int32_t)err));
 }
 
 NAN_METHOD(FreeType2::Get_Charmap_Index) {

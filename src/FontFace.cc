@@ -16,9 +16,7 @@ v8::Local<v8::FunctionTemplate> FontFace::CreateConstructorTemplate() {
   Nan::SetAccessor(instanceTemplate, Nan::New("num_glyphs").ToLocalChecked(), acc_num_glyphs);
   Nan::SetAccessor(instanceTemplate, Nan::New("family_name").ToLocalChecked(), acc_family_name);
   Nan::SetAccessor(instanceTemplate, Nan::New("style_name").ToLocalChecked(), acc_style_name);
-  Nan::SetAccessor(instanceTemplate, Nan::New("num_fixed_sizes").ToLocalChecked(), acc_num_fixed_sizes);
   Nan::SetAccessor(instanceTemplate, Nan::New("available_sizes").ToLocalChecked(), acc_available_sizes);
-  Nan::SetAccessor(instanceTemplate, Nan::New("num_charmaps").ToLocalChecked(), acc_num_charmaps);
   Nan::SetAccessor(instanceTemplate, Nan::New("charmaps").ToLocalChecked(), acc_charmaps);
   Nan::SetAccessor(instanceTemplate, Nan::New("bbox").ToLocalChecked(), acc_bbox);
   Nan::SetAccessor(instanceTemplate, Nan::New("units_per_EM").ToLocalChecked(), acc_units_per_EM);
@@ -97,11 +95,6 @@ NAN_GETTER(FontFace::acc_style_name) {
   info.GetReturnValue().Set(Nan::New(fontFace->ftFace->style_name).ToLocalChecked());
 }
 
-NAN_GETTER(FontFace::acc_num_fixed_sizes) {
-  FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->num_fixed_sizes));
-}
-
 NAN_GETTER(FontFace::acc_available_sizes) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
   v8::Local<v8::Array> available_sizes = Nan::New<v8::Array>(fontFace->ftFace->num_fixed_sizes);
@@ -119,14 +112,10 @@ NAN_GETTER(FontFace::acc_available_sizes) {
   info.GetReturnValue().Set(available_sizes);
 }
 
-NAN_GETTER(FontFace::acc_num_charmaps) {
-  FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
-  info.GetReturnValue().Set(Nan::New((int32_t)fontFace->ftFace->num_charmaps));
-}
-
 NAN_GETTER(FontFace::acc_charmaps) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
   v8::Local<v8::Array> charmaps = Nan::New<v8::Array>(fontFace->ftFace->num_charmaps);
+
   for (int i = 0; i < fontFace->ftFace->num_charmaps; i++) {
     v8::Local<v8::Object> charmap = Nan::New<v8::Object>();
     charmap->Set(Nan::New("encoding").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->charmaps[i]->encoding));
@@ -134,6 +123,7 @@ NAN_GETTER(FontFace::acc_charmaps) {
     charmap->Set(Nan::New("encoding_id").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->charmaps[i]->encoding_id));
     charmaps->Set(i, charmap);
   }
+
   info.GetReturnValue().Set(charmaps);
 }
 

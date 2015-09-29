@@ -26,9 +26,7 @@ class FontFace : public node::ObjectWrap {
     static NAN_GETTER(acc_num_glyphs);
     static NAN_GETTER(acc_family_name);
     static NAN_GETTER(acc_style_name);
-    static NAN_GETTER(acc_num_fixed_sizes);
     static NAN_GETTER(acc_available_sizes);
-    static NAN_GETTER(acc_num_charmaps);
     static NAN_GETTER(acc_charmaps);
     static NAN_GETTER(acc_bbox);
     static NAN_GETTER(acc_units_per_EM);
