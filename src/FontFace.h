@@ -10,6 +10,7 @@ class FontFace : public node::ObjectWrap {
   public:
     static v8::Local<v8::Function> GetConstructor();
     FT_Face ftFace;
+    FT_Byte* data;
 
   private:
     explicit FontFace();

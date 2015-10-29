@@ -138,23 +138,30 @@ FreeType2::~FreeType2() {
 }
 
 NAN_METHOD(FreeType2::New_Memory_Face) {
+  assert(info.Length() > 2);
+  FT_Long length = (FT_Long)node::Buffer::Length(info[0]->ToObject());
+  FT_Byte* data = (FT_Byte*)malloc(length);
+  memcpy(data, node::Buffer::Data(info[0]->ToObject()), length);
+
   FT_Face ftFace;
   FT_Error err = FT_New_Memory_Face(
     library,
-    (FT_Byte*)node::Buffer::Data(info[0]->ToObject()),
-    (FT_Long)node::Buffer::Length(info[0]->ToObject()),
+    data,
+    length,
     info[1]->Int32Value(),
-    (info.Length() > 2) ? &ftFace : NULL
+    &ftFace
   );
 
   if (!err) {
     v8::Local<v8::Object> fontFaceWrapper = Nan::NewInstance(FontFace::GetConstructor()).ToLocalChecked();
     FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(fontFaceWrapper);
+    assert(fontFace->ftFace == 0);
     fontFace->ftFace = ftFace;
-
-    if (info.Length() > 2) {
-      v8::Local<v8::Object>::Cast(info[2])->Set(Nan::New("face").ToLocalChecked(), fontFaceWrapper);
-    }
+    assert(fontFace->ftFace != 0);
+    fontFace->data = data;
+    v8::Local<v8::Object>::Cast(info[2])->Set(Nan::New("face").ToLocalChecked(), fontFaceWrapper);
+  } else {
+    free(data);
   }
 
   info.GetReturnValue().Set(Nan::New((int32_t)err));
