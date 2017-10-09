@@ -54,10 +54,14 @@ NAN_METHOD(FontFace::New) {
   info.GetReturnValue().Set(info.This());
 }
 
-FontFace::FontFace() {}
+FontFace::FontFace() {
+  this->ftFace = 0;
+  this->data = NULL;
+}
 
 FontFace::~FontFace() {
   FT_Done_Face(this->ftFace);
+  free(this->data);
 }
 
 NAN_GETTER(FontFace::acc_num_faces) {

@@ -13,13 +13,6 @@ describe('freetype2', function() {
       face = face.face;
       expect(tv4.validate(face, schema.FontFace)).toBe(true, !!tv4.error ? tv4.error.toString() : undefined);
     });
-
-    it ('aface parameter is optional if face_index is less than zero', function() {
-      var err = ft.New_Memory_Face(buffer, 0);
-      expect(err).not.toBe(0);
-      err = ft.New_Memory_Face(buffer, -1);
-      expect(err).toBe(0);
-    });
   });
 
   describe('#Get_Char_Index', function() {
