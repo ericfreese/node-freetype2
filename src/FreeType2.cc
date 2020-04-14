@@ -6,11 +6,56 @@
 FT_Library library;
 char version[32];
 
-Napi::String NewMemoryFace(const Napi::CallbackInfo &info)
+Napi::Value NewMemoryFace(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
 
-  return Napi::String::New(env, "world");
+  if (info.Length() < 1)
+  {
+    Napi::TypeError::New(env, "Not enough arguments")
+        .ThrowAsJavaScriptException();
+    return env.Null();
+  }
+
+  if (!info[0].IsBuffer())
+  {
+    Napi::TypeError::New(env, "Invalid buffer").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+
+  FT_Long faceIndex = 0;
+  if (info.Length() >= 2)
+  {
+    if (!info[1].IsNumber())
+    {
+      Napi::TypeError::New(env, "Invalid faceIndex").ThrowAsJavaScriptException();
+      return env.Null();
+    }
+    faceIndex = info[1].As<Napi::Number>().Int32Value();
+  }
+
+  Napi::Buffer<FT_Byte> buffer = info[0].As<Napi::Buffer<FT_Byte>>();
+
+  FT_Face ftFace;
+  FT_Error err = FT_New_Memory_Face(
+      library,
+      buffer.Data(),
+      buffer.Length(),
+      faceIndex,
+      &ftFace);
+
+  if (err != 0)
+  {
+    throwJsException(env, err);
+    return env.Null();
+  }
+
+  Napi::Object fontFace = FontFace::constructor.New({});
+  FontFace* fontFaceInner = FontFace::Unwrap(fontFace);
+  // TODO null guard?
+  fontFaceInner->ftFace = ftFace;
+
+  return fontFace;
 }
 
 Napi::Value NewFace(const Napi::CallbackInfo &info)

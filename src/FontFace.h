@@ -8,7 +8,6 @@
 
 class FontFace : public Napi::ObjectWrap<FontFace> {
   public:
-    // static v8::Local<v8::Function> GetConstructor();
     FT_Face ftFace;
     FT_Byte* data;
 
@@ -20,28 +19,20 @@ class FontFace : public Napi::ObjectWrap<FontFace> {
     ~FontFace();
 
   private:
-    Napi::Value GetNumFaces(const Napi::CallbackInfo &info);
-    Napi::Value GetFaceIndex(const Napi::CallbackInfo &info);
+    // Napi::Value GetNumFaces(const Napi::CallbackInfo &info);
+    // Napi::Value GetFaceIndex(const Napi::CallbackInfo &info);
+    Napi::Value GetProperties(const Napi::CallbackInfo &info);
 
+    Napi::Value SetCharSize(const Napi::CallbackInfo &info);
+    Napi::Value SetPixelSizes(const Napi::CallbackInfo &info);
+    Napi::Value RequestSize(const Napi::CallbackInfo &info);
+    Napi::Value SelectSize(const Napi::CallbackInfo &info);
+    Napi::Value SetTransform(const Napi::CallbackInfo &info);
+    Napi::Value LoadGlyph(const Napi::CallbackInfo &info);
     Napi::Value GetCharIndex(const Napi::CallbackInfo &info);
+    Napi::Value GetFirstChar(const Napi::CallbackInfo &info);
+    Napi::Value GetNextChar(const Napi::CallbackInfo &info);
 
-    // static NAN_GETTER(acc_face_flags);
-    // static NAN_GETTER(acc_style_flags);
-    // static NAN_GETTER(acc_num_glyphs);
-    // static NAN_GETTER(acc_family_name);
-    // static NAN_GETTER(acc_style_name);
-    // static NAN_GETTER(acc_available_sizes);
-    // static NAN_GETTER(acc_charmaps);
-    // static NAN_GETTER(acc_bbox);
-    // static NAN_GETTER(acc_units_per_EM);
-    // static NAN_GETTER(acc_ascender);
-    // static NAN_GETTER(acc_descender);
-    // static NAN_GETTER(acc_height);
-    // static NAN_GETTER(acc_max_advance_width);
-    // static NAN_GETTER(acc_max_advance_height);
-    // static NAN_GETTER(acc_underline_position);
-    // static NAN_GETTER(acc_underline_thickness);
-    // static NAN_GETTER(acc_glyph);
 };
 
 #endif

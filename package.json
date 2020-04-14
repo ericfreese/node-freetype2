@@ -38,7 +38,7 @@
     "node-addon-api": "^2.0.0"
   },
   "devDependencies": {
-    "jasmine-node": "~1.14",
+    "jest": "^25.3.0",
     "tv4": "^1.0.16"
   }
 }
