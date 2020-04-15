@@ -19,8 +19,6 @@ class FontFace : public Napi::ObjectWrap<FontFace> {
     ~FontFace();
 
   private:
-    // Napi::Value GetNumFaces(const Napi::CallbackInfo &info);
-    // Napi::Value GetFaceIndex(const Napi::CallbackInfo &info);
     Napi::Value GetProperties(const Napi::CallbackInfo &info);
 
     Napi::Value SetCharSize(const Napi::CallbackInfo &info);
@@ -32,6 +30,7 @@ class FontFace : public Napi::ObjectWrap<FontFace> {
     Napi::Value GetCharIndex(const Napi::CallbackInfo &info);
     Napi::Value GetFirstChar(const Napi::CallbackInfo &info);
     Napi::Value GetNextChar(const Napi::CallbackInfo &info);
+    Napi::Value LoadChar(const Napi::CallbackInfo &info);
 
 };
 
