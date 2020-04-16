@@ -93,13 +93,13 @@ export class FontFace {
 
     setCharSize(charWidth: number, charHeight: number, horzResolution: number, vertResolution: number): void
     setPixelSizes(pixelWidth: number, pixelHeight: number): void
-    requestSize(props: SizeRequest): void
+    // requestSize(props: SizeRequest): void
     selectSize(strikeIndex: number): void
     setTransform(matrix?: Matrix, vector?: Vector): void
     loadGlyph(glyphIndex: number, loadFlags?: LoadFlags): void
-    getCharIndex(charCode: number): number
-    getFirstChar(): Char
-    getNextChar(charCode: number): Char
+    getCharIndex(charCode: number): number | null
+    getFirstChar(): Char | null
+    getNextChar(charCode: number): Char | null
     // getNameIndex
     loadChar(charCode: number, loadFlags?: LoadFlags): void
     renderGlyph(renderMode: RenderMode): void

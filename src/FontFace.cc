@@ -17,7 +17,7 @@ FontFace::Initialize(Napi::Env& env) {
 
     InstanceMethod("setCharSize", &FontFace::SetCharSize),
     InstanceMethod("setPixelSizes", &FontFace::SetPixelSizes),
-    InstanceMethod("requestSize", &FontFace::RequestSize),
+    // InstanceMethod("requestSize", &FontFace::RequestSize),
     InstanceMethod("selectSize", &FontFace::SelectSize),
     InstanceMethod("setTransform", &FontFace::SetTransform),
     InstanceMethod("loadGlyph", &FontFace::LoadGlyph),
@@ -113,6 +113,40 @@ Napi::Value FontFace::GetProperties(const Napi::CallbackInfo &info) {
 //     FT_Generic        generic;
 
 
+    // /*# The following member variables (down to `underline_thickness`) */
+    // /*# are only relevant to scalable outlines; cf. @FT_Bitmap_Size    */
+    // /*# for bitmap fonts.                                              */
+    // FT_BBox           bbox;
+
+    // FT_UShort         units_per_EM;
+    // FT_Short          ascender;
+    // FT_Short          descender;
+    // FT_Short          height;
+
+    // FT_Short          max_advance_width;
+    // FT_Short          max_advance_height;
+
+    // FT_Short          underline_position;
+    // FT_Short          underline_thickness;
+
+    // FT_GlyphSlot      glyph;
+
+  Napi::Object size = Napi::Object::New(env);
+  size.Set("xppem", this->ftFace->size->metrics.x_ppem);
+  size.Set("yppem", this->ftFace->size->metrics.y_ppem);
+  size.Set("xScale", this->ftFace->size->metrics.x_scale);
+  size.Set("yScale", this->ftFace->size->metrics.y_scale);
+  size.Set("ascender", this->ftFace->size->metrics.ascender);
+  size.Set("descender", this->ftFace->size->metrics.descender);
+  size.Set("height", this->ftFace->size->metrics.height);
+  size.Set("maxAdvance", this->ftFace->size->metrics.max_advance);
+  obj.Set("size", size);
+
+    // FT_Size           size;
+    // FT_CharMap        charmap;
+
+
+
   return obj;
 }
 
@@ -129,8 +163,8 @@ Napi::Value FontFace::SetCharSize(const Napi::CallbackInfo &info) {
     return env.Null();
   }
 
-  FT_F26Dot6 charWidth = info[0].As<Napi::Number>().Int32Value(); // TODO - convert from a float?
-  FT_F26Dot6 charHeight = info[1].As<Napi::Number>().Int32Value(); // TODO - convert from a float?
+  FT_F26Dot6 charWidth = info[0].As<Napi::Number>().Int32Value() << 6; // TODO - handle float values
+  FT_F26Dot6 charHeight = info[1].As<Napi::Number>().Int32Value() << 6; // TODO - handle float values
   FT_UInt horzResolution = info[2].As<Napi::Number>().Uint32Value();
   FT_UInt vertResolution = info[3].As<Napi::Number>().Uint32Value();
 
@@ -166,56 +200,56 @@ Napi::Value FontFace::SetPixelSizes(const Napi::CallbackInfo &info) {
   return env.Undefined();
 }
 
-Napi::Value FontFace::RequestSize(const Napi::CallbackInfo &info) {
-  Napi::Env env = info.Env();
+// Napi::Value FontFace::RequestSize(const Napi::CallbackInfo &info) {
+//   Napi::Env env = info.Env();
 
-  if (
-    !validatePropsLength(env, info, 1) ||
-    !validateProp(env, info[0].IsObject(), "props")
-  ) {
-    return env.Null();
-  }
+//   if (
+//     !validatePropsLength(env, info, 1) ||
+//     !validateProp(env, info[0].IsObject(), "props")
+//   ) {
+//     return env.Null();
+//   }
 
-  Napi::Object props = info[0].As<Napi::Object>();
+//   Napi::Object props = info[0].As<Napi::Object>();
 
-  Napi::Value rawType = props.Get("type");
-  Napi::Value rawWidth = props.Get("width");
-  Napi::Value rawHeight = props.Get("height");
-  Napi::Value rawHoriRes = props.Get("horiResolution");
-  Napi::Value rawVertRes = props.Get("vertResolution");
+//   Napi::Value rawType = props.Get("type");
+//   Napi::Value rawWidth = props.Get("width");
+//   Napi::Value rawHeight = props.Get("height");
+//   Napi::Value rawHoriRes = props.Get("horiResolution");
+//   Napi::Value rawVertRes = props.Get("vertResolution");
 
-  if (
-    !validateProp(env, rawType.IsNumber(), "type") ||
-    !validateProp(env, rawWidth.IsNumber(), "width") ||
-    !validateProp(env, rawHeight.IsNumber(), "height") ||
-    !validateProp(env, rawHoriRes.IsNumber(), "horiResolution") ||
-    !validateProp(env, rawVertRes.IsNumber(), "vertResolution")
-  ) {
-    return env.Null();
-  }
+//   if (
+//     !validateProp(env, rawType.IsNumber(), "type") ||
+//     !validateProp(env, rawWidth.IsNumber(), "width") ||
+//     !validateProp(env, rawHeight.IsNumber(), "height") ||
+//     !validateProp(env, rawHoriRes.IsNumber(), "horiResolution") ||
+//     !validateProp(env, rawVertRes.IsNumber(), "vertResolution")
+//   ) {
+//     return env.Null();
+//   }
 
-  auto type = rawType.As<Napi::Number>().Int32Value();
-  if (type < 0 || type > FT_SIZE_REQUEST_TYPE_MAX) {
-    Napi::TypeError::New(env, "Invalid type").ThrowAsJavaScriptException();
-    return env.Null();
-  }
+//   auto type = rawType.As<Napi::Number>().Int32Value();
+//   if (type < 0 || type > FT_SIZE_REQUEST_TYPE_MAX) {
+//     Napi::TypeError::New(env, "Invalid type").ThrowAsJavaScriptException();
+//     return env.Null();
+//   }
 
-  FT_Size_RequestRec req = {
-    static_cast<FT_Size_Request_Type>(type),
-    static_cast<FT_Long>(rawWidth.As<Napi::Number>().Int32Value()),
-    static_cast<FT_Long>(rawHeight.As<Napi::Number>().Int32Value()),
-    static_cast<FT_UInt>(rawHoriRes.As<Napi::Number>().Int32Value()),
-    static_cast<FT_UInt>(rawVertRes.As<Napi::Number>().Int32Value())
-  };
+//   FT_Size_RequestRec req = {
+//     static_cast<FT_Size_Request_Type>(type),
+//     static_cast<FT_Long>(rawWidth.As<Napi::Number>().Int32Value()),
+//     static_cast<FT_Long>(rawHeight.As<Napi::Number>().Int32Value()),
+//     static_cast<FT_UInt>(rawHoriRes.As<Napi::Number>().Int32Value()),
+//     static_cast<FT_UInt>(rawVertRes.As<Napi::Number>().Int32Value())
+//   };
 
-  FT_Error err = FT_Request_Size(this->ftFace, &req);
-  if (err != 0) {
-    throwJsException(env, err);
-    return env.Null();
-  }
+//   FT_Error err = FT_Request_Size(this->ftFace, &req);
+//   if (err != 0) {
+//     throwJsException(env, err);
+//     return env.Null();
+//   }
 
-  return env.Undefined();
-}
+//   return env.Undefined();
+// }
 
 Napi::Value FontFace::SelectSize(const Napi::CallbackInfo &info) {
   Napi::Env env = info.Env();
@@ -401,10 +435,14 @@ Napi::Value FontFace::GetFirstChar(const Napi::CallbackInfo &info) {
   FT_UInt glyphIndex;
   FT_ULong charCode = FT_Get_First_Char(this->ftFace, &glyphIndex);
 
-  Napi::Object res = Napi::Object::New(env);
-  res.Set("charCode", charCode);
-  res.Set("glyphIndex", glyphIndex);
-  return res;
+  if (glyphIndex == 0) {
+    return env.Null();
+  } else {
+    Napi::Object res = Napi::Object::New(env);
+    res.Set("charCode", charCode);
+    res.Set("glyphIndex", glyphIndex);
+    return res;
+  }
 }
 
 Napi::Value FontFace::GetNextChar(const Napi::CallbackInfo &info) {
@@ -422,10 +460,14 @@ Napi::Value FontFace::GetNextChar(const Napi::CallbackInfo &info) {
   FT_UInt glyphIndex;
   FT_ULong charCode = FT_Get_Next_Char(this->ftFace, afterCharCode, &glyphIndex);
 
-  Napi::Object res = Napi::Object::New(env);
-  res.Set("charCode", charCode);
-  res.Set("glyphIndex", glyphIndex);
-  return res;
+  if (glyphIndex == 0) {
+    return env.Null();
+  } else {
+    Napi::Object res = Napi::Object::New(env);
+    res.Set("charCode", charCode);
+    res.Set("glyphIndex", glyphIndex);
+    return res;
+  }
 }
 
 Napi::Value FontFace::RenderGlyph(const Napi::CallbackInfo &info) {

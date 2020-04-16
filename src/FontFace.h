@@ -23,7 +23,7 @@ class FontFace : public Napi::ObjectWrap<FontFace> {
 
     Napi::Value SetCharSize(const Napi::CallbackInfo &info);
     Napi::Value SetPixelSizes(const Napi::CallbackInfo &info);
-    Napi::Value RequestSize(const Napi::CallbackInfo &info);
+    // Napi::Value RequestSize(const Napi::CallbackInfo &info);
     Napi::Value SelectSize(const Napi::CallbackInfo &info);
     Napi::Value SetTransform(const Napi::CallbackInfo &info);
     Napi::Value LoadGlyph(const Napi::CallbackInfo &info);

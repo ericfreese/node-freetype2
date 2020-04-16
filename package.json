@@ -3,6 +3,7 @@
   "version": "0.3.0",
   "description": "FreeType bindings for Node.js.",
   "main": "build/Release/freetype2",
+  "types": "./module.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/ericfreese/node-freetype2"
