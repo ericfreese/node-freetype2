@@ -1,4 +1,4 @@
-const freetype = require('../build/Release/freetype2');
+const freetype = require('..');
 const fs = require('fs');
 const tv4 = require('tv4');
 
@@ -222,13 +222,86 @@ describe('freetype2', function() {
         // TODO - find and load a bitmap font to test this
       })
 
-      describe('loadChar', function() {
+      describe('setTransform', function() {
         // ensure the face is setup ok
         face.setPixelSizes(18, 0)
 
-        it('bad charCode', function() {
-          // expect(() => face.loadChar(0)).toThrow('invalid size handle')
+        it('bad parameters', function() {
+          face.setTransform(undefined, undefined)
+
+          expect(() => face.setTransform(null, undefined)).toThrow('matrix is not valid')
+          expect(() => face.setTransform([1,0,0], undefined)).toThrow('Not enough matrix components')
+          face.setTransform([1,1,1,1], undefined)
+          expect(() => face.setTransform([1,null,1,1], undefined)).toThrow('matrix.xy is not valid')
+
+          expect(() => face.setTransform(undefined, null)).toThrow('delta is not valid')
+          expect(() => face.setTransform(undefined, [1])).toThrow('Not enough delta components')
+          expect(() => face.setTransform(undefined, [1, null])).toThrow('delta.y is not valid')
         })
+
+        // TODO
+
+      })
+
+      describe('loadChar', function() {
+        // ensure the face is setup ok
+        face.setPixelSizes(18, 18)
+        face.setTransform(undefined, undefined)
+
+        it('bad parameters', function() {
+          face.loadChar(0)
+          face.loadChar(2 << 30)
+          expect(() => face.loadChar()).toThrow('Not enough arguments')
+          expect(() => face.loadChar(undefined)).toThrow('charCode is not valid')
+          face.loadChar(0, undefined)
+          expect(() => face.loadChar(0, null)).toThrow('loadFlags is not valid')
+          face.loadChar(0, {})
+          face.loadChar(0, {
+            abc: true,
+            pedantic: false,
+            ignoreTransform: true
+          })
+        })
+
+        it('load something', function() {
+          expect(face.loadChar('a'.charCodeAt(0))).toMatchSnapshot()
+        })
+
+        // it('render something', function() {
+        //   expect(face.loadChar('a'.charCodeAt(0), {
+        //     render: true,
+        //     loadTarget: 0 // Normal
+        //   })).toMatchSnapshot()
+        // })
+
+        // TODO
+
+      })
+
+      describe('loadGlyph', function() {
+        // ensure the face is setup ok
+        face.setPixelSizes(18, 18)
+        face.setTransform(undefined, undefined)
+
+        it('bad parameters', function() {
+          face.loadGlyph(0)
+          expect(() => face.loadGlyph(2 << 30)).toThrow('invalid argument')
+          expect(() => face.loadGlyph()).toThrow('Not enough arguments')
+          expect(() => face.loadGlyph(undefined)).toThrow('glyphIndex is not valid')
+          face.loadGlyph(0, undefined)
+          expect(() => face.loadGlyph(0, null)).toThrow('loadFlags is not valid')
+          face.loadGlyph(0, {})
+          face.loadGlyph(0, {
+            abc: true,
+            pedantic: false,
+            ignoreTransform: true
+          })
+        })
+
+        
+
+        // TODO
+
       })
 
 

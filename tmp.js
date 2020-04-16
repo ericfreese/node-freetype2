@@ -1,4 +1,4 @@
-const ft = require('./build/Release/freetype2');
+const ft = require('.');
 
 console.log(ft)
 

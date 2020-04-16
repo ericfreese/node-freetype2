@@ -12,6 +12,7 @@ export interface LoadFlags {
     monochrome?: boolean
     linearDesign?: boolean
     noAutohint?: boolean
+    loadTarget?: RenderMode
     color?: boolean
     computeMetrics?: boolean
     bitmapMetricsOnly?: boolean
@@ -27,17 +28,8 @@ export interface SizeRequest {
     vertResolution: number
 }
 
-export interface Matrix {
-    xx: number
-    xy: number
-    yx: number
-    yy: number
-}
-
-export interface Vector {
-    x: number
-    y: number
-}
+export type Matrix = [ number, number, number, number ]
+export type Vector = [ number, number ]
 
 export interface Char {
     charCode: number
@@ -87,6 +79,20 @@ export interface FontFaceProperties {
 
 export type KerningMode = number // TODO - properly
 export type RenderMode = number // TODO - properly
+export type PixelMode = number // TODO - properly
+
+export interface Glyph {
+    bitmap: {
+        height: number
+        width: number
+        pitch: number
+        buffer: Buffer
+        pixelMode: PixelMode
+        numGrays: number | null
+    } | null
+    bitmapLeft: number | null
+    bitmapTop: number | null 
+}
 
 export class FontFace {
     properties(): FontFaceProperties
@@ -96,13 +102,16 @@ export class FontFace {
     // requestSize(props: SizeRequest): void
     selectSize(strikeIndex: number): void
     setTransform(matrix?: Matrix, vector?: Vector): void
-    loadGlyph(glyphIndex: number, loadFlags?: LoadFlags): void
+
     getCharIndex(charCode: number): number | null
     getFirstChar(): Char | null
     getNextChar(charCode: number): Char | null
     // getNameIndex
+
+    loadGlyph(glyphIndex: number, loadFlags?: LoadFlags): void
     loadChar(charCode: number, loadFlags?: LoadFlags): void
     renderGlyph(renderMode: RenderMode): void
+
     getKerning(leftGlyphIndex: number, rightGlyphIndex: number, kerningMode: KerningMode): Vector
     getTrackKerning(pointSize: number, degree: number): number
     // getGlyphName
