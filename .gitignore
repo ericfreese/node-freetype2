@@ -1,3 +1,8 @@
-build
-node_modules
-.vscode
+/*.node.gz
+/*.tgz
+/build/
+/node_modules/
+/npm-*
+/temp/
+/prebuilds
+/.vscode
