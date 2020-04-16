@@ -24,8 +24,18 @@ FontFace::Initialize(Napi::Env& env) {
     InstanceMethod("getCharIndex", &FontFace::GetCharIndex),
     InstanceMethod("getFirstChar", &FontFace::GetFirstChar),
     InstanceMethod("getNextChar", &FontFace::GetNextChar),
-    // TODO FT_Get_Name_Index
+    // InstanceMethod("getNameIndex", &FontFace::GetGetNameIndex),
     InstanceMethod("loadChar", &FontFace::LoadChar),
+    // InstanceMethod("renderGlyph", &FontFace::RenderGlyph),
+    InstanceMethod("getKerning", &FontFace::GetKerning),
+    InstanceMethod("getTrackKerning", &FontFace::GetTrackKerning),
+    // InstanceMethod("getGlyphName", &FontFace::GetGlyphName),
+    // InstanceMethod("getPostscriptName", &FontFace::GetPostscriptName),
+    // InstanceMethod("selectCharmap", &FontFace::SelectCharmap),
+    // InstanceMethod("setCharmap", &FontFace::SetCharmap),
+    // InstanceMethod("getCharmapIndex", &FontFace::GetCharmapIndex),
+    // InstanceMethod("getFSTypeFlags", &FontFace::GetFSTypeFlags),
+    // InstanceMethod("getSubGlyphInfo", &FontFace::GetSubGlyphInfo),
 
   });
 
@@ -418,6 +428,31 @@ Napi::Value FontFace::GetNextChar(const Napi::CallbackInfo &info) {
   return res;
 }
 
+Napi::Value FontFace::RenderGlyph(const Napi::CallbackInfo &info) {
+  Napi::Env env = info.Env();
+
+  if (
+    !validatePropsLength(env, info, 1) ||
+    !validateProp(env, info[0].IsNumber(), "renderMode")
+  ) {
+    return env.Null();
+  }
+
+  FT_Render_Mode renderMode = (FT_Render_Mode) info[0].As<Napi::Number>().Int32Value();
+  if (renderMode < 0 || renderMode > FT_RENDER_MODE_MAX) {
+    Napi::TypeError::New(env, "Invalid renderMode").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+
+  FT_Error err = FT_Render_Glyph(this->ftFace->glyph, renderMode);
+  if (err != 0) {
+    throwJsException(env, err);
+    return env.Null();
+  }
+
+  return env.Undefined();
+}
+
 Napi::Value FontFace::LoadChar(const Napi::CallbackInfo &info) {
   Napi::Env env = info.Env();
 
@@ -450,3 +485,62 @@ Napi::Value FontFace::LoadChar(const Napi::CallbackInfo &info) {
 
   return env.Undefined();
 }
+
+Napi::Value FontFace::GetKerning(const Napi::CallbackInfo &info) {
+  Napi::Env env = info.Env();
+
+  if (
+    !validatePropsLength(env, info, 3) ||
+    !validateProp(env, info[0].IsNumber(), "leftGlyphIndex") ||
+    !validateProp(env, info[1].IsNumber(), "rightGlyphIndex") ||
+    !validateProp(env, info[2].IsNumber(), "kerningMode")
+  ) {
+    return env.Null();
+  }
+
+  FT_UInt leftGlyphIndex = info[0].As<Napi::Number>().Int32Value();
+  FT_UInt rightGlyphIndex = info[1].As<Napi::Number>().Int32Value();
+
+  FT_UInt kerningMode = info[2].As<Napi::Number>().Uint32Value();
+  if (kerningMode > FT_KERNING_UNSCALED) {
+    Napi::TypeError::New(env, "Invalid kerningMode").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+
+  FT_Vector akerning;
+  FT_Error err = FT_Get_Kerning(this->ftFace, leftGlyphIndex, rightGlyphIndex, kerningMode, &akerning);
+  if (err != 0) {
+    throwJsException(env, err);
+    return env.Null();
+  }
+
+  Napi::Object res = Napi::Object::New(env);
+  res.Set("x", akerning.x);
+  res.Set("y", akerning.y);
+  return res;
+}
+
+Napi::Value FontFace::GetTrackKerning(const Napi::CallbackInfo &info) {
+  Napi::Env env = info.Env();
+
+  if (
+    !validatePropsLength(env, info, 2) ||
+    !validateProp(env, info[0].IsNumber(), "pointSize") ||
+    !validateProp(env, info[1].IsNumber(), "degree")
+  ) {
+    return env.Null();
+  }
+
+  FT_Fixed pointSize = info[0].As<Napi::Number>().Int32Value();
+  FT_Int degree = info[1].As<Napi::Number>().Int32Value();
+
+  FT_Fixed akerning;
+  FT_Error err = FT_Get_Track_Kerning(this->ftFace, pointSize, degree, &akerning);
+  if (err != 0) {
+    throwJsException(env, err);
+    return env.Null();
+  }
+
+  return Napi::Number::New(env, akerning);
+}
+

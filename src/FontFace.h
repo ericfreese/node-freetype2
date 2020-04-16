@@ -30,7 +30,18 @@ class FontFace : public Napi::ObjectWrap<FontFace> {
     Napi::Value GetCharIndex(const Napi::CallbackInfo &info);
     Napi::Value GetFirstChar(const Napi::CallbackInfo &info);
     Napi::Value GetNextChar(const Napi::CallbackInfo &info);
+    // Napi::Value GetGetNameIndex(const Napi::CallbackInfo &info);
     Napi::Value LoadChar(const Napi::CallbackInfo &info);
+    Napi::Value RenderGlyph(const Napi::CallbackInfo &info);
+    Napi::Value GetKerning(const Napi::CallbackInfo &info);
+    Napi::Value GetTrackKerning(const Napi::CallbackInfo &info);
+    // Napi::Value GetGlyphName(const Napi::CallbackInfo &info);
+    // Napi::Value GetPostscriptName(const Napi::CallbackInfo &info);
+    // Napi::Value SelectCharmap(const Napi::CallbackInfo &info);
+    // Napi::Value SetCharmap(const Napi::CallbackInfo &info);
+    // Napi::Value GetCharmapIndex(const Napi::CallbackInfo &info);
+    // Napi::Value GetFSTypeFlags(const Napi::CallbackInfo &info);
+    // Napi::Value GetSubGlyphInfo(const Napi::CallbackInfo &info);
 
 };
 

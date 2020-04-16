@@ -85,6 +85,9 @@ export interface FontFaceProperties {
 
 }
 
+export type KerningMode = number // TODO - properly
+export type RenderMode = number // TODO - properly
+
 export class FontFace {
     properties(): FontFaceProperties
 
@@ -97,9 +100,18 @@ export class FontFace {
     getCharIndex(charCode: number): number
     getFirstChar(): Char
     getNextChar(charCode: number): Char
-    // TODO FT_Get_Name_Index
+    // getNameIndex
     loadChar(charCode: number, loadFlags?: LoadFlags): void
-    // TODO remaining
+    renderGlyph(renderMode: RenderMode): void
+    getKerning(leftGlyphIndex: number, rightGlyphIndex: number, kerningMode: KerningMode): Vector
+    getTrackKerning(pointSize: number, degree: number): number
+    // getGlyphName
+    // getPostscriptName
+    // selectCharmap
+    // setCharmap
+    // getCharmapIndex
+    // getFSTypeFlags
+    // getSubGlyphInfo
 }
 
 export function NewFace(filepath: string, faceIndex?: number): FontFace;
