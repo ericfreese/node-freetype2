@@ -291,7 +291,7 @@ Napi::Value FontFace::SetTransform(const Napi::CallbackInfo &info) {
   }
 
   FT_Matrix matrix;
-  FT_Matrix* matrixPtr;
+  FT_Matrix* matrixPtr = nullptr;
   if (rawMatrix.IsArray()) {
     Napi::Array matrixArray = rawMatrix.As<Napi::Array>();
     if (matrixArray.Length() != 4) {
@@ -316,7 +316,7 @@ Napi::Value FontFace::SetTransform(const Napi::CallbackInfo &info) {
   }
 
   FT_Vector delta;
-  FT_Vector* deltaPtr;
+  FT_Vector* deltaPtr = nullptr;
   if (rawDelta.IsArray()) {
     Napi::Array deltaArray = rawDelta.As<Napi::Array>();
     if (deltaArray.Length() != 2) {
@@ -345,39 +345,39 @@ FT_Int32 parseLoadFlags(Napi::Object rawFlags) {
   FT_Int32 loadFlags = 0;
 
   if (checkProperty(rawFlags, "noScale")) 
-    loadFlags &= FT_LOAD_NO_SCALE;
+    loadFlags |= FT_LOAD_NO_SCALE;
   if (checkProperty(rawFlags, "noHinting")) 
-    loadFlags &= FT_LOAD_NO_HINTING;
+    loadFlags |= FT_LOAD_NO_HINTING;
   if (checkProperty(rawFlags, "render")) 
-    loadFlags &= FT_LOAD_RENDER;
+    loadFlags |= FT_LOAD_RENDER;
   if (checkProperty(rawFlags, "noBitmap")) 
-    loadFlags &= FT_LOAD_NO_BITMAP;
+    loadFlags |= FT_LOAD_NO_BITMAP;
   if (checkProperty(rawFlags, "verticalLayout")) 
-    loadFlags &= FT_LOAD_VERTICAL_LAYOUT;
+    loadFlags |= FT_LOAD_VERTICAL_LAYOUT;
   if (checkProperty(rawFlags, "forceAutohint")) 
-    loadFlags &= FT_LOAD_FORCE_AUTOHINT;
+    loadFlags |= FT_LOAD_FORCE_AUTOHINT;
   if (checkProperty(rawFlags, "pedantic")) 
-    loadFlags &= FT_LOAD_PEDANTIC;
+    loadFlags |= FT_LOAD_PEDANTIC;
   if (checkProperty(rawFlags, "noRecurse")) 
-    loadFlags &= FT_LOAD_NO_RECURSE;
+    loadFlags |= FT_LOAD_NO_RECURSE;
   if (checkProperty(rawFlags, "ignoreTransform")) 
-    loadFlags &= FT_LOAD_IGNORE_TRANSFORM;
+    loadFlags |= FT_LOAD_IGNORE_TRANSFORM;
   if (checkProperty(rawFlags, "monochrome")) 
-    loadFlags &= FT_LOAD_MONOCHROME;
+    loadFlags |= FT_LOAD_MONOCHROME;
   if (checkProperty(rawFlags, "linearDesign")) 
-    loadFlags &= FT_LOAD_LINEAR_DESIGN;
+    loadFlags |= FT_LOAD_LINEAR_DESIGN;
   if (checkProperty(rawFlags, "noAutohint")) 
-    loadFlags &= FT_LOAD_NO_AUTOHINT;
+    loadFlags |= FT_LOAD_NO_AUTOHINT;
   if (checkProperty(rawFlags, "color")) 
-    loadFlags &= FT_LOAD_COLOR;
+    loadFlags |= FT_LOAD_COLOR;
   if (checkProperty(rawFlags, "computeMetrics")) 
-    loadFlags &= FT_LOAD_COMPUTE_METRICS;
+    loadFlags |= FT_LOAD_COMPUTE_METRICS;
   if (checkProperty(rawFlags, "bitmapMetricsOnly")) 
-    loadFlags &= FT_LOAD_BITMAP_METRICS_ONLY;
+    loadFlags |= FT_LOAD_BITMAP_METRICS_ONLY;
 
   Napi::Value loadTarget = rawFlags.Get("loadTarget");
   if (loadTarget.IsNumber())
-    loadFlags &= FT_LOAD_TARGET_MODE(loadTarget.As<Napi::Number>().Int32Value());
+    loadFlags |= FT_LOAD_TARGET_(loadTarget.As<Napi::Number>().Int32Value());
 
   return loadFlags;
 }
@@ -528,7 +528,7 @@ Napi::Value FontFace::RenderGlyph(const Napi::CallbackInfo &info) {
     return env.Null();
   }
 
-  return env.Undefined();
+  return fetchGlyph(env, this->ftFace->glyph);
 }
 
 Napi::Value FontFace::LoadChar(const Napi::CallbackInfo &info) {
@@ -541,7 +541,7 @@ Napi::Value FontFace::LoadChar(const Napi::CallbackInfo &info) {
     return env.Null();
   }
 
-  FT_UInt charCode = info[0].As<Napi::Number>().Int32Value();
+  FT_UInt charCode = info[0].As<Napi::Number>().Uint32Value();
   FT_Int32 loadFlags = 0;
 
   if (info.Length() >= 2 && !info[1].IsUndefined()) {

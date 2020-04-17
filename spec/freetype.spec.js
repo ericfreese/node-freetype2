@@ -2,13 +2,15 @@ const freetype = require('..');
 const fs = require('fs');
 const tv4 = require('tv4');
 
+const FONT_PATH = __dirname + '/fonts/OpenBaskerville-0.0.53/OpenBaskerville-0.0.53.otf'
+
 const schema = require('./schema');
-const buffer = fs.readFileSync(__dirname + '/fonts/OpenBaskerville-0.0.53/OpenBaskerville-0.0.53.otf');
+const buffer = fs.readFileSync(FONT_PATH);
 
 describe('freetype2', function() {
     describe('NewFace', function() {
         // it('matches the schema', function() {
-        //   const face = freetype.NewFace(__dirname + '/fonts/OpenBaskerville-0.0.53/OpenBaskerville-0.0.53.otf', 0);
+        //   const face = freetype.NewFace(FONT_PATH, 0);
         //   const matches = tv4.validate(face.properties(), schema.FontFace);
         //   console.log('error', tv4.error)
         //   expect(matches).toBe(true, !!tv4.error ? tv4.error.toString() : undefined);
@@ -244,8 +246,10 @@ describe('freetype2', function() {
       })
 
       describe('loadChar', function() {
+        const face = freetype.NewMemoryFace(buffer, 0);
+        expect(face).toBeTruthy()
         // ensure the face is setup ok
-        face.setPixelSizes(18, 18)
+        face.setPixelSizes(0, 12)
         face.setTransform(undefined, undefined)
 
         it('bad parameters', function() {
@@ -267,18 +271,25 @@ describe('freetype2', function() {
           expect(face.loadChar('a'.charCodeAt(0))).toMatchSnapshot()
         })
 
-        // it('render something', function() {
-        //   expect(face.loadChar('a'.charCodeAt(0), {
-        //     render: true,
-        //     loadTarget: 0 // Normal
-        //   })).toMatchSnapshot()
-        // })
+        it('render something', function() {
+          expect(face.loadChar('A'.charCodeAt(0), {
+            render: true,
+            loadTarget: 2 // Mono
+          })).toMatchSnapshot()
+
+          expect(face.loadChar('D'.charCodeAt(0), {
+            render: true,
+            loadTarget: 0 // Normal
+          })).toMatchSnapshot()
+        })
 
         // TODO
 
       })
 
       describe('loadGlyph', function() {
+        const face = freetype.NewMemoryFace(buffer, 0);
+        expect(face).toBeTruthy()
         // ensure the face is setup ok
         face.setPixelSizes(18, 18)
         face.setTransform(undefined, undefined)
@@ -296,6 +307,22 @@ describe('freetype2', function() {
             pedantic: false,
             ignoreTransform: true
           })
+        })
+
+        it('load something', function() {
+          expect(face.loadGlyph(5)).toMatchSnapshot()
+        })
+
+        it('render something', function() {
+          expect(face.loadGlyph(5, {
+            render: true,
+            loadTarget: 2 // Mono
+          })).toMatchSnapshot()
+
+          expect(face.loadGlyph(5, {
+            render: true,
+            loadTarget: 0 // Normal
+          })).toMatchSnapshot()
         })
 
         
