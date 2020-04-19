@@ -30,9 +30,8 @@
     "install": "prebuild-install -r napi || node-gyp rebuild",
     "clean": "node-gyp clean",
     "build": "node-gyp build",
-    "test": "yarn gen-schema && jest",
-    "dev": "watch 'printf \"\\033[2J\\033[0f\" && yarn build && yarn test --watch' src spec",
-    "gen-schema": "yarn typescript-json-schema module.d.ts \"*\" --strictNullChecks --required --noExtraProps -o ./spec/schema.json"
+    "test": "jest",
+    "dev": "watch 'printf \"\\033[2J\\033[0f\" && yarn build && yarn test --watch' src spec"
   },
   "binary": {
     "napi_versions": [
@@ -53,6 +52,6 @@
     "jest": "^25.3.0",
     "prebuild": "^10.0.0",
     "sharp": "^0.25.2",
-    "typescript-json-schema": "^0.42.0"
+    "ts-json-schema-generator": "^0.67.1"
   }
 }

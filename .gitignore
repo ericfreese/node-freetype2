@@ -8,3 +8,4 @@
 /.vscode
 /example/*-output.png
 /spec/schema.json
+/*.log

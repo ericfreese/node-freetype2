@@ -1,25 +1,44 @@
 const freetype = require('..');
 const fs = require('fs');
 const Ajv = require('ajv');
+const tsj = require("ts-json-schema-generator");
+
+const tsjConfig = {
+  path: "./module.d.ts",
+  expose: "export",
+  topRef: true
+};
 
 const FONT_PATH = __dirname + '/fonts/OpenBaskerville-0.0.53/OpenBaskerville-0.0.53.otf'
 
-const schema = require('./schema.json');
 const buffer = fs.readFileSync(FONT_PATH);
+const schemaGenerator = tsj.createGenerator(tsjConfig)
 
-const ajv = new Ajv({allErrors: true});
-const faceValidator = ajv.compile(schema.definitions.FontFaceProperties);
-const glyphBitmapValidator = ajv.compile(schema.definitions.GlyphBitmap);
-const glyphValidator = ajv.compile(schema.definitions.Glyph);
+const ajv = new Ajv({
+  allErrors: true,
+  extendRefs: 'fail',
+  format: 'full'
+});
+const faceValidator = ajv.compile(schemaGenerator.createSchema('FontFaceProperties'));
+const glyphBitmapValidator = ajv.compile(schemaGenerator.createSchema('GlyphBitmap'));
+const glyphValidator = ajv.compile(schemaGenerator.createSchema('Glyph'));
 
 function sanitiseProps(props) {
   // Process the props to clean off non json friendly types (eg Buffer)
 
   const res = {...props}
   Object.keys(res).forEach(k => {
-    if (res[k] === null) {
+    if (k === 'format' && res['bitmap'] !== undefined && typeof res[k] === 'number') {
+      res[k] = 1 // GlyphFormat numbers are not sequential from 0, so generator gets confused
+    } else if (res[k] === null) {
     } else if (Buffer.isBuffer(res[k])) {
-      res[k] = Array.from(res[k])
+      res[k] = {
+        BYTES_PER_ELEMENT: res[k].BYTES_PER_ELEMENT,
+        buffer: res[k].buffer,
+        byteLength: res[k].byteLength,
+        byteOffset: res[k].byteOffset,
+        length: res[k].length,
+      }
     } else if (Array.isArray(res[k])) {
       res[k] = res[k].map(sanitiseProps)
     } else if (typeof res[k] === 'object') {

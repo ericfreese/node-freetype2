@@ -15,5 +15,6 @@
 /tests
 /spec
 /example
+/*.log
 
 /vendor/freetype/docs
