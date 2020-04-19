@@ -28,7 +28,7 @@ FontFace::Initialize(Napi::Env& env) {
     InstanceMethod("loadChar", &FontFace::LoadChar),
     InstanceMethod("renderGlyph", &FontFace::RenderGlyph),
     InstanceMethod("getKerning", &FontFace::GetKerning),
-    InstanceMethod("getTrackKerning", &FontFace::GetTrackKerning),
+    // InstanceMethod("getTrackKerning", &FontFace::GetTrackKerning),
     // InstanceMethod("getGlyphName", &FontFace::GetGlyphName),
     // InstanceMethod("getPostscriptName", &FontFace::GetPostscriptName),
     // InstanceMethod("selectCharmap", &FontFace::SelectCharmap),
@@ -614,27 +614,26 @@ Napi::Value FontFace::GetKerning(const Napi::CallbackInfo &info) {
   return res;
 }
 
-Napi::Value FontFace::GetTrackKerning(const Napi::CallbackInfo &info) {
-  Napi::Env env = info.Env();
+// Napi::Value FontFace::GetTrackKerning(const Napi::CallbackInfo &info) {
+//   Napi::Env env = info.Env();
 
-  if (
-    !validatePropsLength(env, info, 2) ||
-    !validateProp(env, info[0].IsNumber(), "pointSize") ||
-    !validateProp(env, info[1].IsNumber(), "degree")
-  ) {
-    return env.Null();
-  }
+//   if (
+//     !validatePropsLength(env, info, 2) ||
+//     !validateProp(env, info[0].IsNumber(), "pointSize") ||
+//     !validateProp(env, info[1].IsNumber(), "degree")
+//   ) {
+//     return env.Null();
+//   }
 
-  FT_Fixed pointSize = info[0].As<Napi::Number>().Int32Value();
-  FT_Int degree = info[1].As<Napi::Number>().Int32Value();
+//   FT_Fixed pointSize = info[0].As<Napi::Number>().Int32Value();
+//   FT_Int degree = info[1].As<Napi::Number>().Int32Value();
 
-  FT_Fixed akerning;
-  FT_Error err = FT_Get_Track_Kerning(this->ftFace, pointSize, degree, &akerning);
-  if (err != 0) {
-    throwJsException(env, err);
-    return env.Null();
-  }
+//   FT_Fixed akerning;
+//   FT_Error err = FT_Get_Track_Kerning(this->ftFace, pointSize, degree, &akerning);
+//   if (err != 0) {
+//     throwJsException(env, err);
+//     return env.Null();
+//   }
 
-  return Napi::Number::New(env, akerning);
-}
-
+//   return Napi::Number::New(env, akerning);
+// }

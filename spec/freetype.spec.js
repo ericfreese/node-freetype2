@@ -331,8 +331,6 @@ describe('freetype2', function() {
           expect(withScale).toMatchSnapshot()
         })
 
-        // TODO
-
       })
 
       describe('loadGlyph', function() {
@@ -393,10 +391,56 @@ describe('freetype2', function() {
           expect(withScale).toMatchSnapshot()
         })
 
-        // TODO
-
       })
 
+      describe('renderGlyph', function() {
+        const face = freetype.NewMemoryFace(buffer, 0);
+        expect(face).toBeTruthy()
+        // ensure the face is setup ok
+        face.setPixelSizes(18, 18)
+        face.setTransform(undefined, undefined)
+        expect(face.loadChar('A'.charCodeAt(0), { noBitmap: true }).bitmap).toBeNull()
+
+        it('bad parameters', function() {
+          expect(() => face.renderGlyph(-1)).toThrow('Invalid renderMode')
+          expect(() => face.renderGlyph(67)).toThrow('Invalid renderMode')
+        })
+
+        it('ok', function() {
+          const res = face.renderGlyph(0)
+          validateSchema(glyphBitmapValidator, res)
+          expect(res).toMatchSnapshot()
+
+          const res2 = face.renderGlyph(1)
+          validateSchema(glyphBitmapValidator, res2)
+          expect(res2).toMatchSnapshot()
+
+          const res3 = face.renderGlyph(2)
+          validateSchema(glyphBitmapValidator, res3)
+          expect(res3).toMatchSnapshot()
+        })
+      })
+
+      describe('getKerning', function() {
+        // TODO - it would be good to have some real numbers here
+        expect(face.properties().faceFlags.kerning).toBeTruthy()
+        it('bad parameters', function() {
+          expect(face.getKerning(0, 0, 0)).toEqual({ x: 0, y: 0 })
+          expect(face.getKerning(-1, 0, 0)).toEqual({ x: 0, y: 0 })
+
+          expect(() => face.getKerning(5, 6, -1)).toThrow('Invalid kerningMode')
+          expect(() => face.getKerning(5, 6, 5)).toThrow('Invalid kerningMode')
+        })
+
+        it ('ok', function() {
+          const a = face.getCharIndex('A'.charCodeAt(0))
+          const b = face.getCharIndex('B'.charCodeAt(0))
+          expect(a).toBeTruthy()
+          expect(b).toBeTruthy()
+
+          expect(face.getKerning(a, b, 2)).toEqual({ x: 0, y: 0 })
+        })
+      })
 
     });
 

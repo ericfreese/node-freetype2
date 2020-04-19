@@ -118,13 +118,24 @@ export interface GlyphBitmap {
         buffer: Buffer
         pixelMode: PixelMode
         numGrays: number | null
-    } | null
-    bitmapLeft: number | null
-    bitmapTop: number | null 
+    }
+    bitmapLeft: number
+    bitmapTop: number 
 }
 
 export type GlyphFormat = number // TODO
-export interface Glyph extends GlyphBitmap {
+export interface Glyph {
+    bitmap: {
+        height: number
+        width: number
+        pitch: number
+        buffer: Buffer
+        pixelMode: PixelMode
+        numGrays: number | null
+    } | null
+    bitmapLeft: number | null
+    bitmapTop: number | null
+
     metrics: {
         isFontUnits: boolean
         width: number
@@ -157,10 +168,10 @@ export class FontFace {
 
     loadGlyph(glyphIndex: number, loadFlags?: LoadFlags): Glyph
     loadChar(charCode: number, loadFlags?: LoadFlags): Glyph
-    renderGlyph(renderMode: RenderMode): Glyph
+    renderGlyph(renderMode: RenderMode): GlyphBitmap
 
     getKerning(leftGlyphIndex: number, rightGlyphIndex: number, kerningMode: KerningMode): Vector
-    getTrackKerning(pointSize: number, degree: number): number
+    // getTrackKerning(pointSize: number, degree: number): number
     // getGlyphName
     // getPostscriptName
     // selectCharmap

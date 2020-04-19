@@ -34,7 +34,7 @@ class FontFace : public Napi::ObjectWrap<FontFace> {
     Napi::Value LoadChar(const Napi::CallbackInfo &info);
     Napi::Value RenderGlyph(const Napi::CallbackInfo &info);
     Napi::Value GetKerning(const Napi::CallbackInfo &info);
-    Napi::Value GetTrackKerning(const Napi::CallbackInfo &info);
+    // Napi::Value GetTrackKerning(const Napi::CallbackInfo &info);
     // Napi::Value GetGlyphName(const Napi::CallbackInfo &info);
     // Napi::Value GetPostscriptName(const Napi::CallbackInfo &info);
     // Napi::Value SelectCharmap(const Napi::CallbackInfo &info);
