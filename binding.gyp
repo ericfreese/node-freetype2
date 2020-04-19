@@ -7,11 +7,9 @@
         'gyp/libfreetype.gyp:libfreetype'
       ],
       'sources': [
-        # 'src/init.cc',
         'src/util.cc',
         'src/FreeType2.cc',
         'src/FontFace.cc',
-        # 'src/GlyphSlot.cc'
       ],
       'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")"],
 
