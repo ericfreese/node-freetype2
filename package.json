@@ -28,6 +28,7 @@
   "homepage": "https://github.com/julusian/node-freetype2",
   "scripts": {
     "install": "prebuild-install -r napi || node-gyp rebuild",
+    "prebuild": "prebuild -r napi",
     "clean": "node-gyp clean",
     "build": "node-gyp build",
     "test": "jest",
