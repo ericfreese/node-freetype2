@@ -283,6 +283,20 @@ describe('freetype2', function() {
           })).toMatchSnapshot()
         })
 
+        it('scale metrics', function() {
+          const noScale = face.loadChar('A'.charCodeAt(0), {
+            noScale: true
+          })
+          expect(noScale).not.toBeNull()
+          expect(noScale).toMatchSnapshot()
+
+          const withScale = face.loadChar('D'.charCodeAt(0), {
+            noScale: false
+          })
+          expect(withScale).not.toBeNull()
+          expect(withScale).toMatchSnapshot()
+        })
+
         // TODO
 
       })
@@ -323,6 +337,20 @@ describe('freetype2', function() {
             render: true,
             loadTarget: 0 // Normal
           })).toMatchSnapshot()
+        })
+
+        it('scale metrics', function() {
+          const noScale = face.loadGlyph(5, {
+            noScale: true
+          })
+          expect(noScale).not.toBeNull()
+          expect(noScale).toMatchSnapshot()
+
+          const withScale = face.loadGlyph(6, {
+            noScale: false
+          })
+          expect(withScale).not.toBeNull()
+          expect(withScale).toMatchSnapshot()
         })
 
         

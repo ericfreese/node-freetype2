@@ -81,7 +81,7 @@ export type KerningMode = number // TODO - properly
 export type RenderMode = number // TODO - properly
 export type PixelMode = number // TODO - properly
 
-export interface Glyph {
+export interface GlyphBitmap {
     bitmap: {
         height: number
         width: number
@@ -92,6 +92,24 @@ export interface Glyph {
     } | null
     bitmapLeft: number | null
     bitmapTop: number | null 
+}
+
+export type GlyphFormat = number // TODO
+export interface Glyph extends GlyphBitmap {
+    metrics: {
+        isFontUnits: boolean
+        width: number
+        height: number
+        horiBearingX: number
+        horiBearingY: number
+        horiAdvance: number
+        vertBearingX: number
+        vertBearingY: number
+        vertAdvance: number
+    }
+    format: GlyphFormat
+    lsbDelta: number
+    rsbDelta: number
 }
 
 export class FontFace {
@@ -108,9 +126,9 @@ export class FontFace {
     getNextChar(charCode: number): Char | null
     // getNameIndex
 
-    loadGlyph(glyphIndex: number, loadFlags?: LoadFlags): void
-    loadChar(charCode: number, loadFlags?: LoadFlags): void
-    renderGlyph(renderMode: RenderMode): void
+    loadGlyph(glyphIndex: number, loadFlags?: LoadFlags): Glyph
+    loadChar(charCode: number, loadFlags?: LoadFlags): Glyph
+    // renderGlyph(renderMode: RenderMode): Glyph
 
     getKerning(leftGlyphIndex: number, rightGlyphIndex: number, kerningMode: KerningMode): Vector
     getTrackKerning(pointSize: number, degree: number): number

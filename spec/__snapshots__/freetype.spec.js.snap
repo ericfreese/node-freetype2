@@ -5,6 +5,20 @@ Object {
   "bitmap": null,
   "bitmapLeft": null,
   "bitmapTop": null,
+  "format": 1869968492,
+  "lsbDelta": 0,
+  "metrics": Object {
+    "height": 7,
+    "horiAdvance": 5,
+    "horiBearingX": 0,
+    "horiBearingY": 6,
+    "isFontUnits": false,
+    "vertAdvance": 12,
+    "vertBearingX": 0,
+    "vertBearingY": 0,
+    "width": 6,
+  },
+  "rsbDelta": 0,
 }
 `;
 
@@ -40,6 +54,20 @@ Object {
   },
   "bitmapLeft": 0,
   "bitmapTop": 8,
+  "format": 1651078259,
+  "lsbDelta": 0,
+  "metrics": Object {
+    "height": 9,
+    "horiAdvance": 9,
+    "horiBearingX": 0,
+    "horiBearingY": 9,
+    "isFontUnits": false,
+    "vertAdvance": 12,
+    "vertBearingX": 0,
+    "vertBearingY": 0,
+    "width": 9,
+  },
+  "rsbDelta": 0,
 }
 `;
 
@@ -140,6 +168,64 @@ Object {
   },
   "bitmapLeft": 0,
   "bitmapTop": 9,
+  "format": 1651078259,
+  "lsbDelta": 0,
+  "metrics": Object {
+    "height": 9,
+    "horiAdvance": 9,
+    "horiBearingX": 0,
+    "horiBearingY": 9,
+    "isFontUnits": false,
+    "vertAdvance": 12,
+    "vertBearingX": 0,
+    "vertBearingY": 0,
+    "width": 9,
+  },
+  "rsbDelta": 0,
+}
+`;
+
+exports[`freetype2 NewMemoryFace loadChar scale metrics 1`] = `
+Object {
+  "bitmap": null,
+  "bitmapLeft": null,
+  "bitmapTop": null,
+  "format": 1869968492,
+  "lsbDelta": 0,
+  "metrics": Object {
+    "height": 677,
+    "horiAdvance": 720,
+    "horiBearingX": 5,
+    "horiBearingY": 677,
+    "isFontUnits": true,
+    "vertAdvance": 1000,
+    "vertBearingX": 0,
+    "vertBearingY": 0,
+    "width": 710,
+  },
+  "rsbDelta": 0,
+}
+`;
+
+exports[`freetype2 NewMemoryFace loadChar scale metrics 2`] = `
+Object {
+  "bitmap": null,
+  "bitmapLeft": null,
+  "bitmapTop": null,
+  "format": 1869968492,
+  "lsbDelta": 0,
+  "metrics": Object {
+    "height": 9,
+    "horiAdvance": 9,
+    "horiBearingX": 0,
+    "horiBearingY": 9,
+    "isFontUnits": false,
+    "vertAdvance": 12,
+    "vertBearingX": 0,
+    "vertBearingY": 0,
+    "width": 9,
+  },
+  "rsbDelta": 0,
 }
 `;
 
@@ -148,6 +234,20 @@ Object {
   "bitmap": null,
   "bitmapLeft": null,
   "bitmapTop": null,
+  "format": 1869968492,
+  "lsbDelta": 0,
+  "metrics": Object {
+    "height": 14,
+    "horiAdvance": 11,
+    "horiBearingX": 0,
+    "horiBearingY": 13,
+    "isFontUnits": false,
+    "vertAdvance": 18,
+    "vertBearingX": 0,
+    "vertBearingY": 0,
+    "width": 13,
+  },
+  "rsbDelta": 0,
 }
 `;
 
@@ -191,6 +291,20 @@ Object {
   },
   "bitmapLeft": 1,
   "bitmapTop": 12,
+  "format": 1651078259,
+  "lsbDelta": 0,
+  "metrics": Object {
+    "height": 14,
+    "horiAdvance": 11,
+    "horiBearingX": 0,
+    "horiBearingY": 13,
+    "isFontUnits": false,
+    "vertAdvance": 18,
+    "vertBearingX": 0,
+    "vertBearingY": 0,
+    "width": 13,
+  },
+  "rsbDelta": 0,
 }
 `;
 
@@ -392,5 +506,63 @@ Object {
   },
   "bitmapLeft": 0,
   "bitmapTop": 13,
+  "format": 1651078259,
+  "lsbDelta": 0,
+  "metrics": Object {
+    "height": 14,
+    "horiAdvance": 11,
+    "horiBearingX": 0,
+    "horiBearingY": 13,
+    "isFontUnits": false,
+    "vertAdvance": 18,
+    "vertBearingX": 0,
+    "vertBearingY": 0,
+    "width": 13,
+  },
+  "rsbDelta": 0,
+}
+`;
+
+exports[`freetype2 NewMemoryFace loadGlyph scale metrics 1`] = `
+Object {
+  "bitmap": null,
+  "bitmapLeft": null,
+  "bitmapTop": null,
+  "format": 1869968492,
+  "lsbDelta": 0,
+  "metrics": Object {
+    "height": 705,
+    "horiAdvance": 627,
+    "horiBearingX": 30,
+    "horiBearingY": 691,
+    "isFontUnits": true,
+    "vertAdvance": 1000,
+    "vertBearingX": 0,
+    "vertBearingY": 0,
+    "width": 672,
+  },
+  "rsbDelta": 0,
+}
+`;
+
+exports[`freetype2 NewMemoryFace loadGlyph scale metrics 2`] = `
+Object {
+  "bitmap": null,
+  "bitmapLeft": null,
+  "bitmapTop": null,
+  "format": 1869968492,
+  "lsbDelta": 0,
+  "metrics": Object {
+    "height": 16,
+    "horiAdvance": 6,
+    "horiBearingX": 0,
+    "horiBearingY": 13,
+    "isFontUnits": false,
+    "vertAdvance": 18,
+    "vertBearingX": 0,
+    "vertBearingY": 0,
+    "width": 5,
+  },
+  "rsbDelta": 0,
 }
 `;

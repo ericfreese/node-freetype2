@@ -11,3 +11,7 @@ bool validateProp(const Napi::Env& env, bool isCorrect, const char* propName);
 bool validatePropsLength(const Napi::Env& env, const Napi::CallbackInfo &info, uint minLength);
 
 bool checkProperty(const Napi::Object& obj, const char* name);
+
+double parse26_6Fractional(const FT_Pos val);
+
+Napi::Value parse26_6OrInt(const Napi::Env& env, const FT_Pos val, const bool isInt);

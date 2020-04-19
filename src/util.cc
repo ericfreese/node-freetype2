@@ -39,3 +39,17 @@ bool checkProperty(const Napi::Object& obj, const char* name) {
 
   return false;
 }
+
+double parse26_6Fractional(const FT_Pos val) {
+  FT_Pos base = val >> 6;
+  // TODO - parse remaining bits
+  return base;
+}
+
+Napi::Value parse26_6OrInt(const Napi::Env& env, const FT_Pos val, const bool isInt) {
+  if (isInt) {
+    return Napi::Value::From(env, val);
+  } else {
+    return Napi::Value::From(env, parse26_6Fractional(val));
+  }
+}

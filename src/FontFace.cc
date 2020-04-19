@@ -26,7 +26,7 @@ FontFace::Initialize(Napi::Env& env) {
     InstanceMethod("getNextChar", &FontFace::GetNextChar),
     // InstanceMethod("getNameIndex", &FontFace::GetGetNameIndex),
     InstanceMethod("loadChar", &FontFace::LoadChar),
-    // InstanceMethod("renderGlyph", &FontFace::RenderGlyph),
+    InstanceMethod("renderGlyph", &FontFace::RenderGlyph),
     InstanceMethod("getKerning", &FontFace::GetKerning),
     InstanceMethod("getTrackKerning", &FontFace::GetTrackKerning),
     // InstanceMethod("getGlyphName", &FontFace::GetGlyphName),
@@ -126,10 +126,8 @@ Napi::Value FontFace::GetProperties(const Napi::CallbackInfo &info) {
     // FT_Short          max_advance_width;
     // FT_Short          max_advance_height;
 
-    // FT_Short          underline_position;
-    // FT_Short          underline_thickness;
-
-    // FT_GlyphSlot      glyph;
+  obj.Set("underlinePosition", this->ftFace->underline_position);
+  obj.Set("underlineThickness", this->ftFace->underline_thickness);
 
   Napi::Object size = Napi::Object::New(env);
   size.Set("xppem", this->ftFace->size->metrics.x_ppem);
@@ -142,7 +140,6 @@ Napi::Value FontFace::GetProperties(const Napi::CallbackInfo &info) {
   size.Set("maxAdvance", this->ftFace->size->metrics.max_advance);
   obj.Set("size", size);
 
-    // FT_Size           size;
     // FT_CharMap        charmap;
 
 
@@ -382,7 +379,7 @@ FT_Int32 parseLoadFlags(Napi::Object rawFlags) {
   return loadFlags;
 }
 
-Napi::Object fetchGlyph(const Napi::Env &env, const FT_GlyphSlot &glyph) {
+Napi::Object fetchGlyphBitmap(const Napi::Env &env, const FT_GlyphSlot &glyph) {
   Napi::Object obj = Napi::Object::New(env);
 
   if (glyph->bitmap.buffer != nullptr) {
@@ -410,6 +407,30 @@ Napi::Object fetchGlyph(const Napi::Env &env, const FT_GlyphSlot &glyph) {
     obj.Set("bitmapTop", env.Null());
   }
 
+  return obj;
+}
+
+Napi::Object fetchGlyph(const Napi::Env &env, const FT_GlyphSlot &glyph, const FT_Int32 loadFlags) {
+  Napi::Object obj = fetchGlyphBitmap(env, glyph);
+
+  Napi::Object metrics = Napi::Object::New(env);
+  bool noScale = (loadFlags & FT_LOAD_NO_SCALE) != 0;
+  metrics.Set("isFontUnits", noScale);
+  metrics.Set("width", parse26_6OrInt(env, glyph->metrics.width, noScale));
+  metrics.Set("height", parse26_6OrInt(env, glyph->metrics.height, noScale));
+  metrics.Set("horiBearingX", parse26_6OrInt(env, glyph->metrics.horiBearingX, noScale));
+  metrics.Set("horiBearingY", parse26_6OrInt(env, glyph->metrics.horiBearingY, noScale));
+  metrics.Set("horiAdvance", parse26_6OrInt(env, glyph->metrics.horiAdvance, noScale));
+  metrics.Set("vertBearingX", parse26_6OrInt(env, glyph->metrics.vertBearingX, noScale));
+  metrics.Set("vertBearingY", parse26_6OrInt(env, glyph->metrics.vertBearingY, noScale));
+  metrics.Set("vertAdvance", parse26_6OrInt(env, glyph->metrics.vertAdvance, noScale));
+  obj.Set("metrics", metrics);
+
+  unsigned long formatNum = glyph->format;
+  obj.Set("format", formatNum);
+
+  obj.Set("lsbDelta", glyph->lsb_delta);
+  obj.Set("rsbDelta", glyph->rsb_delta);
 
   return obj;
 }
@@ -444,7 +465,7 @@ Napi::Value FontFace::LoadGlyph(const Napi::CallbackInfo &info) {
     return env.Null();
   }
 
-  return fetchGlyph(env, this->ftFace->glyph);
+  return fetchGlyph(env, this->ftFace->glyph, loadFlags);
 }
 
 Napi::Value FontFace::GetCharIndex(const Napi::CallbackInfo &info) {
@@ -528,7 +549,7 @@ Napi::Value FontFace::RenderGlyph(const Napi::CallbackInfo &info) {
     return env.Null();
   }
 
-  return fetchGlyph(env, this->ftFace->glyph);
+  return fetchGlyphBitmap(env, this->ftFace->glyph);
 }
 
 Napi::Value FontFace::LoadChar(const Napi::CallbackInfo &info) {
@@ -561,7 +582,7 @@ Napi::Value FontFace::LoadChar(const Napi::CallbackInfo &info) {
     return env.Null();
   }
 
-  return fetchGlyph(env, this->ftFace->glyph);
+  return fetchGlyph(env, this->ftFace->glyph, loadFlags);
 }
 
 Napi::Value FontFace::GetKerning(const Napi::CallbackInfo &info) {
