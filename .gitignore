@@ -6,3 +6,4 @@
 /temp/
 /prebuilds
 /.vscode
+/example/*-output.png
