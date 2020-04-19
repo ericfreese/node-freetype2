@@ -27,9 +27,10 @@
   },
   "homepage": "https://github.com/julusian/node-freetype2",
   "scripts": {
+    "install": "prebuild-install -r napi || node-gyp rebuild",
     "clean": "node-gyp clean",
     "build": "node-gyp build",
-    "test": "jest",
+    "test": "yarn gen-schema && jest",
     "dev": "watch 'printf \"\\033[2J\\033[0f\" && yarn build && yarn test --watch' src spec",
     "gen-schema": "yarn typescript-json-schema module.d.ts \"*\" --strictNullChecks --required --noExtraProps -o ./spec/schema.json"
   },
@@ -40,7 +41,8 @@
   },
   "dependencies": {
     "bindings": "^1.5.0",
-    "node-addon-api": "^2.0.0"
+    "node-addon-api": "^2.0.0",
+    "prebuild-install": "^5.3.3"
   },
   "devDependencies": {
     "@types/node": "^13.13.0",

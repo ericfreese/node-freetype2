@@ -1,6 +1,6 @@
 # @julusian/node-freetype2
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/julusian/node-freetype2/nodejs)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/julusian/node-freetype2/test)
 [![npm](https://img.shields.io/npm/v/@julusian/node-freetype2.svg)](https://www.npmjs.com/package/@julusian/node-freetype2)
 [![npm](https://img.shields.io/npm/dm/@julusian/node-freetype2.svg)](https://www.npmjs.com/package/@julusian/node-freetype2)
 [![npm](https://img.shields.io/npm/l/@julusian/node-freetype2.svg)](LICENSE)
