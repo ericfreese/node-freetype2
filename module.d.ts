@@ -157,7 +157,7 @@ export class FontFace {
 
     loadGlyph(glyphIndex: number, loadFlags?: LoadFlags): Glyph
     loadChar(charCode: number, loadFlags?: LoadFlags): Glyph
-    // renderGlyph(renderMode: RenderMode): Glyph
+    renderGlyph(renderMode: RenderMode): Glyph
 
     getKerning(leftGlyphIndex: number, rightGlyphIndex: number, kerningMode: KerningMode): Vector
     getTrackKerning(pointSize: number, degree: number): number

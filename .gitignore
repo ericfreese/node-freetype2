@@ -7,3 +7,4 @@
 /prebuilds
 /.vscode
 /example/*-output.png
+/spec/schema.json

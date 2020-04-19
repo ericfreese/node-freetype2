@@ -30,7 +30,8 @@
     "clean": "node-gyp clean",
     "build": "node-gyp build",
     "test": "jest",
-    "dev": "watch 'printf \"\\033[2J\\033[0f\" && yarn build && yarn test --watch' src spec"
+    "dev": "watch 'printf \"\\033[2J\\033[0f\" && yarn build && yarn test --watch' src spec",
+    "gen-schema": "yarn typescript-json-schema module.d.ts \"*\" --strictNullChecks --required --noExtraProps -o ./spec/schema.json"
   },
   "binary": {
     "napi_versions": [
@@ -42,9 +43,11 @@
     "node-addon-api": "^2.0.0"
   },
   "devDependencies": {
+    "@types/node": "^13.13.0",
+    "ajv": "^6.12.1",
     "jest": "^25.3.0",
     "prebuild": "^10.0.0",
     "sharp": "^0.25.2",
-    "tv4": "^1.0.16"
+    "typescript-json-schema": "^0.42.0"
   }
 }

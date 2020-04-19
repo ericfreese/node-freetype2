@@ -1,29 +1,53 @@
 const freetype = require('..');
 const fs = require('fs');
-const tv4 = require('tv4');
+const Ajv = require('ajv');
 
 const FONT_PATH = __dirname + '/fonts/OpenBaskerville-0.0.53/OpenBaskerville-0.0.53.otf'
 
-const schema = require('./schema');
+const schema = require('./schema.json');
 const buffer = fs.readFileSync(FONT_PATH);
+
+const ajv = new Ajv({allErrors: true});
+const faceValidator = ajv.compile(schema.definitions.FontFaceProperties);
+const glyphBitmapValidator = ajv.compile(schema.definitions.GlyphBitmap);
+const glyphValidator = ajv.compile(schema.definitions.Glyph);
+
+function sanitiseProps(props) {
+  // Process the props to clean off non json friendly types (eg Buffer)
+
+  const res = {...props}
+  Object.keys(res).forEach(k => {
+    if (res[k] === null) {
+    } else if (Buffer.isBuffer(res[k])) {
+      res[k] = Array.from(res[k])
+    } else if (Array.isArray(res[k])) {
+      res[k] = res[k].map(sanitiseProps)
+    } else if (typeof res[k] === 'object') {
+      res[k] = sanitiseProps(res[k])
+    }
+  })
+  return res
+}
+
+function validateSchema(validator, props) {
+  const matches = validator(sanitiseProps(props));
+  if (!matches) console.log('error', validator.errors)
+  expect(matches).toBe(true);
+}
 
 describe('freetype2', function() {
     describe('NewFace', function() {
-        // it('matches the schema', function() {
-        //   const face = freetype.NewFace(FONT_PATH, 0);
-        //   const matches = tv4.validate(face.properties(), schema.FontFace);
-        //   console.log('error', tv4.error)
-        //   expect(matches).toBe(true, !!tv4.error ? tv4.error.toString() : undefined);
-        // });
+        it('matches the schema', function() {
+          const face = freetype.NewFace(FONT_PATH, 0);
+          validateSchema(faceValidator, face.properties());
+        });
       });
 
     describe('NewMemoryFace', function() {
-      // it('matches the schema', function() {
-      //   const face = freetype.NewMemoryFace(buffer, 0);
-      //   const matches = tv4.validate(face.properties(), schema.FontFace);
-      //   console.log('error', tv4.error)
-      //   expect(matches).toBe(true, !!tv4.error ? tv4.error.toString() : undefined);
-      // });
+      it('matches the schema', function() {
+        const face = freetype.NewMemoryFace(buffer, 0);
+        validateSchema(faceValidator, face.properties());
+      });
 
       it('invalid parameters', function () {
         expect(() => freetype.NewMemoryFace('', 0)).toThrow('Invalid buffer')
@@ -89,6 +113,7 @@ describe('freetype2', function() {
             "yScale": 4194,
             "yppem": 1,
           })
+          validateSchema(faceValidator, face.properties());
 
           // The below will all behave the same
           const expected = {
@@ -125,6 +150,7 @@ describe('freetype2', function() {
             "yScale": 62915,
             "yppem": 15,
           })
+          validateSchema(faceValidator, face.properties());
 
           face.setCharSize(103, 103, 64, 64)
           expect(face.properties().size).toEqual({
@@ -161,6 +187,7 @@ describe('freetype2', function() {
             "yScale": 4194,
             "yppem": 1,
           })
+          validateSchema(faceValidator, face.properties());
 
           // The below will all behave the same
           const expected = {
@@ -191,6 +218,7 @@ describe('freetype2', function() {
             "yScale": 62915,
             "yppem": 15,
           })
+          validateSchema(faceValidator, face.properties());
 
           face.setPixelSizes(103, 103)
           expect(face.properties().size).toEqual({
@@ -268,14 +296,18 @@ describe('freetype2', function() {
         })
 
         it('load something', function() {
-          expect(face.loadChar('a'.charCodeAt(0))).toMatchSnapshot()
+          const res = face.loadChar('a'.charCodeAt(0))
+          validateSchema(glyphValidator, res)
+          expect(res).toMatchSnapshot()
         })
 
         it('render something', function() {
-          expect(face.loadChar('A'.charCodeAt(0), {
+          const rendered = face.loadChar('A'.charCodeAt(0), {
             render: true,
             loadTarget: 2 // Mono
-          })).toMatchSnapshot()
+          })
+          validateSchema(glyphValidator, rendered)
+          expect(rendered).toMatchSnapshot()
 
           expect(face.loadChar('D'.charCodeAt(0), {
             render: true,
@@ -288,12 +320,14 @@ describe('freetype2', function() {
             noScale: true
           })
           expect(noScale).not.toBeNull()
+          validateSchema(glyphValidator, noScale)
           expect(noScale).toMatchSnapshot()
 
           const withScale = face.loadChar('D'.charCodeAt(0), {
             noScale: false
           })
           expect(withScale).not.toBeNull()
+          validateSchema(glyphValidator, withScale)
           expect(withScale).toMatchSnapshot()
         })
 
@@ -324,14 +358,18 @@ describe('freetype2', function() {
         })
 
         it('load something', function() {
-          expect(face.loadGlyph(5)).toMatchSnapshot()
+          const res = face.loadGlyph(5)
+          validateSchema(glyphValidator, res)
+          expect(res).toMatchSnapshot()
         })
 
         it('render something', function() {
-          expect(face.loadGlyph(5, {
+          const rendered = face.loadGlyph(5, {
             render: true,
             loadTarget: 2 // Mono
-          })).toMatchSnapshot()
+          })
+          validateSchema(glyphValidator, rendered)
+          expect(rendered).toMatchSnapshot()
 
           expect(face.loadGlyph(5, {
             render: true,
@@ -344,16 +382,16 @@ describe('freetype2', function() {
             noScale: true
           })
           expect(noScale).not.toBeNull()
+          validateSchema(glyphValidator, noScale)
           expect(noScale).toMatchSnapshot()
 
           const withScale = face.loadGlyph(6, {
             noScale: false
           })
           expect(withScale).not.toBeNull()
+          validateSchema(glyphValidator, withScale)
           expect(withScale).toMatchSnapshot()
         })
-
-        
 
         // TODO
 
