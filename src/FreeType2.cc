@@ -35,6 +35,12 @@ Napi::Value NewMemoryFace(const Napi::CallbackInfo &info)
 
   Napi::Buffer<FT_Byte> buffer = info[0].As<Napi::Buffer<FT_Byte>>();
 
+  if (buffer.Length() == 0)
+  {
+    Napi::TypeError::New(env, "Invalid buffer").ThrowAsJavaScriptException();
+    return env.Null();
+  }
+
   FT_Face ftFace;
   FT_Error err = FT_New_Memory_Face(
       library,

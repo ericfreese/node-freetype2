@@ -71,7 +71,8 @@ describe('freetype2', function() {
       it('invalid parameters', function () {
         expect(() => freetype.NewMemoryFace('', 0)).toThrow('Invalid buffer')
         expect(() => freetype.NewMemoryFace(Buffer.alloc(0), 'abc')).toThrow('Invalid faceIndex')
-        expect(() => freetype.NewMemoryFace(Buffer.alloc(0))).toThrow('invalid stream operation')
+        expect(() => freetype.NewMemoryFace(Buffer.alloc(0))).toThrow('Invalid buffer')
+        expect(() => freetype.NewMemoryFace(Buffer.alloc(5))).toThrow('invalid stream operation')
       })
 
       // Load it for use
