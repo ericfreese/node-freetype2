@@ -29,7 +29,7 @@ face.setPixelSizes(40, 0);
         if (ch.bitmap) {
             layers.push({
                 input: ch.bitmap.buffer,
-                top: top - ch.metrics.horiBearingY,
+                top: top - (ch.metrics.horiBearingY / 64),
                 left: left,
                 blend: 'lighten',
                 raw: {
@@ -39,7 +39,7 @@ face.setPixelSizes(40, 0);
                 }
             })
         }
-        left += ch.metrics.horiAdvance
+        left += ch.metrics.horiAdvance / 64
     }
 
     img = img.composite(layers)

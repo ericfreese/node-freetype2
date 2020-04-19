@@ -2,9 +2,6 @@
 #define NODE_FREETYPE2_FONTFACE_H
 
 #include "util.h"
-// #include "GlyphSlot.h"
-
-// #include <vector>
 
 class FontFace : public Napi::ObjectWrap<FontFace> {
   public:

@@ -304,14 +304,14 @@ describe('freetype2', function() {
         it('render something', function() {
           const rendered = face.loadChar('A'.charCodeAt(0), {
             render: true,
-            loadTarget: 2 // Mono
+            loadTarget: freetype.RenderMode.MONO
           })
           validateSchema(glyphValidator, rendered)
           expect(rendered).toMatchSnapshot()
 
           expect(face.loadChar('D'.charCodeAt(0), {
             render: true,
-            loadTarget: 0 // Normal
+            loadTarget: freetype.RenderMode.NORMAL
           })).toMatchSnapshot()
         })
 
@@ -364,14 +364,14 @@ describe('freetype2', function() {
         it('render something', function() {
           const rendered = face.loadGlyph(5, {
             render: true,
-            loadTarget: 2 // Mono
+            loadTarget: freetype.RenderMode.MONO
           })
           validateSchema(glyphValidator, rendered)
           expect(rendered).toMatchSnapshot()
 
           expect(face.loadGlyph(5, {
             render: true,
-            loadTarget: 0 // Normal
+            loadTarget: freetype.RenderMode.NORMAL
           })).toMatchSnapshot()
         })
 

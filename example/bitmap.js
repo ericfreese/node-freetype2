@@ -25,7 +25,7 @@ function renderBitmap(bitmap) {
 charCodes.forEach((ch) => {
   const glyph = face.loadChar(ch, {
     render: true,
-    loadTarget: 2 // Mono
+    loadTarget: freetype.RenderMode.MONO
   });
 
   renderBitmap(glyph.bitmap);

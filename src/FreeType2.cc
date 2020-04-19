@@ -1,8 +1,7 @@
 #include "util.h"
-// #include "FreeType2.h"
 #include "FontFace.h"
+#include "enums.h"
 
-// TODO - when will this be freed?
 FT_Library library;
 char version[32];
 
@@ -52,7 +51,6 @@ Napi::Value NewMemoryFace(const Napi::CallbackInfo &info)
 
   Napi::Object fontFace = FontFace::constructor.New({});
   FontFace* fontFaceInner = FontFace::Unwrap(fontFace);
-  // TODO null guard?
   fontFaceInner->ftFace = ftFace;
 
   return fontFace;
@@ -103,7 +101,6 @@ Napi::Value NewFace(const Napi::CallbackInfo &info)
 
   Napi::Object fontFace = FontFace::constructor.New({});
   FontFace* fontFaceInner = FontFace::Unwrap(fontFace);
-  // TODO null guard?
   fontFaceInner->ftFace = ftFace;
 
   return fontFace;
@@ -120,6 +117,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
   exports.Set("NewMemoryFace", Napi::Function::New(env, NewMemoryFace));
 
   FontFace::Initialize(env);
+  InitializeEnums(env, exports);
 
   return exports;
 }

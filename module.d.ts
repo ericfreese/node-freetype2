@@ -20,8 +20,16 @@ export interface LoadFlags {
 
 export const FreeTypeVersion: string;
 
+export enum SizeRequestType {
+    NOMINAL,
+    REAL_DIM,
+    BBOX,
+    CELL,
+    SCALES
+}
+
 export interface SizeRequest {
-    type: number // TODO - enum
+    type: SizeRequestType
     width: number
     height: number
     horiResolution: number
@@ -106,9 +114,28 @@ export interface FontFaceProperties {
 
 }
 
-export type KerningMode = number // TODO - properly
-export type RenderMode = number // TODO - properly
-export type PixelMode = number // TODO - properly
+export enum RenderMode {
+    NORMAL,
+    LIGHT,
+    MONO,
+    LCD,
+    LCD_V
+}
+export enum PixelMode {
+    NONE,
+    MONO,
+    GRAY,
+    GRAY2,
+    GRAY4,
+    LCD,
+    LCD_V,
+    BGRA
+}
+export enum KerningMode {
+    DEFAULT,
+    UNFITTED,
+    UNSCALED
+}
 
 export interface GlyphBitmap {
     bitmap: {
@@ -123,7 +150,14 @@ export interface GlyphBitmap {
     bitmapTop: number 
 }
 
-export type GlyphFormat = number // TODO
+export enum GlyphFormat {
+    NONE,
+    COMPOSITE,
+    BITMAP,
+    OUTLINE,
+    PLOTTER
+}
+
 export interface Glyph {
     bitmap: {
         height: number
