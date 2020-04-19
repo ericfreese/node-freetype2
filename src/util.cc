@@ -21,7 +21,7 @@ bool validateProp(const Napi::Env& env, bool isCorrect, const char* propName) {
   return isCorrect;
 }
 
-bool validatePropsLength(const Napi::Env& env, const Napi::CallbackInfo &info, uint minLength) {
+bool validatePropsLength(const Napi::Env& env, const Napi::CallbackInfo &info, unsigned int minLength) {
   if (info.Length() < minLength) {
     Napi::TypeError::New(env, "Not enough arguments").ThrowAsJavaScriptException();
     return false;
