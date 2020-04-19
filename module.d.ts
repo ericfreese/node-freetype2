@@ -75,6 +75,35 @@ export interface FontFaceProperties {
         yppem: number
     }>
 
+    bbox: {
+        xMin: number
+        yMin: number
+        xMax: number
+        yMax: number
+    }
+
+    unitsPerEM: number
+    ascender: number
+    descender: number
+    height: number
+
+    maxAdvanceWidth: number
+    maxAdvanceHeight: number
+  
+    underlinePosition: number
+    underlineThickness: number
+  
+    size: {
+        xppem: number
+        yppem: number
+        xScale: number
+        yScale: number
+        ascender: number
+        descender: number
+        height: number
+        maxAdvance: number
+    }
+
 }
 
 export type KerningMode = number // TODO - properly

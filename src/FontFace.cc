@@ -41,12 +41,10 @@ FontFace::Initialize(Napi::Env& env) {
 
   constructor = Napi::Persistent(ctor);
   constructor.SuppressDestruct();
-  // target.Set("Canvas", ctor);
 }
 
 FontFace::FontFace(const Napi::CallbackInfo& info)
   : Napi::ObjectWrap<FontFace>(info) {
-  // TODO
 }
 
 FontFace::~FontFace() {
@@ -110,21 +108,20 @@ Napi::Value FontFace::GetProperties(const Napi::CallbackInfo &info) {
 //     FT_Int            num_charmaps;
 //     FT_CharMap*       charmaps;
 
-//     FT_Generic        generic;
+  Napi::Object bbox = Napi::Object::New(env);
+  bbox.Set("xMin", this->ftFace->bbox.xMin);
+  bbox.Set("yMin", this->ftFace->bbox.yMin);
+  bbox.Set("xMax", this->ftFace->bbox.xMax);
+  bbox.Set("yMax", this->ftFace->bbox.yMax);
+  obj.Set("bbox", bbox);
 
+  obj.Set("unitsPerEM", this->ftFace->units_per_EM);
+  obj.Set("ascender", this->ftFace->ascender);
+  obj.Set("descender", this->ftFace->descender);
+  obj.Set("height", this->ftFace->height);
 
-    // /*# The following member variables (down to `underline_thickness`) */
-    // /*# are only relevant to scalable outlines; cf. @FT_Bitmap_Size    */
-    // /*# for bitmap fonts.                                              */
-    // FT_BBox           bbox;
-
-    // FT_UShort         units_per_EM;
-    // FT_Short          ascender;
-    // FT_Short          descender;
-    // FT_Short          height;
-
-    // FT_Short          max_advance_width;
-    // FT_Short          max_advance_height;
+  obj.Set("maxAdvanceWidth", this->ftFace->max_advance_width);
+  obj.Set("maxAdvanceHeight", this->ftFace->max_advance_height);
 
   obj.Set("underlinePosition", this->ftFace->underline_position);
   obj.Set("underlineThickness", this->ftFace->underline_thickness);
@@ -141,8 +138,6 @@ Napi::Value FontFace::GetProperties(const Napi::CallbackInfo &info) {
   obj.Set("size", size);
 
     // FT_CharMap        charmap;
-
-
 
   return obj;
 }
