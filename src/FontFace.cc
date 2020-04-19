@@ -411,14 +411,14 @@ Napi::Object fetchGlyph(const Napi::Env &env, const FT_GlyphSlot &glyph, const F
   Napi::Object metrics = Napi::Object::New(env);
   bool noScale = (loadFlags & FT_LOAD_NO_SCALE) != 0;
   metrics.Set("isFontUnits", noScale);
-  metrics.Set("width", parse26_6OrInt(env, glyph->metrics.width, noScale));
-  metrics.Set("height", parse26_6OrInt(env, glyph->metrics.height, noScale));
-  metrics.Set("horiBearingX", parse26_6OrInt(env, glyph->metrics.horiBearingX, noScale));
-  metrics.Set("horiBearingY", parse26_6OrInt(env, glyph->metrics.horiBearingY, noScale));
-  metrics.Set("horiAdvance", parse26_6OrInt(env, glyph->metrics.horiAdvance, noScale));
-  metrics.Set("vertBearingX", parse26_6OrInt(env, glyph->metrics.vertBearingX, noScale));
-  metrics.Set("vertBearingY", parse26_6OrInt(env, glyph->metrics.vertBearingY, noScale));
-  metrics.Set("vertAdvance", parse26_6OrInt(env, glyph->metrics.vertAdvance, noScale));
+  metrics.Set("width", glyph->metrics.width);
+  metrics.Set("height", glyph->metrics.height);
+  metrics.Set("horiBearingX", glyph->metrics.horiBearingX);
+  metrics.Set("horiBearingY", glyph->metrics.horiBearingY);
+  metrics.Set("horiAdvance", glyph->metrics.horiAdvance);
+  metrics.Set("vertBearingX", glyph->metrics.vertBearingX);
+  metrics.Set("vertBearingY", glyph->metrics.vertBearingY);
+  metrics.Set("vertAdvance", glyph->metrics.vertAdvance);
   obj.Set("metrics", metrics);
 
   unsigned long formatNum = glyph->format;
