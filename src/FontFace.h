@@ -6,7 +6,7 @@
 class FontFace : public Napi::ObjectWrap<FontFace> {
   public:
     FT_Face ftFace;
-    FT_Byte* data;
+    Napi::Reference<Napi::Buffer<FT_Byte>> bufferRef;
 
     static Napi::FunctionReference constructor;
 

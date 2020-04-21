@@ -5,6 +5,12 @@
 FT_Library library;
 char version[32];
 
+int z_verbose = 0;
+
+void z_error (char* message)
+{
+}
+
 Napi::Value NewMemoryFace(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
@@ -58,6 +64,7 @@ Napi::Value NewMemoryFace(const Napi::CallbackInfo &info)
   Napi::Object fontFace = FontFace::constructor.New({});
   FontFace* fontFaceInner = FontFace::Unwrap(fontFace);
   fontFaceInner->ftFace = ftFace;
+  fontFaceInner->bufferRef = Napi::Reference<Napi::Buffer<FT_Byte>>::New(buffer, 1);
 
   return fontFace;
 }

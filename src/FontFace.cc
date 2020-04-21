@@ -49,6 +49,8 @@ FontFace::FontFace(const Napi::CallbackInfo& info)
 
 FontFace::~FontFace() {
   FT_Done_Face(ftFace);
+  if (!bufferRef.IsEmpty())
+    bufferRef.Unref();
 }
 
 bool hasFlag(FT_Long value, FT_Long flag) {
