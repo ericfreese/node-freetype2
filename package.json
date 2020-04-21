@@ -1,6 +1,6 @@
 {
   "name": "@julusian/freetype2",
-  "version": "0.5.0-0",
+  "version": "0.5.0-1",
   "description": "FreeType bindings for Node.js.",
   "main": "./index.js",
   "types": "./module.d.ts",
