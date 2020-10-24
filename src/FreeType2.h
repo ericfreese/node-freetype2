@@ -7,7 +7,7 @@
 
 class FreeType2 : public node::ObjectWrap {
   public:
-    static void Init(v8::Handle<v8::Object> exports);
+    static void Init(v8::Local<v8::Object> exports);
 
     static FT_Library library;
 
