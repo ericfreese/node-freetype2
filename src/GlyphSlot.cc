@@ -49,14 +49,14 @@ GlyphSlot::~GlyphSlot() {}
 NAN_GETTER(GlyphSlot::acc_metrics) {
   GlyphSlot* glyphSlot = node::ObjectWrap::Unwrap<GlyphSlot>(info.This());
   v8::Local<v8::Object> metrics = Nan::New<v8::Object>();
-  metrics->Set(Nan::New("width").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.width));
-  metrics->Set(Nan::New("height").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.height));
-  metrics->Set(Nan::New("horiBearingX").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.horiBearingX));
-  metrics->Set(Nan::New("horiBearingY").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.horiBearingY));
-  metrics->Set(Nan::New("horiAdvance").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.horiAdvance));
-  metrics->Set(Nan::New("vertBearingX").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.vertBearingX));
-  metrics->Set(Nan::New("vertBearingY").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.vertBearingY));
-  metrics->Set(Nan::New("vertAdvance").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.vertAdvance));
+  Nan::Set(metrics, Nan::New("width").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.width));
+  Nan::Set(metrics, Nan::New("height").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.height));
+  Nan::Set(metrics, Nan::New("horiBearingX").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.horiBearingX));
+  Nan::Set(metrics, Nan::New("horiBearingY").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.horiBearingY));
+  Nan::Set(metrics, Nan::New("horiAdvance").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.horiAdvance));
+  Nan::Set(metrics, Nan::New("vertBearingX").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.vertBearingX));
+  Nan::Set(metrics, Nan::New("vertBearingY").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.vertBearingY));
+  Nan::Set(metrics, Nan::New("vertAdvance").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->metrics.vertAdvance));
   info.GetReturnValue().Set(metrics);
 }
 
@@ -69,12 +69,12 @@ NAN_GETTER(GlyphSlot::acc_bitmap) {
   GlyphSlot* glyphSlot = node::ObjectWrap::Unwrap<GlyphSlot>(info.This());
 
   v8::Local<v8::Object> bitmap = Nan::New<v8::Object>();
-  bitmap->Set(Nan::New("rows").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.rows));
-  bitmap->Set(Nan::New("width").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.width));
-  bitmap->Set(Nan::New("pitch").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.pitch));
-  bitmap->Set(Nan::New("buffer").ToLocalChecked(), Nan::CopyBuffer((char*)glyphSlot->ftGlyphSlot->bitmap.buffer, glyphSlot->ftGlyphSlot->bitmap.pitch * glyphSlot->ftGlyphSlot->bitmap.rows).ToLocalChecked());
-  bitmap->Set(Nan::New("num_grays").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.num_grays));
-  bitmap->Set(Nan::New("pixel_mode").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.pixel_mode));
+  Nan::Set(bitmap, Nan::New("rows").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.rows));
+  Nan::Set(bitmap, Nan::New("width").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.width));
+  Nan::Set(bitmap, Nan::New("pitch").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.pitch));
+  Nan::Set(bitmap, Nan::New("buffer").ToLocalChecked(), Nan::CopyBuffer((char*)glyphSlot->ftGlyphSlot->bitmap.buffer, glyphSlot->ftGlyphSlot->bitmap.pitch * glyphSlot->ftGlyphSlot->bitmap.rows).ToLocalChecked());
+  Nan::Set(bitmap, Nan::New("num_grays").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.num_grays));
+  Nan::Set(bitmap, Nan::New("pixel_mode").ToLocalChecked(), Nan::New((int32_t)glyphSlot->ftGlyphSlot->bitmap.pixel_mode));
 
   info.GetReturnValue().Set(bitmap);
 }

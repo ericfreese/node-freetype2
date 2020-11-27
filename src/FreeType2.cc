@@ -36,104 +36,104 @@ NAN_MODULE_INIT(FreeType2::Init) {
   // Nan::SetMethod(target, "Get_SubGlyph_Info", Get_SubGlyph_Info);
 
   // http://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html#FT_Encoding
-  target->Set(Nan::New("ENCODING_NONE").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_NONE));
-  target->Set(Nan::New("ENCODING_MS_SYMBOL").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_MS_SYMBOL));
-  target->Set(Nan::New("ENCODING_UNICODE").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_UNICODE));
-  target->Set(Nan::New("ENCODING_SJIS").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_SJIS));
-  target->Set(Nan::New("ENCODING_GB2312").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_GB2312));
-  target->Set(Nan::New("ENCODING_BIG5").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_BIG5));
-  target->Set(Nan::New("ENCODING_WANSUNG").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_WANSUNG));
-  target->Set(Nan::New("ENCODING_JOHAB").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_JOHAB));
-  target->Set(Nan::New("ENCODING_ADOBE_STANDARD").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_ADOBE_STANDARD));
-  target->Set(Nan::New("ENCODING_ADOBE_EXPERT").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_ADOBE_EXPERT));
-  target->Set(Nan::New("ENCODING_ADOBE_CUSTOM").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_ADOBE_CUSTOM));
-  target->Set(Nan::New("ENCODING_ADOBE_LATIN_1").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_ADOBE_LATIN_1));
-  target->Set(Nan::New("ENCODING_OLD_LATIN_2").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_OLD_LATIN_2));
-  target->Set(Nan::New("ENCODING_APPLE_ROMAN").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_APPLE_ROMAN));
+  Nan::Set(target, Nan::New("ENCODING_NONE").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_NONE));
+  Nan::Set(target, Nan::New("ENCODING_MS_SYMBOL").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_MS_SYMBOL));
+  Nan::Set(target, Nan::New("ENCODING_UNICODE").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_UNICODE));
+  Nan::Set(target, Nan::New("ENCODING_SJIS").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_SJIS));
+  Nan::Set(target, Nan::New("ENCODING_GB2312").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_GB2312));
+  Nan::Set(target, Nan::New("ENCODING_BIG5").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_BIG5));
+  Nan::Set(target, Nan::New("ENCODING_WANSUNG").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_WANSUNG));
+  Nan::Set(target, Nan::New("ENCODING_JOHAB").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_JOHAB));
+  Nan::Set(target, Nan::New("ENCODING_ADOBE_STANDARD").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_ADOBE_STANDARD));
+  Nan::Set(target, Nan::New("ENCODING_ADOBE_EXPERT").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_ADOBE_EXPERT));
+  Nan::Set(target, Nan::New("ENCODING_ADOBE_CUSTOM").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_ADOBE_CUSTOM));
+  Nan::Set(target, Nan::New("ENCODING_ADOBE_LATIN_1").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_ADOBE_LATIN_1));
+  Nan::Set(target, Nan::New("ENCODING_OLD_LATIN_2").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_OLD_LATIN_2));
+  Nan::Set(target, Nan::New("ENCODING_APPLE_ROMAN").ToLocalChecked(), Nan::New((uint32_t)FT_ENCODING_APPLE_ROMAN));
 
   // http://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html#FT_LOAD_XXX
-  target->Set(Nan::New("LOAD_DEFAULT").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_DEFAULT));
-  target->Set(Nan::New("LOAD_NO_SCALE").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_NO_SCALE));
-  target->Set(Nan::New("LOAD_NO_HINTING").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_NO_HINTING));
-  target->Set(Nan::New("LOAD_RENDER").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_RENDER));
-  target->Set(Nan::New("LOAD_NO_BITMAP").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_NO_BITMAP));
-  target->Set(Nan::New("LOAD_VERTICAL_LAYOUT").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_VERTICAL_LAYOUT));
-  target->Set(Nan::New("LOAD_FORCE_AUTOHINT").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_FORCE_AUTOHINT));
-  target->Set(Nan::New("LOAD_CROP_BITMAP").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_CROP_BITMAP));
-  target->Set(Nan::New("LOAD_PEDANTIC").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_PEDANTIC));
-  target->Set(Nan::New("LOAD_IGNORE_GLOBAL_ADVANCE_WIDTH").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_IGNORE_GLOBAL_ADVANCE_WIDTH));
-  target->Set(Nan::New("LOAD_NO_RECURSE").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_NO_RECURSE));
-  target->Set(Nan::New("LOAD_IGNORE_TRANSFORM").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_IGNORE_TRANSFORM));
-  target->Set(Nan::New("LOAD_MONOCHROME").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_MONOCHROME));
-  target->Set(Nan::New("LOAD_LINEAR_DESIGN").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_LINEAR_DESIGN));
-  target->Set(Nan::New("LOAD_NO_AUTOHINT").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_NO_AUTOHINT));
-  target->Set(Nan::New("LOAD_COLOR").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_COLOR));
+  Nan::Set(target, Nan::New("LOAD_DEFAULT").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_DEFAULT));
+  Nan::Set(target, Nan::New("LOAD_NO_SCALE").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_NO_SCALE));
+  Nan::Set(target, Nan::New("LOAD_NO_HINTING").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_NO_HINTING));
+  Nan::Set(target, Nan::New("LOAD_RENDER").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_RENDER));
+  Nan::Set(target, Nan::New("LOAD_NO_BITMAP").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_NO_BITMAP));
+  Nan::Set(target, Nan::New("LOAD_VERTICAL_LAYOUT").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_VERTICAL_LAYOUT));
+  Nan::Set(target, Nan::New("LOAD_FORCE_AUTOHINT").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_FORCE_AUTOHINT));
+  Nan::Set(target, Nan::New("LOAD_CROP_BITMAP").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_CROP_BITMAP));
+  Nan::Set(target, Nan::New("LOAD_PEDANTIC").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_PEDANTIC));
+  Nan::Set(target, Nan::New("LOAD_IGNORE_GLOBAL_ADVANCE_WIDTH").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_IGNORE_GLOBAL_ADVANCE_WIDTH));
+  Nan::Set(target, Nan::New("LOAD_NO_RECURSE").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_NO_RECURSE));
+  Nan::Set(target, Nan::New("LOAD_IGNORE_TRANSFORM").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_IGNORE_TRANSFORM));
+  Nan::Set(target, Nan::New("LOAD_MONOCHROME").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_MONOCHROME));
+  Nan::Set(target, Nan::New("LOAD_LINEAR_DESIGN").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_LINEAR_DESIGN));
+  Nan::Set(target, Nan::New("LOAD_NO_AUTOHINT").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_NO_AUTOHINT));
+  Nan::Set(target, Nan::New("LOAD_COLOR").ToLocalChecked(), Nan::New((uint32_t)FT_LOAD_COLOR));
 
   // http://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html#FT_Kerning_Mode
-  target->Set(Nan::New("KERNING_DEFAULT").ToLocalChecked(), Nan::New((uint32_t)FT_KERNING_DEFAULT));
-  target->Set(Nan::New("KERNING_UNFITTED").ToLocalChecked(), Nan::New((uint32_t)FT_KERNING_UNFITTED));
-  target->Set(Nan::New("KERNING_UNSCALED").ToLocalChecked(), Nan::New((uint32_t)FT_KERNING_UNSCALED));
+  Nan::Set(target, Nan::New("KERNING_DEFAULT").ToLocalChecked(), Nan::New((uint32_t)FT_KERNING_DEFAULT));
+  Nan::Set(target, Nan::New("KERNING_UNFITTED").ToLocalChecked(), Nan::New((uint32_t)FT_KERNING_UNFITTED));
+  Nan::Set(target, Nan::New("KERNING_UNSCALED").ToLocalChecked(), Nan::New((uint32_t)FT_KERNING_UNSCALED));
 
   // http://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html#FT_FACE_FLAG_XXX
-  target->Set(Nan::New("FACE_FLAG_SCALABLE").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_SCALABLE));
-  target->Set(Nan::New("FACE_FLAG_FIXED_SIZES").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_FIXED_SIZES));
-  target->Set(Nan::New("FACE_FLAG_FIXED_WIDTH").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_FIXED_WIDTH));
-  target->Set(Nan::New("FACE_FLAG_SFNT").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_SFNT));
-  target->Set(Nan::New("FACE_FLAG_HORIZONTAL").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_HORIZONTAL));
-  target->Set(Nan::New("FACE_FLAG_VERTICAL").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_VERTICAL));
-  target->Set(Nan::New("FACE_FLAG_KERNING").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_KERNING));
-  target->Set(Nan::New("FACE_FLAG_FAST_GLYPHS").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_FAST_GLYPHS));
-  target->Set(Nan::New("FACE_FLAG_MULTIPLE_MASTERS").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_MULTIPLE_MASTERS));
-  target->Set(Nan::New("FACE_FLAG_GLYPH_NAMES").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_GLYPH_NAMES));
-  target->Set(Nan::New("FACE_FLAG_EXTERNAL_STREAM").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_EXTERNAL_STREAM));
-  target->Set(Nan::New("FACE_FLAG_HINTER").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_HINTER));
-  target->Set(Nan::New("FACE_FLAG_CID_KEYED").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_CID_KEYED));
-  target->Set(Nan::New("FACE_FLAG_TRICKY").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_TRICKY));
-  target->Set(Nan::New("FACE_FLAG_COLOR").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_COLOR));
+  Nan::Set(target, Nan::New("FACE_FLAG_SCALABLE").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_SCALABLE));
+  Nan::Set(target, Nan::New("FACE_FLAG_FIXED_SIZES").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_FIXED_SIZES));
+  Nan::Set(target, Nan::New("FACE_FLAG_FIXED_WIDTH").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_FIXED_WIDTH));
+  Nan::Set(target, Nan::New("FACE_FLAG_SFNT").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_SFNT));
+  Nan::Set(target, Nan::New("FACE_FLAG_HORIZONTAL").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_HORIZONTAL));
+  Nan::Set(target, Nan::New("FACE_FLAG_VERTICAL").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_VERTICAL));
+  Nan::Set(target, Nan::New("FACE_FLAG_KERNING").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_KERNING));
+  Nan::Set(target, Nan::New("FACE_FLAG_FAST_GLYPHS").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_FAST_GLYPHS));
+  Nan::Set(target, Nan::New("FACE_FLAG_MULTIPLE_MASTERS").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_MULTIPLE_MASTERS));
+  Nan::Set(target, Nan::New("FACE_FLAG_GLYPH_NAMES").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_GLYPH_NAMES));
+  Nan::Set(target, Nan::New("FACE_FLAG_EXTERNAL_STREAM").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_EXTERNAL_STREAM));
+  Nan::Set(target, Nan::New("FACE_FLAG_HINTER").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_HINTER));
+  Nan::Set(target, Nan::New("FACE_FLAG_CID_KEYED").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_CID_KEYED));
+  Nan::Set(target, Nan::New("FACE_FLAG_TRICKY").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_TRICKY));
+  Nan::Set(target, Nan::New("FACE_FLAG_COLOR").ToLocalChecked(), Nan::New((uint32_t)FT_FACE_FLAG_COLOR));
 
   // http://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html#FT_STYLE_FLAG_XXX
-  target->Set(Nan::New("STYLE_FLAG_ITALIC").ToLocalChecked(), Nan::New((uint32_t)FT_STYLE_FLAG_ITALIC));
-  target->Set(Nan::New("STYLE_FLAG_BOLD").ToLocalChecked(), Nan::New((uint32_t)FT_STYLE_FLAG_BOLD));
+  Nan::Set(target, Nan::New("STYLE_FLAG_ITALIC").ToLocalChecked(), Nan::New((uint32_t)FT_STYLE_FLAG_ITALIC));
+  Nan::Set(target, Nan::New("STYLE_FLAG_BOLD").ToLocalChecked(), Nan::New((uint32_t)FT_STYLE_FLAG_BOLD));
 
   // http://www.freetype.org/freetype2/docs/reference/ft2-basic_types.html#FT_Glyph_Format
-  target->Set(Nan::New("GLYPH_FORMAT_NONE").ToLocalChecked(), Nan::New((uint32_t)FT_GLYPH_FORMAT_NONE));
-  target->Set(Nan::New("GLYPH_FORMAT_COMPOSITE").ToLocalChecked(), Nan::New((uint32_t)FT_GLYPH_FORMAT_COMPOSITE));
-  target->Set(Nan::New("GLYPH_FORMAT_BITMAP").ToLocalChecked(), Nan::New((uint32_t)FT_GLYPH_FORMAT_BITMAP));
-  target->Set(Nan::New("GLYPH_FORMAT_OUTLINE").ToLocalChecked(), Nan::New((uint32_t)FT_GLYPH_FORMAT_OUTLINE));
-  target->Set(Nan::New("GLYPH_FORMAT_PLOTTER").ToLocalChecked(), Nan::New((uint32_t)FT_GLYPH_FORMAT_PLOTTER));
+  Nan::Set(target, Nan::New("GLYPH_FORMAT_NONE").ToLocalChecked(), Nan::New((uint32_t)FT_GLYPH_FORMAT_NONE));
+  Nan::Set(target, Nan::New("GLYPH_FORMAT_COMPOSITE").ToLocalChecked(), Nan::New((uint32_t)FT_GLYPH_FORMAT_COMPOSITE));
+  Nan::Set(target, Nan::New("GLYPH_FORMAT_BITMAP").ToLocalChecked(), Nan::New((uint32_t)FT_GLYPH_FORMAT_BITMAP));
+  Nan::Set(target, Nan::New("GLYPH_FORMAT_OUTLINE").ToLocalChecked(), Nan::New((uint32_t)FT_GLYPH_FORMAT_OUTLINE));
+  Nan::Set(target, Nan::New("GLYPH_FORMAT_PLOTTER").ToLocalChecked(), Nan::New((uint32_t)FT_GLYPH_FORMAT_PLOTTER));
 
   // http://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html#FT_Render_Mode
-  target->Set(Nan::New("RENDER_MODE_NORMAL").ToLocalChecked(), Nan::New((uint32_t)FT_RENDER_MODE_NORMAL));
-  target->Set(Nan::New("RENDER_MODE_LIGHT").ToLocalChecked(), Nan::New((uint32_t)FT_RENDER_MODE_LIGHT));
-  target->Set(Nan::New("RENDER_MODE_MONO").ToLocalChecked(), Nan::New((uint32_t)FT_RENDER_MODE_MONO));
-  target->Set(Nan::New("RENDER_MODE_LCD").ToLocalChecked(), Nan::New((uint32_t)FT_RENDER_MODE_LCD));
-  target->Set(Nan::New("RENDER_MODE_LCD_V").ToLocalChecked(), Nan::New((uint32_t)FT_RENDER_MODE_LCD_V));
-  target->Set(Nan::New("RENDER_MODE_MAX").ToLocalChecked(), Nan::New((uint32_t)FT_RENDER_MODE_MAX));
+  Nan::Set(target, Nan::New("RENDER_MODE_NORMAL").ToLocalChecked(), Nan::New((uint32_t)FT_RENDER_MODE_NORMAL));
+  Nan::Set(target, Nan::New("RENDER_MODE_LIGHT").ToLocalChecked(), Nan::New((uint32_t)FT_RENDER_MODE_LIGHT));
+  Nan::Set(target, Nan::New("RENDER_MODE_MONO").ToLocalChecked(), Nan::New((uint32_t)FT_RENDER_MODE_MONO));
+  Nan::Set(target, Nan::New("RENDER_MODE_LCD").ToLocalChecked(), Nan::New((uint32_t)FT_RENDER_MODE_LCD));
+  Nan::Set(target, Nan::New("RENDER_MODE_LCD_V").ToLocalChecked(), Nan::New((uint32_t)FT_RENDER_MODE_LCD_V));
+  Nan::Set(target, Nan::New("RENDER_MODE_MAX").ToLocalChecked(), Nan::New((uint32_t)FT_RENDER_MODE_MAX));
 
   // http://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html#FT_FSTYPE_XXX
-  target->Set(Nan::New("FSTYPE_INSTALLABLE_EMBEDDING").ToLocalChecked(), Nan::New((uint32_t)FT_FSTYPE_INSTALLABLE_EMBEDDING));
-  target->Set(Nan::New("FSTYPE_RESTRICTED_LICENSE_EMBEDDING").ToLocalChecked(), Nan::New((uint32_t)FT_FSTYPE_RESTRICTED_LICENSE_EMBEDDING));
-  target->Set(Nan::New("FSTYPE_PREVIEW_AND_PRINT_EMBEDDING").ToLocalChecked(), Nan::New((uint32_t)FT_FSTYPE_PREVIEW_AND_PRINT_EMBEDDING));
-  target->Set(Nan::New("FSTYPE_EDITABLE_EMBEDDING").ToLocalChecked(), Nan::New((uint32_t)FT_FSTYPE_EDITABLE_EMBEDDING));
-  target->Set(Nan::New("FSTYPE_NO_SUBSETTING").ToLocalChecked(), Nan::New((uint32_t)FT_FSTYPE_NO_SUBSETTING));
-  target->Set(Nan::New("FSTYPE_BITMAP_EMBEDDING_ONLY").ToLocalChecked(), Nan::New((uint32_t)FT_FSTYPE_BITMAP_EMBEDDING_ONLY));
+  Nan::Set(target, Nan::New("FSTYPE_INSTALLABLE_EMBEDDING").ToLocalChecked(), Nan::New((uint32_t)FT_FSTYPE_INSTALLABLE_EMBEDDING));
+  Nan::Set(target, Nan::New("FSTYPE_RESTRICTED_LICENSE_EMBEDDING").ToLocalChecked(), Nan::New((uint32_t)FT_FSTYPE_RESTRICTED_LICENSE_EMBEDDING));
+  Nan::Set(target, Nan::New("FSTYPE_PREVIEW_AND_PRINT_EMBEDDING").ToLocalChecked(), Nan::New((uint32_t)FT_FSTYPE_PREVIEW_AND_PRINT_EMBEDDING));
+  Nan::Set(target, Nan::New("FSTYPE_EDITABLE_EMBEDDING").ToLocalChecked(), Nan::New((uint32_t)FT_FSTYPE_EDITABLE_EMBEDDING));
+  Nan::Set(target, Nan::New("FSTYPE_NO_SUBSETTING").ToLocalChecked(), Nan::New((uint32_t)FT_FSTYPE_NO_SUBSETTING));
+  Nan::Set(target, Nan::New("FSTYPE_BITMAP_EMBEDDING_ONLY").ToLocalChecked(), Nan::New((uint32_t)FT_FSTYPE_BITMAP_EMBEDDING_ONLY));
 
   // http://www.freetype.org/freetype2/docs/reference/ft2-basic_types.html#FT_Pixel_Mode
-  target->Set(Nan::New("PIXEL_MODE_NONE").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_NONE));
-  target->Set(Nan::New("PIXEL_MODE_MONO").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_MONO));
-  target->Set(Nan::New("PIXEL_MODE_GRAY").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_GRAY));
-  target->Set(Nan::New("PIXEL_MODE_GRAY2").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_GRAY2));
-  target->Set(Nan::New("PIXEL_MODE_GRAY4").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_GRAY4));
-  target->Set(Nan::New("PIXEL_MODE_LCD").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_LCD));
-  target->Set(Nan::New("PIXEL_MODE_LCD_V").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_LCD_V));
-  target->Set(Nan::New("PIXEL_MODE_BGRA").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_BGRA));
+  Nan::Set(target, Nan::New("PIXEL_MODE_NONE").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_NONE));
+  Nan::Set(target, Nan::New("PIXEL_MODE_MONO").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_MONO));
+  Nan::Set(target, Nan::New("PIXEL_MODE_GRAY").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_GRAY));
+  Nan::Set(target, Nan::New("PIXEL_MODE_GRAY2").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_GRAY2));
+  Nan::Set(target, Nan::New("PIXEL_MODE_GRAY4").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_GRAY4));
+  Nan::Set(target, Nan::New("PIXEL_MODE_LCD").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_LCD));
+  Nan::Set(target, Nan::New("PIXEL_MODE_LCD_V").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_LCD_V));
+  Nan::Set(target, Nan::New("PIXEL_MODE_BGRA").ToLocalChecked(), Nan::New((uint32_t)FT_PIXEL_MODE_BGRA));
 
   // http://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html#FT_Size_Request_Type
-  target->Set(Nan::New("SIZE_REQUEST_TYPE_NOMINAL").ToLocalChecked(), Nan::New((uint32_t)FT_SIZE_REQUEST_TYPE_NOMINAL));
-  target->Set(Nan::New("SIZE_REQUEST_TYPE_REAL_DIM").ToLocalChecked(), Nan::New((uint32_t)FT_SIZE_REQUEST_TYPE_REAL_DIM));
-  target->Set(Nan::New("SIZE_REQUEST_TYPE_BBOX").ToLocalChecked(), Nan::New((uint32_t)FT_SIZE_REQUEST_TYPE_BBOX));
-  target->Set(Nan::New("SIZE_REQUEST_TYPE_CELL").ToLocalChecked(), Nan::New((uint32_t)FT_SIZE_REQUEST_TYPE_CELL));
-  target->Set(Nan::New("SIZE_REQUEST_TYPE_SCALES").ToLocalChecked(), Nan::New((uint32_t)FT_SIZE_REQUEST_TYPE_SCALES));
+  Nan::Set(target, Nan::New("SIZE_REQUEST_TYPE_NOMINAL").ToLocalChecked(), Nan::New((uint32_t)FT_SIZE_REQUEST_TYPE_NOMINAL));
+  Nan::Set(target, Nan::New("SIZE_REQUEST_TYPE_REAL_DIM").ToLocalChecked(), Nan::New((uint32_t)FT_SIZE_REQUEST_TYPE_REAL_DIM));
+  Nan::Set(target, Nan::New("SIZE_REQUEST_TYPE_BBOX").ToLocalChecked(), Nan::New((uint32_t)FT_SIZE_REQUEST_TYPE_BBOX));
+  Nan::Set(target, Nan::New("SIZE_REQUEST_TYPE_CELL").ToLocalChecked(), Nan::New((uint32_t)FT_SIZE_REQUEST_TYPE_CELL));
+  Nan::Set(target, Nan::New("SIZE_REQUEST_TYPE_SCALES").ToLocalChecked(), Nan::New((uint32_t)FT_SIZE_REQUEST_TYPE_SCALES));
 }
 
 FreeType2::~FreeType2() {
@@ -162,7 +162,7 @@ NAN_METHOD(FreeType2::New_Memory_Face) {
     fontFace->ftFace = ftFace;
     assert(fontFace->ftFace != 0);
     fontFace->data = data;
-    v8::Local<v8::Object>::Cast(info[2])->Set(Nan::New("face").ToLocalChecked(), fontFaceWrapper);
+    Nan::Set(Nan::To<v8::Object>(info[2]).ToLocalChecked(), Nan::New("face").ToLocalChecked(), fontFaceWrapper);
   } else {
     free(data);
   }
@@ -229,15 +229,15 @@ NAN_METHOD(FreeType2::Set_Transform) {
   FT_Vector delta;
 
   if (info[1]->IsArray()) {
-    matrix.xx = (FT_Fixed) TO_INT32(v8::Local<v8::Object>::Cast(info[1])->Get(0));
-    matrix.xy = (FT_Fixed) TO_INT32(v8::Local<v8::Object>::Cast(info[1])->Get(1));
-    matrix.yx = (FT_Fixed) TO_INT32(v8::Local<v8::Object>::Cast(info[1])->Get(2));
-    matrix.yy = (FT_Fixed) TO_INT32(v8::Local<v8::Object>::Cast(info[1])->Get(3));
+    matrix.xx = (FT_Fixed) TO_INT32(Nan::Get(Nan::To<v8::Object>(info[1]).ToLocalChecked(), 0).ToLocalChecked());
+    matrix.xy = (FT_Fixed) TO_INT32(Nan::Get(Nan::To<v8::Object>(info[1]).ToLocalChecked(), 1).ToLocalChecked());
+    matrix.yx = (FT_Fixed) TO_INT32(Nan::Get(Nan::To<v8::Object>(info[1]).ToLocalChecked(), 2).ToLocalChecked());
+    matrix.yy = (FT_Fixed) TO_INT32(Nan::Get(Nan::To<v8::Object>(info[1]).ToLocalChecked(), 3).ToLocalChecked());
   }
 
   if (info[2]->IsArray()) {
-    delta.x = (FT_Fixed) TO_INT32(v8::Local<v8::Object>::Cast(info[2])->Get(0));
-    delta.y = (FT_Fixed) TO_INT32(v8::Local<v8::Object>::Cast(info[2])->Get(1));
+    delta.x = (FT_Fixed) TO_INT32(Nan::Get(Nan::To<v8::Object>(info[2]).ToLocalChecked(), 0).ToLocalChecked());
+    delta.y = (FT_Fixed) TO_INT32(Nan::Get(Nan::To<v8::Object>(info[2]).ToLocalChecked(), 1).ToLocalChecked());
   }
 
   if (info[1]->IsArray() && info[2]->IsArray()) {
@@ -269,8 +269,8 @@ NAN_METHOD(FreeType2::Get_Kerning) {
   );
 
   if (!err) {
-    v8::Local<v8::Object>::Cast(info[4])->Set(Nan::New("x").ToLocalChecked(), Nan::New((int32_t)kerning.x));
-    v8::Local<v8::Object>::Cast(info[4])->Set(Nan::New("y").ToLocalChecked(), Nan::New((int32_t)kerning.y));
+    Nan::Set(Nan::To<v8::Object>(info[4]).ToLocalChecked(), Nan::New("x").ToLocalChecked(), Nan::New((int32_t)kerning.x));
+    Nan::Set(Nan::To<v8::Object>(info[4]).ToLocalChecked(), Nan::New("y").ToLocalChecked(), Nan::New((int32_t)kerning.y));
   }
 
   info.GetReturnValue().Set(Nan::New((int32_t)err));
@@ -302,7 +302,8 @@ NAN_METHOD(FreeType2::Get_First_Char) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Local<v8::Object>::Cast(info[0]));
   FT_UInt gindex;
   FT_ULong charcode = FT_Get_First_Char(fontFace->ftFace, &gindex);
-  v8::Local<v8::Object>::Cast(info[1])->Set(Nan::New("gindex").ToLocalChecked(), Nan::New((int32_t)gindex));
+  // v8::Local<v8::Object>::Cast(info[1])->Set(Nan::GetCurrentContext(), Nan::New("gindex").ToLocalChecked(), Nan::New((int32_t)gindex));
+  Nan::Set(Nan::To<v8::Object>(info[1]).ToLocalChecked(), Nan::New("gindex").ToLocalChecked(), Nan::New((int32_t)gindex));
   info.GetReturnValue().Set(Nan::New((int32_t)charcode));
 }
 
@@ -310,6 +311,6 @@ NAN_METHOD(FreeType2::Get_Next_Char) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(v8::Local<v8::Object>::Cast(info[0]));
   FT_UInt gindex;
   FT_ULong charcode = FT_Get_Next_Char(fontFace->ftFace, ARG_TO_INT32(info[1]), &gindex);
-  v8::Local<v8::Object>::Cast(info[2])->Set(Nan::New("gindex").ToLocalChecked(), Nan::New((int32_t)gindex));
+  Nan::Set(Nan::To<v8::Object>(info[2]).ToLocalChecked(), Nan::New("gindex").ToLocalChecked(), Nan::New((int32_t)gindex));
   info.GetReturnValue().Set(Nan::New((int32_t)charcode));
 }

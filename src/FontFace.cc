@@ -105,12 +105,12 @@ NAN_GETTER(FontFace::acc_available_sizes) {
 
   for (int i = 0; i < fontFace->ftFace->num_fixed_sizes; i++) {
     v8::Local<v8::Object> size = Nan::New<v8::Object>();
-    size->Set(Nan::New("height").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->available_sizes[i].height));
-    size->Set(Nan::New("width").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->available_sizes[i].width));
-    size->Set(Nan::New("size").ToLocalChecked(), Nan::New((double)fontFace->ftFace->available_sizes[i].size));
-    size->Set(Nan::New("x_ppem").ToLocalChecked(), Nan::New((double)fontFace->ftFace->available_sizes[i].x_ppem));
-    size->Set(Nan::New("y_ppem").ToLocalChecked(), Nan::New((double)fontFace->ftFace->available_sizes[i].y_ppem));
-    available_sizes->Set(i, size);
+    Nan::Set(size, Nan::New("height").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->available_sizes[i].height));
+    Nan::Set(size, Nan::New("width").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->available_sizes[i].width));
+    Nan::Set(size, Nan::New("size").ToLocalChecked(), Nan::New((double)fontFace->ftFace->available_sizes[i].size));
+    Nan::Set(size, Nan::New("x_ppem").ToLocalChecked(), Nan::New((double)fontFace->ftFace->available_sizes[i].x_ppem));
+    Nan::Set(size, Nan::New("y_ppem").ToLocalChecked(), Nan::New((double)fontFace->ftFace->available_sizes[i].y_ppem));
+    Nan::Set(available_sizes, i, size);
   }
 
   info.GetReturnValue().Set(available_sizes);
@@ -122,10 +122,10 @@ NAN_GETTER(FontFace::acc_charmaps) {
 
   for (int i = 0; i < fontFace->ftFace->num_charmaps; i++) {
     v8::Local<v8::Object> charmap = Nan::New<v8::Object>();
-    charmap->Set(Nan::New("encoding").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->charmaps[i]->encoding));
-    charmap->Set(Nan::New("platform_id").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->charmaps[i]->platform_id));
-    charmap->Set(Nan::New("encoding_id").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->charmaps[i]->encoding_id));
-    charmaps->Set(i, charmap);
+    Nan::Set(charmap, Nan::New("encoding").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->charmaps[i]->encoding));
+    Nan::Set(charmap, Nan::New("platform_id").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->charmaps[i]->platform_id));
+    Nan::Set(charmap, Nan::New("encoding_id").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->charmaps[i]->encoding_id));
+    Nan::Set(charmaps, i, charmap);
   }
 
   info.GetReturnValue().Set(charmaps);
@@ -134,10 +134,10 @@ NAN_GETTER(FontFace::acc_charmaps) {
 NAN_GETTER(FontFace::acc_bbox) {
   FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info.This());
   v8::Local<v8::Object> bbox = Nan::New<v8::Object>();
-  bbox->Set(Nan::New("xMin").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->bbox.xMin));
-  bbox->Set(Nan::New("xMax").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->bbox.xMax));
-  bbox->Set(Nan::New("yMin").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->bbox.yMin));
-  bbox->Set(Nan::New("yMax").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->bbox.yMax));
+  Nan::Set(bbox, Nan::New("xMin").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->bbox.xMin));
+  Nan::Set(bbox, Nan::New("xMax").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->bbox.xMax));
+  Nan::Set(bbox, Nan::New("yMin").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->bbox.yMin));
+  Nan::Set(bbox, Nan::New("yMax").ToLocalChecked(), Nan::New((int32_t)fontFace->ftFace->bbox.yMax));
   info.GetReturnValue().Set(bbox);
 }
 
