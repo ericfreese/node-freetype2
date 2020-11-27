@@ -5,6 +5,7 @@
       'type': 'static_library',
       'defines': [
         'FT2_BUILD_LIBRARY',
+        'FT_CONFIG_OPTION_ERROR_STRINGS',
       ],
       'include_dirs': [
         '../vendor/freetype/include/',
@@ -40,7 +41,7 @@
         '../vendor/freetype/src/base/ftsynth.c',      # optional, see <ftsynth.h>
         '../vendor/freetype/src/base/fttype1.c',      # optional, see <t1tables.h>
         '../vendor/freetype/src/base/ftwinfnt.c',     # optional, see <ftwinfnt.h>
-        '../vendor/freetype/src/base/ftxf86.c',       # optional, see <ftxf86.h>
+        # '../vendor/freetype/src/base/ftxf86.c',       # optional, see <ftxf86.h>
 
         # font drivers (optional; at least one is needed)
         '../vendor/freetype/src/bdf/bdf.c',           # BDF font driver

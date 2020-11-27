@@ -1,0 +1,72 @@
+name: Prebuild
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  test:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+
+    - name: yarn test
+      run: |
+        yarn
+        yarn test
+      env:
+        CI: true
+    - name: yarn prebuild
+      run: |
+        # TODO - this should be yarn, but that is failing on windows
+        npm --verbose run prebuild
+      env:
+        CI: true
+
+    - name: Upload articats
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ runner.os }}-prebuilds
+        path: prebuilds
+
+  publish:
+    name: Publish builds to release
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Download linux articats
+      uses: actions/download-artifact@v1
+      with:
+        name: Linux-prebuilds
+    - name: Download windows articats
+      uses: actions/download-artifact@v1
+      with:
+        name: Windows-prebuilds
+    - name: Download macos articats
+      uses: actions/download-artifact@v1
+      with:
+        name: macOS-prebuilds
+    - name: Upload to Release
+      run: |
+        mkdir prebuilds
+        cp -R Linux-prebuilds/*/* prebuilds/
+        cp -R Windows-prebuilds/*/* prebuilds/
+        cp -R macOS-prebuilds/*/* prebuilds/
+        yarn --ignore-scripts
+        npx prebuild --upload-all ${{ secrets.GITHUB_TOKEN }}
