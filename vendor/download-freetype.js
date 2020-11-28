@@ -27,8 +27,8 @@ async function downloadFreetype() {
     !fs.existsSync(versionHolderPath) ||
     versionHolderName !== fs.readdirSync(vendorPath)[0] // version holders don't match
   ) {
-    await fs.remove(finalPath)
     await fs.remove(fs.readdirSync(vendorPath)[0]) // version-holder
+    await fs.remove(finalPath)
     await download(
       `https://downloads.sourceforge.net/project/freetype/freetype2/${freetypeVersion}/${freetypeName}.tar.xz`,
       vendorPath,
