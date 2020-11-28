@@ -39,23 +39,24 @@ jobs:
       with:
         path: ./prebuilds
 
-  publish:
-    name: Publish builds to release
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js 12.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
-
-    - name: Download articats
-      uses: actions/download-artifact@v2
-
-    - name: Upload to Release
-      run: |
-        mkdir prebuilds
-        rsync -a artifact/ prebuilds/
-        yarn --ignore-scripts
-        npx prebuild --upload-all ${{ secrets.GITHUB_TOKEN }}
+  #   manually download the artifact and publish
+  # publish:
+  #   name: Publish builds to release
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Use Node.js 12.x
+  #     uses: actions/setup-node@v1
+  #     with:
+  #       node-version: 12.x
+  #
+  #   - name: Download articats
+  #     uses: actions/download-artifact@v2
+  #
+  #   - name: Upload to Release
+  #     run: |
+  #       mkdir prebuilds
+  #       rsync -a artifact/ prebuilds/
+  #       yarn --ignore-scripts
+  #       npx prebuild --upload-all ${{ secrets.GITHUB_TOKEN }}
