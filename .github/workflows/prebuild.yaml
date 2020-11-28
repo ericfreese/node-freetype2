@@ -35,10 +35,9 @@ jobs:
         CI: true
 
     - name: Upload articats
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with:
-        name: ${{ runner.os }}-prebuilds
-        path: prebuilds
+        path: ./prebuilds
 
   publish:
     name: Publish builds to release
@@ -50,23 +49,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - name: Download linux articats
-      uses: actions/download-artifact@v1
-      with:
-        name: Linux-prebuilds
-    - name: Download windows articats
-      uses: actions/download-artifact@v1
-      with:
-        name: Windows-prebuilds
-    - name: Download macos articats
-      uses: actions/download-artifact@v1
-      with:
-        name: macOS-prebuilds
+
+    - name: Download articats
+      uses: actions/download-artifact@v2
+
     - name: Upload to Release
       run: |
         mkdir prebuilds
-        cp -R ./Linux-prebuilds/**/* prebuilds/
-        cp -R ./Windows-prebuilds/**/* prebuilds/
-        cp -R ./macOS-prebuilds/**/* prebuilds/
+        rsync -a artifact/ prebuilds/
         yarn --ignore-scripts
         npx prebuild --upload-all ${{ secrets.GITHUB_TOKEN }}
