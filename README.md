@@ -13,8 +13,9 @@ FreeType is a freely available software library to render fonts. http://www.free
 
 `npm install freetype2`
 
-## Usage
 
-TODO
+## Usage
+See the [example folder](https://github.com/ericfreese/node-freetype2/tree/master/example) to learn how to use node-freetype2.
+
 
 See [FreeType documentation](http://www.freetype.org/freetype2/docs/reference/ft2-index.html) for more info.
