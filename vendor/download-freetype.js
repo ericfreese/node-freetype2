@@ -1,4 +1,6 @@
-const freetypeVersion = '2.10.1';
+// script to automatically download vendor files from // from https://sourceforge.net/projects/freetype/files/freetype2/
+
+const freetypeVersion = '2.10.4';
 const freetypeName = `freetype-${freetypeVersion}`
 
 const fs = require('fs-extra-plus')
