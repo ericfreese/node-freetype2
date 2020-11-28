@@ -65,8 +65,8 @@ jobs:
     - name: Upload to Release
       run: |
         mkdir prebuilds
-        cp -R Linux-prebuilds/*/* prebuilds/
-        cp -R Windows-prebuilds/*/* prebuilds/
-        cp -R macOS-prebuilds/*/* prebuilds/
+        cp -R ./Linux-prebuilds/**/* prebuilds/
+        cp -R ./Windows-prebuilds/**/* prebuilds/
+        cp -R ./macOS-prebuilds/**/* prebuilds/
         yarn --ignore-scripts
         npx prebuild --upload-all ${{ secrets.GITHUB_TOKEN }}
