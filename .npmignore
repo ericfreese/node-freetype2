@@ -9,7 +9,6 @@
 /.gitmodules
 /.travis.yml
 /appveyor.yml
-/prebuilds
 /.vscode
 /.github
 /tests
