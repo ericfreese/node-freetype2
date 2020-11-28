@@ -19,6 +19,12 @@ async function downloadFreetype() {
   const decompressedPath = path.join(vendorPath, freetypeName)
   const finalPath = path.join(vendorPath, "freetype")
 
+  if (
+    !fs.existsSync(vendorPath) ||
+    !fs.existsSync(finalPath) ||
+    !fs.existsSync(versionHolderPath) ||
+    versionHolderName !== fs.readdirSync(vendorPath)[0] // version holders don't match
+  ) {
     await fs.remove(finalPath)
     await fs.remove(fs.readdirSync(vendorPath)[0]) // version-holder
     await download(
