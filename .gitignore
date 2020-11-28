@@ -1,2 +1,13 @@
-build
-node_modules
+/*.node.gz
+/*.tgz
+/build/
+/node_modules/
+/npm-*
+/temp/
+/prebuilds
+/.vscode
+/example/*-output.png
+/spec/schema.json
+/*.log
+
+package-lock.json
