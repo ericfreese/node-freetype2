@@ -103,7 +103,7 @@ Napi::Value FontFace::GetProperties(const Napi::CallbackInfo &info) {
     size.Set("size", rawSize->size);
     size.Set("xppem", rawSize->x_ppem);
     size.Set("yppem", rawSize->y_ppem);
-    availableSizes[i] = size;
+    availableSizes[(uint32_t) i] = size;
   }
   obj.Set("availableSizes", availableSizes);
 
