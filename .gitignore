@@ -9,3 +9,5 @@
 /example/*-output.png
 /spec/schema.json
 /*.log
+
+package-lock.json
