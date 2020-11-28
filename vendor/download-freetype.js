@@ -52,6 +52,9 @@ async function downloadFreetype() {
     }
     // clang-format
     await fs.remove(path.join(finalPath, ".clang-format"))
+
+    // builds
+    await fs.remove(path.join(finalPath, "builds"))
   }
 }
 
