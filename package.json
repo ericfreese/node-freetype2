@@ -28,9 +28,8 @@
   "homepage": "https://github.com/ericfreese/node-freetype2",
   "scripts": {
     "vendor": "node vendor/download-freetype.js",
-    "install": "prebuild-install --runtime=napi || node-gyp rebuild",
-    "prebuild": "prebuild -r napi",
-    "prebuild-electron": "prebuild -t 6.1.12 -r electron --strip",
+    "prebuild": "prebuildify -r napi -t 12.0.0 -t electron@6.0.0 --strip",
+    "prebuild-ia32": "prebuildify -r napi --arch=ia32 -t 12.0.0 -t electron@6.0.0 --strip",
     "clean": "node-gyp clean",
     "build": "node-gyp build",
     "test": "jest",
