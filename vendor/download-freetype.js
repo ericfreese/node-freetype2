@@ -1,4 +1,6 @@
-const freetypeVersion = '2.10.1';
+// script to automatically download vendor files from // from https://sourceforge.net/projects/freetype/files/freetype2/
+
+const freetypeVersion = '2.10.4';
 const freetypeName = `freetype-${freetypeVersion}`
 
 const fs = require('fs-extra-plus')
@@ -25,8 +27,8 @@ async function downloadFreetype() {
     !fs.existsSync(versionHolderPath) ||
     versionHolderName !== fs.readdirSync(vendorPath)[0] // version holders don't match
   ) {
-    await fs.remove(finalPath)
     await fs.remove(fs.readdirSync(vendorPath)[0]) // version-holder
+    await fs.remove(finalPath)
     await download(
       `https://downloads.sourceforge.net/project/freetype/freetype2/${freetypeVersion}/${freetypeName}.tar.xz`,
       vendorPath,
@@ -50,6 +52,9 @@ async function downloadFreetype() {
     }
     // clang-format
     await fs.remove(path.join(finalPath, ".clang-format"))
+
+    // builds
+    await fs.remove(path.join(finalPath, "builds"))
   }
 }
 
