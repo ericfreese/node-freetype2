@@ -18,3 +18,5 @@
 /*.log
 
 /vendor/freetype/docs
+
+build/**/*
