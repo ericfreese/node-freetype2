@@ -43,6 +43,11 @@ async function downloadFreetype() {
     // remove not needed files
     // docs
     await fs.remove(path.join(finalPath, "docs"))
+    // ChangeLog
+    const ChangeLogFiles = await fs.glob("ChangeLog*", finalPath)
+    for (const file of ChangeLogFiles) {
+      await fs.remove(file)
+    }
 }
 
 downloadFreetype()
