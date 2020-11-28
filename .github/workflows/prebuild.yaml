@@ -30,7 +30,7 @@ jobs:
     - name: yarn prebuild
       run: |
         # TODO - this should be yarn, but that is failing on windows
-        npm --verbose run prebuild
+        npm --verbose run prebuild && npm --verbose run prebuild-electron 
       env:
         CI: true
 

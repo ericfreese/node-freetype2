@@ -30,6 +30,7 @@
     "vendor": "node vendor/download-freetype.js",
     "install": "prebuild-install --runtime=napi || node-gyp rebuild",
     "prebuild": "prebuild -r napi",
+    "prebuild-electron": "prebuild -t 6.0.0 -r electron --strip",
     "clean": "node-gyp clean",
     "build": "node-gyp build",
     "test": "jest",
