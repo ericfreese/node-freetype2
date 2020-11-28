@@ -48,11 +48,11 @@
     "prebuild-install": "^5.3.3"
   },
   "devDependencies": {
-    "@types/node": "^13.13.0",
-    "ajv": "^6.12.1",
-    "jest": "^25.3.0",
-    "prebuild": "^10.0.0",
-    "sharp": "^0.25.2",
-    "ts-json-schema-generator": "^0.67.1"
+    "@types/node": "^14.14.10",
+    "ajv": "^6.12.6",
+    "jest": "^26.6.3",
+    "prebuild": "^10.0.1",
+    "sharp": "^0.26.3",
+    "ts-json-schema-generator": "^0.79.0"
   }
 }
