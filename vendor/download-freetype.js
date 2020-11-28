@@ -39,6 +39,10 @@ async function downloadFreetype() {
     await fs.rename(decompressedPath, finalPath)
     await fs.writeFile(versionHolderPath, "")
     await fs.remove(downloadPath)
+
+    // remove not needed files
+    // docs
+    await fs.remove(path.join(finalPath, "docs"))
 }
 
 downloadFreetype()
