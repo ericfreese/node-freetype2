@@ -48,6 +48,9 @@ async function downloadFreetype() {
     for (const file of ChangeLogFiles) {
       await fs.remove(file)
     }
+    // clang-format
+    await fs.remove(path.join(finalPath, ".clang-format"))
+  }
 }
 
 downloadFreetype()
