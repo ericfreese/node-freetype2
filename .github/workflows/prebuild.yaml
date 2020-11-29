@@ -27,10 +27,18 @@ jobs:
         yarn test
       env:
         CI: true
-    - name: yarn prebuild
+
+    - name: prebuild
+      if: ${{ !contains(matrix.os, 'windows') }}
+      run: yarn prebuild --verbose
+      env:
+        CI: true
+        
+    - name: Windows prebuild
+      if: ${{ contains(matrix.os, 'windows') }}
       run: |
-        # TODO - this should be yarn, but that is failing on windows
         npm --verbose run prebuild
+        npm --verbose run prebuild-ia32
       env:
         CI: true
 
