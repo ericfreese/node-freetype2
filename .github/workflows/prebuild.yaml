@@ -25,7 +25,7 @@ jobs:
     - name: Setup PNPM
       uses: pnpm/action-setup@v2
       with:
-        version: 5
+        version: 6
 
     - name: Build and test
       run: |
