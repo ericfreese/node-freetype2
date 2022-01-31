@@ -11,34 +11,40 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js 12.x
-      uses: actions/setup-node@v1
+    - name: Use Node.js
+      uses: actions/setup-node@v2
       with:
-        node-version: 12.x
+        node-version: 14.x
 
-    - name: yarn test
+    - name: Setup PNPM
+      uses: pnpm/action-setup@v2
+      with:
+        version: 5
+
+    - name: Build and test
       run: |
-        yarn
-        yarn test
+        pnpm i
+        pnpm test
       env:
         CI: true
 
     - name: prebuild
       if: ${{ !contains(matrix.os, 'windows') }}
-      run: yarn prebuild --verbose
+      run: pnpm prebuild --verbose
       env:
         CI: true
         
     - name: Windows prebuild
       if: ${{ contains(matrix.os, 'windows') }}
       run: |
-        npm --verbose run prebuild
-        npm --verbose run prebuild-ia32
+        pnpm --verbose run prebuild
+        pnpm --verbose run prebuild-ia32
       env:
         CI: true
 
@@ -66,5 +72,5 @@ jobs:
   #     run: |
   #       mkdir prebuilds
   #       rsync -a artifact/ prebuilds/
-  #       yarn --ignore-scripts
-  #       npx prebuild --upload-all ${{ secrets.GITHUB_TOKEN }}
+  #       pnpm i --ignore-scripts
+  #       pnpx prebuild --upload-all ${{ secrets.GITHUB_TOKEN }}
