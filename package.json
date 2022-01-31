@@ -20,7 +20,7 @@
     "truetype",
     "opentype"
   ],
-  "author": "Julian Waller",
+  "author": "Julian Waller, Amin Yahyaabadi",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ericfreese/node-freetype2/issues"
@@ -28,13 +28,13 @@
   "homepage": "https://github.com/ericfreese/node-freetype2",
   "scripts": {
     "install": "node-gyp-build",
-    "vendor": "node vendor/download-freetype.js",
-    "prebuild": "prebuildify --napi -t 12.0.0 -t electron@6.0.0 --strip",
-    "prebuild-ia32": "prebuildify --napi --arch=ia32 -t 12.0.0 -t electron@6.0.0 --strip",
+    "vendor": "ts-node ./vendor/download-freetype.ts",
+    "prebuild": "prebuildify --napi -t 12.0.0 -t 14.0.0 -t electron@6.0.0 -t electron@9.3.5 -t electron@12.0.0 --strip --tag-libc",
+    "prebuild-ia32": "prebuildify --napi --arch=ia32 -t 12.0.0 -t 14.0.0 -t electron@6.0.0 -t electron@9.3.5 -t electron@12.0.0 --strip --tag-libc",
     "clean": "node-gyp clean",
-    "build": "node-gyp build",
+    "build": "node-gyp configure && node-gyp build",
     "test": "jest",
-    "dev": "watch 'printf \"\\033[2J\\033[0f\" && yarn build && yarn test --watch' src spec"
+    "dev": "watch 'printf \"\\033[2J\\033[0f\" && pnpm build && pnpm test --watch' src spec"
   },
   "binary": {
     "napi_versions": [
@@ -42,24 +42,34 @@
     ]
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "dependencies": {
+    "@mapbox/node-pre-gyp": "1.0.8",
     "bindings": "^1.5.0",
-    "node-addon-api": "^3.0.2",
-    "node-gyp-build": "^4.2.3"
+    "node-addon-api": "^4.3.0"
   },
   "devDependencies": {
-    "@types/node": "^14.14.10",
-    "ajv": "^6.12.6",
+    "@types/decompress": "^4.2.4",
+    "@types/download": "^8.0.1",
+    "@types/fs-extra": "^9.0.13",
+    "@types/node": "^17.0.13",
+    "ajv": "^8.9.0",
     "decompress": "^4.2.1",
     "decompress-tarxz": "^3.0.0",
     "download": "^8.0.0",
-    "fs-extra-plus": "^0.5.20",
-    "jest": "^26.6.3",
-    "prebuildify": "^4.1.1",
-    "sharp": "^0.26.3",
-    "ts-json-schema-generator": "^0.79.0",
-    "typescript": "^4.1.2"
+    "fast-glob": "^3.2.11",
+    "fs-extra": "^10.0.0",
+    "jest": "^27.4.7",
+    "prebuildify": "^5.0.0",
+    "sharp": "^0.29.3",
+    "ts-json-schema-generator": "^0.97.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
+  },
+  "pnpm": {
+    "overrides": {
+      "lzma-native": "8.0.6"
+    }
   }
 }
