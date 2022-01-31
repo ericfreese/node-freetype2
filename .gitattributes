@@ -8,4 +8,3 @@
 dist/ -diff
 package-lock.json -diff
 pnpm-lock.yaml -diff
-vendor/freetype -diff
