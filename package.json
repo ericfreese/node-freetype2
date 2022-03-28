@@ -45,9 +45,9 @@
     "node": ">=12"
   },
   "dependencies": {
-    "@mapbox/node-pre-gyp": "1.0.8",
     "bindings": "^1.5.0",
-    "node-addon-api": "^4.3.0"
+    "node-addon-api": "^4.3.0",
+    "node-gyp-build": "^4.3.0"
   },
   "devDependencies": {
     "@types/decompress": "^4.2.4",
