@@ -58,6 +58,7 @@
         # rasterizers (optional; at least one is needed for vector formats)
         '../vendor/freetype/src/raster/raster.c',     # monochrome rasterizer
         '../vendor/freetype/src/smooth/smooth.c',     # anti-aliasing rasterizer
+        '../vendor/freetype/src/sdf/sdf.c',           # Signed Distance Field driver
 
         # auxiliary modules (optional)
         '../vendor/freetype/src/autofit/autofit.c',   # auto hinting module
@@ -86,3 +87,12 @@
     }
   ]
 }
+
+# TODO - this might need replicating?
+# if (UNIX)
+#   list(APPEND BASE_SRCS "builds/unix/ftsystem.c")
+# elseif (WIN32)
+#   list(APPEND BASE_SRCS "builds/windows/ftsystem.c")
+# else ()
+#   list(APPEND BASE_SRCS "src/base/ftsystem.c")
+# endif ()
