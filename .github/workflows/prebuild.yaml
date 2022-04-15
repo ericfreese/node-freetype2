@@ -34,9 +34,20 @@ jobs:
       env:
         CI: true
 
-    - name: prebuild
-      if: ${{ !contains(matrix.os, 'windows') }}
-      run: pnpm prebuild --verbose
+    - name: Linux prebuild
+      if: ${{ contains(matrix.os, 'linux') }}
+      run: |
+        pnpm --verbose run prebuild
+        pnpm --verbose run prebuild -- --arch=arm64
+        pnpm --verbose run prebuild -- --arch=arm
+      env:
+        CI: true
+
+    - name: macOs prebuild
+      if: ${{ !contains(matrix.os, 'macos') }}
+      run: |
+        pnpm --verbose run prebuild
+        pnpm --verbose run prebuild -- --arch=arm64
       env:
         CI: true
         
@@ -44,7 +55,7 @@ jobs:
       if: ${{ contains(matrix.os, 'windows') }}
       run: |
         pnpm --verbose run prebuild
-        pnpm --verbose run prebuild-ia32
+        pnpm --verbose run prebuild -- --arch=ia32
       env:
         CI: true
 
