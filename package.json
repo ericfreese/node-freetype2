@@ -30,6 +30,7 @@
     "install": "node-gyp-build",
     "vendor": "ts-node ./vendor/download-freetype.ts",
     "prebuild": "prebuildify --napi --strip --tag-libc",
+    "prebuild-linux": "prebuildify-cross --napi --strip -i linux-armv7 -i linux-arm64",
     "clean": "node-gyp clean",
     "build": "node-gyp configure && node-gyp build",
     "test": "jest",
