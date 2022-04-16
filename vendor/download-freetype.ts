@@ -1,6 +1,6 @@
 // script to automatically download vendor files from // from https://sourceforge.net/projects/freetype/files/freetype2/
 
-const freetypeVersion = '2.10.4';
+const freetypeVersion = '2.11.1';
 const freetypeName = `freetype-${freetypeVersion}`
 
 import { existsSync, readdirSync, remove, rename, writeFile } from 'fs-extra';
