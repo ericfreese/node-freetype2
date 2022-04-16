@@ -46,25 +46,25 @@
   "dependencies": {
     "bindings": "^1.5.0",
     "node-addon-api": "^4.3.0",
-    "node-gyp-build": "^4.3.0"
+    "node-gyp-build": "^4.4.0"
   },
   "devDependencies": {
     "@types/decompress": "^4.2.4",
     "@types/download": "^8.0.1",
     "@types/fs-extra": "^9.0.13",
-    "@types/node": "^17.0.13",
-    "ajv": "^8.9.0",
+    "@types/node": "^17.0.24",
+    "ajv": "^8.11.0",
     "decompress": "^4.2.1",
     "decompress-tarxz": "^3.0.0",
     "download": "^8.0.0",
     "fast-glob": "^3.2.11",
-    "fs-extra": "^10.0.0",
-    "jest": "^27.4.7",
+    "fs-extra": "^10.0.1",
+    "jest": "^27.5.1",
     "prebuildify": "^5.0.0",
-    "sharp": "^0.29.3",
-    "ts-json-schema-generator": "^0.97.0",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.5"
+    "sharp": "^0.30.3",
+    "ts-json-schema-generator": "^1.0.0",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
   },
   "pnpm": {
     "overrides": {
