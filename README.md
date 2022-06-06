@@ -11,7 +11,7 @@ FreeType is a freely available software library to render fonts. http://www.free
 
 ## Install
 
-`npm install @julusian/node-freetype2`
+`npm install @julusian/freetype2`
 
 
 ## Examples

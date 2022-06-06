@@ -1,5 +1,5 @@
 {
-  "name": "@julusian/node-freetype2",
+  "name": "@julusian/freetype2",
   "version": "1.0.0",
   "description": "FreeType bindings for Node.js.",
   "main": "./index.js",

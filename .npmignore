@@ -15,5 +15,10 @@
 /spec
 /example
 /*.log
+/pnpn-lock.yaml
+/.npmignore
+/.npmrc
 
 /vendor/freetype/docs
+/vendor/freetype/ChangeLog
+/vendor/freetype/configure
