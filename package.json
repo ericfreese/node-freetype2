@@ -44,7 +44,6 @@
     "node": ">=12"
   },
   "dependencies": {
-    "bindings": "^1.5.0",
     "node-addon-api": "^4.3.0",
     "node-gyp-build": "^4.4.0"
   },
