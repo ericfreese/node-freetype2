@@ -29,7 +29,7 @@
   "scripts": {
     "install": "node-gyp-build",
     "vendor": "ts-node ./vendor/download-freetype.ts",
-    "prebuild": "prebuildify --napi --strip --tag-libc",
+    "prebuild2": "prebuildify --napi --strip --tag-libc",
     "clean": "node-gyp clean",
     "build": "node-gyp configure && node-gyp build",
     "test": "jest",
@@ -37,11 +37,11 @@
   },
   "binary": {
     "napi_versions": [
-      3
+      6
     ]
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=12.17"
   },
   "dependencies": {
     "bindings": "^1.5.0",
