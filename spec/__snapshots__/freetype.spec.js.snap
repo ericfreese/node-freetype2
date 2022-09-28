@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`freetype2 NewMemoryFace loadChar load something 1`] = `
-Object {
+{
   "bitmap": null,
   "bitmapLeft": null,
   "bitmapTop": null,
   "format": 1869968492,
   "lsbDelta": 0,
-  "metrics": Object {
+  "metrics": {
     "height": 448,
     "horiAdvance": 320,
     "horiBearingX": 0,
@@ -23,10 +23,10 @@ Object {
 `;
 
 exports[`freetype2 NewMemoryFace loadChar render something 1`] = `
-Object {
-  "bitmap": Object {
-    "buffer": Object {
-      "data": Array [
+{
+  "bitmap": {
+    "buffer": {
+      "data": [
         8,
         0,
         8,
@@ -56,7 +56,7 @@ Object {
   "bitmapTop": 8,
   "format": 1651078259,
   "lsbDelta": 0,
-  "metrics": Object {
+  "metrics": {
     "height": 576,
     "horiAdvance": 576,
     "horiBearingX": 0,
@@ -72,10 +72,10 @@ Object {
 `;
 
 exports[`freetype2 NewMemoryFace loadChar render something 2`] = `
-Object {
-  "bitmap": Object {
-    "buffer": Object {
-      "data": Array [
+{
+  "bitmap": {
+    "buffer": {
+      "data": [
         12,
         24,
         24,
@@ -170,7 +170,7 @@ Object {
   "bitmapTop": 9,
   "format": 1651078259,
   "lsbDelta": 0,
-  "metrics": Object {
+  "metrics": {
     "height": 576,
     "horiAdvance": 576,
     "horiBearingX": 0,
@@ -186,13 +186,13 @@ Object {
 `;
 
 exports[`freetype2 NewMemoryFace loadChar scale metrics 1`] = `
-Object {
+{
   "bitmap": null,
   "bitmapLeft": null,
   "bitmapTop": null,
   "format": 1869968492,
   "lsbDelta": 0,
-  "metrics": Object {
+  "metrics": {
     "height": 677,
     "horiAdvance": 720,
     "horiBearingX": 5,
@@ -208,13 +208,13 @@ Object {
 `;
 
 exports[`freetype2 NewMemoryFace loadChar scale metrics 2`] = `
-Object {
+{
   "bitmap": null,
   "bitmapLeft": null,
   "bitmapTop": null,
   "format": 1869968492,
   "lsbDelta": 0,
-  "metrics": Object {
+  "metrics": {
     "height": 576,
     "horiAdvance": 576,
     "horiBearingX": 0,
@@ -230,13 +230,13 @@ Object {
 `;
 
 exports[`freetype2 NewMemoryFace loadGlyph load something 1`] = `
-Object {
+{
   "bitmap": null,
   "bitmapLeft": null,
   "bitmapTop": null,
   "format": 1869968492,
   "lsbDelta": 0,
-  "metrics": Object {
+  "metrics": {
     "height": 896,
     "horiAdvance": 704,
     "horiBearingX": 0,
@@ -252,10 +252,10 @@ Object {
 `;
 
 exports[`freetype2 NewMemoryFace loadGlyph render something 1`] = `
-Object {
-  "bitmap": Object {
-    "buffer": Object {
-      "data": Array [
+{
+  "bitmap": {
+    "buffer": {
+      "data": [
         124,
         0,
         68,
@@ -293,7 +293,7 @@ Object {
   "bitmapTop": 12,
   "format": 1651078259,
   "lsbDelta": 0,
-  "metrics": Object {
+  "metrics": {
     "height": 896,
     "horiAdvance": 704,
     "horiBearingX": 0,
@@ -309,10 +309,10 @@ Object {
 `;
 
 exports[`freetype2 NewMemoryFace loadGlyph render something 2`] = `
-Object {
-  "bitmap": Object {
-    "buffer": Object {
-      "data": Array [
+{
+  "bitmap": {
+    "buffer": {
+      "data": [
         0,
         0,
         0,
@@ -508,7 +508,7 @@ Object {
   "bitmapTop": 13,
   "format": 1651078259,
   "lsbDelta": 0,
-  "metrics": Object {
+  "metrics": {
     "height": 896,
     "horiAdvance": 704,
     "horiBearingX": 0,
@@ -524,13 +524,13 @@ Object {
 `;
 
 exports[`freetype2 NewMemoryFace loadGlyph scale metrics 1`] = `
-Object {
+{
   "bitmap": null,
   "bitmapLeft": null,
   "bitmapTop": null,
   "format": 1869968492,
   "lsbDelta": 0,
-  "metrics": Object {
+  "metrics": {
     "height": 705,
     "horiAdvance": 627,
     "horiBearingX": 30,
@@ -546,13 +546,13 @@ Object {
 `;
 
 exports[`freetype2 NewMemoryFace loadGlyph scale metrics 2`] = `
-Object {
+{
   "bitmap": null,
   "bitmapLeft": null,
   "bitmapTop": null,
   "format": 1869968492,
   "lsbDelta": 0,
-  "metrics": Object {
+  "metrics": {
     "height": 1024,
     "horiAdvance": 384,
     "horiBearingX": 0,
@@ -568,10 +568,10 @@ Object {
 `;
 
 exports[`freetype2 NewMemoryFace renderGlyph ok 1`] = `
-Object {
-  "bitmap": Object {
-    "buffer": Object {
-      "data": Array [
+{
+  "bitmap": {
+    "buffer": {
+      "data": [
         0,
         0,
         0,
@@ -756,10 +756,10 @@ Object {
 `;
 
 exports[`freetype2 NewMemoryFace renderGlyph ok 2`] = `
-Object {
-  "bitmap": Object {
-    "buffer": Object {
-      "data": Array [
+{
+  "bitmap": {
+    "buffer": {
+      "data": [
         0,
         0,
         0,
@@ -944,10 +944,10 @@ Object {
 `;
 
 exports[`freetype2 NewMemoryFace renderGlyph ok 3`] = `
-Object {
-  "bitmap": Object {
-    "buffer": Object {
-      "data": Array [
+{
+  "bitmap": {
+    "buffer": {
+      "data": [
         0,
         0,
         0,

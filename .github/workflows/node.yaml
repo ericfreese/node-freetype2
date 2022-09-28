@@ -5,6 +5,10 @@ on:
     # tags:
     #   - v*
 
+env:
+  NAPI_VERSION: 7
+  BINDING_NAME: freetype2
+
 jobs:
   build-and-test:
     name: Build ${{ matrix.arch }} on ${{ matrix.os }} ${{ matrix.libc }}
@@ -17,30 +21,36 @@ jobs:
           # windows
           - os: windows-2019
             arch: x64
+            is-native: true
           - os: windows-2019
             arch: ia32
-            node-arch: x86
+            is-native: false
           # macos
           - os: macos-11
             arch: arm64
-            skip-tests: true
+            is-native: false
           - os: macos-10.15
             arch: x64
+            is-native: true
           # linux
           - os: ubuntu-18.04
             arch: x64
+            is-native: true
           # linux-libc
           - os: ubuntu-latest
             arch: arm64
+            is-native: false
             docker-arch: linux/arm64
             docker-image: node:14-buster
           - os: ubuntu-latest
             arch: arm
+            is-native: false
             docker-arch: linux/arm/v7
             docker-image: node:14-buster
           # linux-musl
           - os: ubuntu-latest
             arch: x64
+            is-native: false
             docker-arch: linux/amd64
             docker-image: node:14-alpine
             libc: musl
@@ -58,27 +68,22 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 14.x
-          architecture: ${{ matrix.node-arch }}
-
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v2
-        with:
-          version: 6
 
       - name: rebuild
         if: ${{ !matrix.docker-arch }}
         shell: bash
         run: |
-          pnpm i
+          yarn
 
-          pnpm prebuild2 -- --napi --arch=${{ matrix.arch }}
-
-          if [ -z "${{ matrix.skip-tests }}" ]; then
-            pnpm test
+          if [ -n "${{ matrix.is-native }}" ]; then
+            yarn test
           fi
 
+          yarn rebuild --arch=${{ matrix.arch }}
+          yarn pkg-prebuilds-copy --source build/Release/$BINDING_NAME.node --name=$BINDING_NAME --strip  --napi_version=$NAPI_VERSION --arch=${{ matrix.arch }}
         env:
           CI: true
+          npm_config_build_from_source: true
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -89,7 +94,7 @@ jobs:
         with:
           image: ${{ matrix.docker-image }}
           # shell: bash
-          options: --platform=${{ matrix.docker-arch }} -v ${{ github.workspace }}:/work -e CI=1 
+          options: --platform=${{ matrix.docker-arch }} -v ${{ github.workspace }}:/work -e CI=1 -e npm_config_build_from_source=1 -e NAPI_VERSION -e BINDING_NAME
           run: |
             if command -v apt-get &> /dev/null
             then
@@ -104,12 +109,10 @@ jobs:
             cd /work
 
             corepack enable
-            pnpm install -g node-gyp
-
-            pnpm i
-            pnpm prebuild2 -- --napi --arch=${{ matrix.arch }}
-
-            pnpm test
+            
+            yarn
+            yarn test
+            yarn pkg-prebuilds-copy --source build/Release/$BINDING_NAME.node --name=$BINDING_NAME --strip --napi_version=$NAPI_VERSION --arch=${{ matrix.arch }} --libc=${{ matrix.libc }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
