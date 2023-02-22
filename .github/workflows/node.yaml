@@ -56,7 +56,7 @@ jobs:
             libc: musl
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Checkout submodules
         shell: bash
         run: |
@@ -80,7 +80,7 @@ jobs:
           fi
 
           yarn rebuild --arch=${{ matrix.arch }}
-          yarn pkg-prebuilds-copy --source build/Release/$BINDING_NAME.node --name=$BINDING_NAME --strip  --napi_version=$NAPI_VERSION --arch=${{ matrix.arch }}
+          yarn pkg-prebuilds-copy --baseDir build/Release --source $BINDING_NAME.node --name=$BINDING_NAME --strip  --napi_version=$NAPI_VERSION --arch=${{ matrix.arch }}
         env:
           CI: true
           npm_config_build_from_source: true
@@ -103,7 +103,7 @@ jobs:
             elif command -v apk &> /dev/null
             then
               apk update
-              apk add make g++ gcc python3
+              apk add make g++ gcc python3 git
             fi
 
             cd /work
@@ -112,7 +112,7 @@ jobs:
             
             yarn
             yarn test
-            yarn pkg-prebuilds-copy --source build/Release/$BINDING_NAME.node --name=$BINDING_NAME --strip --napi_version=$NAPI_VERSION --arch=${{ matrix.arch }} --libc=${{ matrix.libc }}
+            yarn pkg-prebuilds-copy --baseDir build/Release --source $BINDING_NAME.node --name=$BINDING_NAME --strip --napi_version=$NAPI_VERSION --arch=${{ matrix.arch }} --libc=${{ matrix.libc }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
