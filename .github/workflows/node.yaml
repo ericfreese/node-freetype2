@@ -11,8 +11,9 @@ env:
 
 jobs:
   build-and-test:
-    name: Build ${{ matrix.arch }} on ${{ matrix.os }} ${{ matrix.libc }}
+    name: Build ${{ matrix.docker-arch || matrix.arch }} on ${{ matrix.docker-image || matrix.container || matrix.os }} ${{ matrix.libc }}
     runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
 
     strategy:
       fail-fast: false
@@ -33,15 +34,16 @@ jobs:
             arch: x64
             is-native: true
           # linux
-          - os: ubuntu-18.04
+          - os: ubuntu-latest
             arch: x64
             is-native: true
-          # linux-libc
+            container: centos:7
+          # linux-arm
           - os: ubuntu-latest
             arch: arm64
             is-native: false
             docker-arch: linux/arm64
-            docker-image: node:14-buster
+            docker-image: centos:7
           - os: ubuntu-latest
             arch: arm
             is-native: false
@@ -50,24 +52,37 @@ jobs:
           # linux-musl
           - os: ubuntu-latest
             arch: x64
-            is-native: false
-            docker-arch: linux/amd64
-            docker-image: node:14-alpine
+            is-native: true
+            container: node:16-alpine3.12
             libc: musl
 
     steps:
+      - name: Dependencies (Centos)
+        if: contains(matrix.container, 'centos')
+        run: |
+          curl -sL https://rpm.nodesource.com/setup_16.x | bash -
+          yum install -y centos-release-scl
+          yum install -y devtoolset-11-gcc-c++ make git python3 nodejs fontconfig google-noto-sans-fonts
+          corepack enable
+          echo "/opt/rh/devtoolset-11/root/usr/bin" >> $GITHUB_PATH
+      - name: Dependencies (Linux musl)
+        if: contains(matrix.container, 'alpine')
+        run: apk add build-base git python3 font-noto bash --update-cache
+
       - uses: actions/checkout@v3
       - name: Checkout submodules
+        if: "!contains(matrix.container, 'centos')"
         shell: bash
         run: |
           auth_header="$(git config --local --get http.https://github.com/.extraheader)"
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
 
-      - name: Use Node.js 14.x
+      - name: Use Node.js 16.x
+        if: ${{ !matrix.docker-arch && !matrix.container }}
         uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: 16.x
 
       - name: rebuild
         if: ${{ !matrix.docker-arch }}
@@ -100,16 +115,21 @@ jobs:
             then
               apt-get update
               apt-get install -y python3
-            elif command -v apk &> /dev/null
+            elif command -v yum &> /dev/null
             then
-              apk update
-              apk add make g++ gcc python3 git
+              curl -sL https://rpm.nodesource.com/setup_16.x | bash -
+              yum install -y centos-release-scl
+              yum install -y devtoolset-10-gcc-c++ make git python3 nodejs fontconfig google-noto-sans-fonts
+              export PATH=/opt/rh/devtoolset-10/root/usr/bin:$PATH
             fi
 
             cd /work
-
-            corepack enable
             
+            corepack enable
+
+            # try and avoid timeout errors
+            yarn config set network-timeout 100000 -g
+
             yarn
             yarn test
             yarn pkg-prebuilds-copy --baseDir build/Release --source $BINDING_NAME.node --name=$BINDING_NAME --strip --napi_version=$NAPI_VERSION --arch=${{ matrix.arch }} --libc=${{ matrix.libc }}
