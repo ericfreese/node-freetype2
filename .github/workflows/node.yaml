@@ -73,7 +73,7 @@ jobs:
         if: contains(matrix.container, 'alpine')
         run: apk add build-base git python3 font-noto bash --update-cache
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
 
