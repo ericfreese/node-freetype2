@@ -30,6 +30,7 @@ jobs:
           - os: windows-2022
             arch: arm64
             is-native: false
+            node-version: 20.x # 18.x is missing the arm64 node.lib
           # macos
           - os: macos-12
             arch: arm64
@@ -76,11 +77,11 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Use Node.js 18.x
+      - name: Setup Node.js
         if: ${{ !matrix.docker-arch && !matrix.container }}
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: ${{ matrix.node-version || '18.x' }}
 
       - name: rebuild
         if: ${{ !matrix.docker-arch }}
@@ -128,7 +129,7 @@ jobs:
             then
               curl -sL https://rpm.nodesource.com/setup_18.x | bash -
               dnf install -y gcc-toolset-11-toolchain make git python3 nodejs fontconfig google-noto-sans-fonts
-              echo "/opt/rh/gcc-toolset-11/root/usr/bin" >> $GITHUB_PATH
+              export PATH=/opt/rh/gcc-toolset-11/root/usr/bin:$PATH
             fi
 
             cd /work
