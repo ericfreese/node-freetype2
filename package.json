@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "node-addon-api": "^5.0.0",
+    "node-gyp": "^10.1.0",
     "pkg-prebuilds": "^0.2.1"
   },
   "devDependencies": {
@@ -70,5 +71,6 @@
     "vendor/freetype/src",
     "vendor/freetype/LICENSE.TXT",
     "prebuilds"
-  ]
+  ],
+  "packageManager": "yarn@4.3.1"
 }

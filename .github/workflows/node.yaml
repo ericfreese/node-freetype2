@@ -94,7 +94,7 @@ jobs:
             yarn test
           fi
 
-          yarn rebuild --arch=${{ matrix.arch }}
+          yarn run rebuild --arch=${{ matrix.arch }}
           yarn pkg-prebuilds-copy --baseDir build/Release --source $BINDING_NAME.node --name=$BINDING_NAME --strip --napi_version=$NAPI_VERSION --arch=${{ matrix.arch }} --libc=${{ matrix.libc }}
         env:
           CI: true
@@ -124,7 +124,7 @@ jobs:
             fi
 
             cd /work
-            
+
             corepack enable
 
             # try and avoid timeout errors
