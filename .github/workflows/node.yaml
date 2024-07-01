@@ -41,13 +41,13 @@ jobs:
           - os: ubuntu-latest
             arch: x64
             is-native: true
-            container: centos:7
+            container: rockylinux/rockylinux:8
           # linux-arm
           - os: ubuntu-latest
             arch: arm64
             is-native: false
             docker-arch: linux/arm64
-            docker-image: centos:7
+            docker-image: rockylinux/rockylinux:8
           - os: ubuntu-latest
             arch: arm
             is-native: false
@@ -61,21 +61,20 @@ jobs:
             libc: musl
 
     steps:
-      - name: Dependencies (Centos)
-        if: contains(matrix.container, 'centos')
+      - name: Dependencies (rockylinux)
+        if: contains(matrix.container, 'rockylinux')
         run: |
           curl -sL https://rpm.nodesource.com/setup_18.x | bash -
-          yum install -y centos-release-scl
-          yum install -y devtoolset-11-gcc-c++ make git python3 nodejs fontconfig google-noto-sans-fonts
+          dnf install -y gcc-toolset-11-toolchain make git python3 nodejs fontconfig google-noto-sans-fonts
           corepack enable
-          echo "/opt/rh/devtoolset-11/root/usr/bin" >> $GITHUB_PATH
+          echo "/opt/rh/gcc-toolset-11/root/usr/bin" >> $GITHUB_PATH
       - name: Dependencies (Linux musl)
         if: contains(matrix.container, 'alpine')
         run: apk add build-base git python3 font-noto bash --update-cache
 
       - uses: actions/checkout@v3
       - name: Checkout submodules
-        if: "!contains(matrix.container, 'centos')"
+        if: "!contains(matrix.container, 'rockylinux')"
         shell: bash
         run: |
           auth_header="$(git config --local --get http.https://github.com/.extraheader)"
