@@ -132,9 +132,8 @@ jobs:
             elif command -v yum &> /dev/null
             then
               curl -sL https://rpm.nodesource.com/setup_18.x | bash -
-              yum install -y centos-release-scl
-              yum install -y devtoolset-10-gcc-c++ make git python3 nodejs fontconfig google-noto-sans-fonts
-              export PATH=/opt/rh/devtoolset-10/root/usr/bin:$PATH
+              dnf install -y gcc-toolset-11-toolchain make git python3 nodejs fontconfig google-noto-sans-fonts
+              echo "/opt/rh/gcc-toolset-11/root/usr/bin" >> $GITHUB_PATH
             fi
 
             cd /work
