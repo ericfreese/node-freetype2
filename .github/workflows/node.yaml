@@ -142,6 +142,7 @@ jobs:
             yarn config set httpTimeout 100000
 
             yarn
+            yarn # run twice to avoid issues with armv7 running out of memory
             yarn test
             yarn pkg-prebuilds-copy --baseDir build/Release --source $BINDING_NAME.node --name=$BINDING_NAME --strip --napi_version=$NAPI_VERSION --arch=${{ matrix.arch }} --libc=${{ matrix.libc }}
 
