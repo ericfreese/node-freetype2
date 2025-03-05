@@ -32,10 +32,10 @@ jobs:
             is-native: false
             node-version: 20.x # 18.x is missing the arm64 node.lib
           # macos
-          - os: macos-12
+          - os: macos-14
             arch: arm64
             is-native: false
-          - os: macos-12
+          - os: macos-13
             arch: x64
             is-native: true
           # linux
