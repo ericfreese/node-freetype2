@@ -29,6 +29,7 @@
   "scripts": {
     "install": "pkg-prebuilds-verify ./binding-options.js || node-gyp rebuild",
     "build": "node-gyp build",
+    "build.dev": "node-gyp configure --debug && node-gyp configure --debug -- -f compile_commands_json && node-gyp build --debug",
     "rebuild": "node-gyp clean configure build",
     "test": "jest"
   },
