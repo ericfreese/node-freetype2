@@ -718,21 +718,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@julusian/freetype2@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@julusian/freetype2@workspace:."
-  dependencies:
-    "@types/node": "npm:^18.19.39"
-    ajv: "npm:^8.16.0"
-    jest: "npm:^29.7.0"
-    node-addon-api: "npm:^6.1.0"
-    node-gyp: "npm:^10.1.0"
-    pkg-prebuilds: "npm:^1.0.0"
-    sharp: "npm:^0.32"
-    ts-json-schema-generator: "npm:^1.5.1"
-  languageName: unknown
-  linkType: soft
-
 "@npmcli/agent@npm:^2.0.0":
   version: 2.2.2
   resolution: "@npmcli/agent@npm:2.2.2"
@@ -1762,6 +1747,21 @@ __metadata:
   checksum: 10c0/9a53a33dbd87090e9576bef65fb4a71de60f6863a8062a7b11bc1cbe3cc86d428677d7c0b9ef61cdac11007ac580006f78bd5638618d564cfd5e6fd713d6878f
   languageName: node
   linkType: hard
+
+"freetype2@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "freetype2@workspace:."
+  dependencies:
+    "@types/node": "npm:^18.19.39"
+    ajv: "npm:^8.16.0"
+    jest: "npm:^29.7.0"
+    node-addon-api: "npm:^6.1.0"
+    node-gyp: "npm:^10.1.0"
+    pkg-prebuilds: "npm:^1.0.0"
+    sharp: "npm:^0.32"
+    ts-json-schema-generator: "npm:^1.5.1"
+  languageName: unknown
+  linkType: soft
 
 "fs-constants@npm:^1.0.0":
   version: 1.0.0
