@@ -8,10 +8,8 @@ class FontFace : public Napi::ObjectWrap<FontFace> {
     FT_Face ftFace;
     Napi::Reference<Napi::Buffer<FT_Byte>> bufferRef;
 
-    static Napi::FunctionReference constructor;
-
     FontFace(const Napi::CallbackInfo& info);
-    static void Initialize(Napi::Env& env);
+    static Napi::FunctionReference Initialize(Napi::Env& env);
 
     ~FontFace();
 

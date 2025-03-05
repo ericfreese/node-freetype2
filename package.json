@@ -1,12 +1,12 @@
 {
-  "name": "freetype2",
-  "version": "1.0.6",
+  "name": "@julusian/freetype2",
+  "version": "1.2.0",
   "description": "FreeType bindings for Node.js.",
   "main": "./index.js",
   "types": "./module.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ericfreese/node-freetype2"
+    "url": "https://github.com/julusian/node-freetype2"
   },
   "keywords": [
     "freetype",
@@ -20,55 +20,57 @@
     "truetype",
     "opentype"
   ],
-  "author": "Julian Waller, Amin Yahyaabadi",
+  "author": {
+    "name": "Julian Waller",
+    "email": "git@julusian.co.uk"
+  },
+  "contributors": [
+    {
+      "name": "Amin Yahyaabadi"
+    }
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ericfreese/node-freetype2/issues"
+    "url": "https://github.com/julusian/node-freetype2/issues"
   },
-  "homepage": "https://github.com/ericfreese/node-freetype2",
+  "homepage": "https://github.com/julusian/node-freetype2",
   "scripts": {
-    "install": "node-gyp-build",
-    "vendor": "ts-node ./vendor/download-freetype.ts",
-    "prebuild": "prebuildify --napi --strip --tag-libc",
-    "clean": "node-gyp clean",
-    "build": "node-gyp configure && node-gyp build",
-    "test": "jest",
-    "dev": "watch 'printf \"\\033[2J\\033[0f\" && pnpm build && pnpm test --watch' src spec"
+    "install": "pkg-prebuilds-verify ./binding-options.js || node-gyp rebuild",
+    "build": "node-gyp build",
+    "rebuild": "node-gyp clean configure build",
+    "test": "jest"
   },
   "binary": {
     "napi_versions": [
-      3
+      7
     ]
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=14.15"
   },
   "dependencies": {
-    "bindings": "^1.5.0",
-    "node-addon-api": "^4.3.0",
-    "node-gyp-build": "^4.4.0"
+    "node-addon-api": "^6.1.0",
+    "node-gyp": "^10.1.0",
+    "pkg-prebuilds": "^1.0.0"
   },
   "devDependencies": {
-    "@types/decompress": "^4.2.4",
-    "@types/download": "^8.0.1",
-    "@types/fs-extra": "^9.0.13",
-    "@types/node": "^17.0.24",
-    "ajv": "^8.11.0",
-    "decompress": "^4.2.1",
-    "decompress-tarxz": "^3.0.0",
-    "download": "^8.0.0",
-    "fast-glob": "^3.2.11",
-    "fs-extra": "^10.0.1",
-    "jest": "^27.5.1",
-    "prebuildify": "^5.0.0",
-    "sharp": "^0.30.3",
-    "ts-json-schema-generator": "^1.0.0",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.3"
+    "@types/node": "^18.19.39",
+    "ajv": "^8.16.0",
+    "jest": "^29.7.0",
+    "sharp": "^0.32",
+    "ts-json-schema-generator": "^1.5.1"
   },
-  "pnpm": {
-    "overrides": {
-      "lzma-native": "8.0.6"
-    }
-  }
+  "files": [
+    "src",
+    "gyp",
+    "module*.d.ts",
+    "index.js",
+    "binding-options.js",
+    "binding.gyp",
+    "vendor/freetype/include",
+    "vendor/freetype/src",
+    "vendor/freetype/LICENSE.TXT",
+    "prebuilds"
+  ],
+  "packageManager": "yarn@4.3.1"
 }

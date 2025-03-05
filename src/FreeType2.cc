@@ -2,18 +2,15 @@
 #include "FontFace.h"
 #include "enums.h"
 
-FT_Library library;
-char version[32];
-
-int z_verbose = 0;
-
-void z_error (char* message)
-{
-}
-
 Napi::Value NewMemoryFace(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
+
+  auto instanceData = env.GetInstanceData<InstanceData>();
+  if (instanceData == nullptr) {
+    Napi::TypeError::New(env, "Thread is not initialised!").ThrowAsJavaScriptException();
+    return env.Null();
+  }
 
   if (info.Length() < 1)
   {
@@ -49,7 +46,7 @@ Napi::Value NewMemoryFace(const Napi::CallbackInfo &info)
 
   FT_Face ftFace;
   FT_Error err = FT_New_Memory_Face(
-      library,
+      instanceData->library,
       buffer.Data(),
       buffer.Length(),
       faceIndex,
@@ -61,7 +58,7 @@ Napi::Value NewMemoryFace(const Napi::CallbackInfo &info)
     return env.Null();
   }
 
-  Napi::Object fontFace = FontFace::constructor.New({});
+  Napi::Object fontFace = instanceData->fontFace.New({});
   FontFace* fontFaceInner = FontFace::Unwrap(fontFace);
   fontFaceInner->ftFace = ftFace;
   fontFaceInner->bufferRef = Napi::Reference<Napi::Buffer<FT_Byte>>::New(buffer, 1);
@@ -72,6 +69,12 @@ Napi::Value NewMemoryFace(const Napi::CallbackInfo &info)
 Napi::Value NewFace(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
+
+  auto instanceData = env.GetInstanceData<InstanceData>();
+  if (instanceData == nullptr) {
+    Napi::TypeError::New(env, "Thread is not initialised!").ThrowAsJavaScriptException();
+    return env.Null();
+  }
 
   if (info.Length() < 1)
   {
@@ -101,7 +104,7 @@ Napi::Value NewFace(const Napi::CallbackInfo &info)
 
   FT_Face ftFace;
   FT_Error err = FT_New_Face(
-      library,
+      instanceData->library,
       filepath.c_str(),
       faceIndex,
       &ftFace);
@@ -112,25 +115,38 @@ Napi::Value NewFace(const Napi::CallbackInfo &info)
     return env.Null();
   }
 
-  Napi::Object fontFace = FontFace::constructor.New({});
+  Napi::Object fontFace = instanceData->fontFace.New({});
   FontFace* fontFaceInner = FontFace::Unwrap(fontFace);
   fontFaceInner->ftFace = ftFace;
 
   return fontFace;
 }
 
+void CleanupInstanceData(Napi::Env env, InstanceData* instanceData) {
+  if (instanceData) {
+    FT_Done_FreeType(instanceData->library);
+    delete instanceData;
+  }
+}
+
 Napi::Object Init(Napi::Env env, Napi::Object exports)
 {
-  FT_Init_FreeType(&library);
+  auto instanceData = new InstanceData{};
 
+  FT_Init_FreeType(&instanceData->library);
+
+  char version[32];
   sprintf(version, "%i.%i.%i", FREETYPE_MAJOR, FREETYPE_MINOR, FREETYPE_PATCH);
   exports.Set("FreeTypeVersion", version);
 
   exports.Set("NewFace", Napi::Function::New(env, NewFace));
   exports.Set("NewMemoryFace", Napi::Function::New(env, NewMemoryFace));
 
-  FontFace::Initialize(env);
+  instanceData->fontFace = FontFace::Initialize(env);
   InitializeEnums(env, exports);
+
+  // Store the constructor as the add-on instance data
+  env.SetInstanceData<InstanceData, CleanupInstanceData>(instanceData);
 
   return exports;
 }

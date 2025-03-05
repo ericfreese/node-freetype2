@@ -1,14 +1,12 @@
 #include "FontFace.h"
 #include <iostream>
 
-Napi::FunctionReference FontFace::constructor;
-
 /**
  * Unimplemented:
  * FT_Face_Properties
  */
 
-void
+Napi::FunctionReference
 FontFace::Initialize(Napi::Env& env) {
   Napi::HandleScope scope(env);
 
@@ -39,8 +37,7 @@ FontFace::Initialize(Napi::Env& env) {
 
   });
 
-  constructor = Napi::Persistent(ctor);
-  constructor.SuppressDestruct();
+  return Napi::Persistent(ctor);
 }
 
 FontFace::FontFace(const Napi::CallbackInfo& info)

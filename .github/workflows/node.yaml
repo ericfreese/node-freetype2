@@ -1,0 +1,175 @@
+name: NodeCI
+
+on:
+  push:
+    # tags:
+    #   - v*
+
+env:
+  NAPI_VERSION: 7
+  BINDING_NAME: freetype2
+  MACOSX_DEPLOYMENT_TARGET: "10.13"
+
+jobs:
+  build-and-test:
+    name: Build ${{ matrix.docker-arch || matrix.arch }} on ${{ matrix.docker-image || matrix.container || matrix.os }} ${{ matrix.libc }}
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # windows
+          - os: windows-2022
+            arch: x64
+            is-native: true
+          - os: windows-2022
+            arch: ia32
+            is-native: false
+          - os: windows-2022
+            arch: arm64
+            is-native: false
+            node-version: 20.x # 18.x is missing the arm64 node.lib
+          # macos
+          - os: macos-12
+            arch: arm64
+            is-native: false
+          - os: macos-12
+            arch: x64
+            is-native: true
+          # linux
+          - os: ubuntu-latest
+            arch: x64
+            is-native: true
+            container: rockylinux/rockylinux:8
+          # linux-arm
+          - os: ubuntu-latest
+            arch: arm64
+            is-native: false
+            docker-arch: linux/arm64
+            docker-image: rockylinux/rockylinux:8
+          - os: ubuntu-latest
+            arch: arm
+            is-native: false
+            docker-arch: linux/arm/v7
+            docker-image: node:18-buster
+          # linux-musl
+          - os: ubuntu-latest
+            arch: x64
+            is-native: true
+            container: node:18-alpine3.18
+            libc: musl
+
+    steps:
+      - name: Dependencies (rockylinux)
+        if: contains(matrix.container, 'rockylinux')
+        run: |
+          curl -sL https://rpm.nodesource.com/setup_18.x | bash -
+          dnf install -y gcc-toolset-11-toolchain make git python3 nodejs fontconfig google-noto-sans-fonts
+          corepack enable
+          echo "/opt/rh/gcc-toolset-11/root/usr/bin" >> $GITHUB_PATH
+      - name: Dependencies (Linux musl)
+        if: contains(matrix.container, 'alpine')
+        run: apk add build-base git python3 font-noto bash --update-cache
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Node.js
+        if: ${{ !matrix.docker-arch && !matrix.container }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version || '18.x' }}
+
+      - name: rebuild
+        if: ${{ !matrix.docker-arch }}
+        shell: bash
+        run: |
+          corepack enable
+
+          yarn
+
+          if [ -n "${{ matrix.is-native }}" ]; then
+            yarn test
+          fi
+
+          yarn run rebuild --arch=${{ matrix.arch }}
+          yarn pkg-prebuilds-copy --baseDir build/Release --source $BINDING_NAME.node --name=$BINDING_NAME --strip --napi_version=$NAPI_VERSION --arch=${{ matrix.arch }} --libc=${{ matrix.libc }}
+        env:
+          CI: true
+          npm_config_build_from_source: true
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        if: ${{ matrix.docker-arch && env.dockerhub_username != '' }}
+        env:
+          dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        if: matrix.docker-arch
+      - name: Pre-fetch image
+        if: matrix.docker-arch
+        run: docker pull ${{ matrix.docker-image }} --platform=${{ matrix.docker-arch }}
+      - name: rebuild (in docker)
+        uses: addnab/docker-run-action@v3
+        if: matrix.docker-arch
+        with:
+          image: ${{ matrix.docker-image }}
+          # shell: bash
+          options: --platform=${{ matrix.docker-arch }} -v ${{ github.workspace }}:/work -e CI=1 -e npm_config_build_from_source=1 -e NAPI_VERSION -e BINDING_NAME
+          run: |
+            if command -v apt-get &> /dev/null
+            then
+              apt-get update
+              apt-get install -y python3
+            elif command -v yum &> /dev/null
+            then
+              curl -sL https://rpm.nodesource.com/setup_18.x | bash -
+              dnf install -y gcc-toolset-11-toolchain make git python3 nodejs fontconfig google-noto-sans-fonts
+              export PATH=/opt/rh/gcc-toolset-11/root/usr/bin:$PATH
+            fi
+
+            cd /work
+
+            corepack enable
+
+            # try and avoid timeout errors
+            yarn config set httpTimeout 100000
+
+            yarn
+            yarn # run twice to avoid issues with armv7 running out of memory
+            yarn test
+            yarn pkg-prebuilds-copy --baseDir build/Release --source $BINDING_NAME.node --name=$BINDING_NAME --strip --napi_version=$NAPI_VERSION --arch=${{ matrix.arch }} --libc=${{ matrix.libc }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ runner.os }}-${{ matrix.arch }}-${{ matrix.libc }}-prebuilds
+          path: prebuilds
+          retention-days: 1
+
+  bundle:
+    name: Bundle prebuilds
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: tmp
+
+      - name: Display structure of downloaded files
+        run: |
+          mkdir prebuilds
+          cp -R tmp/*/* prebuilds/
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-prebuilds
+          path: prebuilds
+          retention-days: 7

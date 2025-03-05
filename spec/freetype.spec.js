@@ -17,7 +17,6 @@ const schemaGenerator = tsj.createGenerator(tsjConfig)
 const ajv = new Ajv({
   allErrors: true,
   extendRefs: 'fail',
-  format: 'full'
 });
 const faceValidator = ajv.compile(schemaGenerator.createSchema('FontFaceProperties'));
 const glyphBitmapValidator = ajv.compile(schemaGenerator.createSchema('GlyphBitmap'));
