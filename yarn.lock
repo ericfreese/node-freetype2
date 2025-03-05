@@ -718,21 +718,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@julusian/freetype2@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@julusian/freetype2@workspace:."
-  dependencies:
-    "@types/node": "npm:^18.19.39"
-    ajv: "npm:^8.16.0"
-    jest: "npm:^29.7.0"
-    node-addon-api: "npm:^6.1.0"
-    node-gyp: "npm:^10.1.0"
-    pkg-prebuilds: "npm:^1.0.0"
-    sharp: "npm:^0.32"
-    ts-json-schema-generator: "npm:^1.5.1"
-  languageName: unknown
-  linkType: soft
-
 "@npmcli/agent@npm:^2.0.0":
   version: 2.2.2
   resolution: "@npmcli/agent@npm:2.2.2"
@@ -1468,13 +1453,13 @@ __metadata:
   linkType: hard
 
 "cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.3":
-  version: 7.0.3
-  resolution: "cross-spawn@npm:7.0.3"
+  version: 7.0.6
+  resolution: "cross-spawn@npm:7.0.6"
   dependencies:
     path-key: "npm:^3.1.0"
     shebang-command: "npm:^2.0.0"
     which: "npm:^2.0.1"
-  checksum: 10c0/5738c312387081c98d69c98e105b6327b069197f864a60593245d64c8089c8a0a744e16349281210d56835bb9274130d825a78b2ad6853ca13cfbeffc0c31750
+  checksum: 10c0/053ea8b2135caff68a9e81470e845613e374e7309a47731e81639de3eaeb90c3d01af0e0b44d2ab9d50b43467223b88567dfeb3262db942dc063b9976718ffc1
   languageName: node
   linkType: hard
 
@@ -1762,6 +1747,21 @@ __metadata:
   checksum: 10c0/9a53a33dbd87090e9576bef65fb4a71de60f6863a8062a7b11bc1cbe3cc86d428677d7c0b9ef61cdac11007ac580006f78bd5638618d564cfd5e6fd713d6878f
   languageName: node
   linkType: hard
+
+"freetype2@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "freetype2@workspace:."
+  dependencies:
+    "@types/node": "npm:^18.19.39"
+    ajv: "npm:^8.16.0"
+    jest: "npm:^29.7.0"
+    node-addon-api: "npm:^6.1.0"
+    node-gyp: "npm:^10.1.0"
+    pkg-prebuilds: "npm:^1.0.0"
+    sharp: "npm:^0.32"
+    ts-json-schema-generator: "npm:^1.5.1"
+  languageName: unknown
+  linkType: soft
 
 "fs-constants@npm:^1.0.0":
   version: 1.0.0
