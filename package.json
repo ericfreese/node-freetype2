@@ -1,12 +1,12 @@
 {
-  "name": "@julusian/freetype2",
+  "name": "freetype2",
   "version": "1.2.0",
   "description": "FreeType bindings for Node.js.",
   "main": "./index.js",
   "types": "./module.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/julusian/node-freetype2"
+    "url": "https://github.com/ericfreese/node-freetype2"
   },
   "keywords": [
     "freetype",
@@ -20,20 +20,12 @@
     "truetype",
     "opentype"
   ],
-  "author": {
-    "name": "Julian Waller",
-    "email": "git@julusian.co.uk"
-  },
-  "contributors": [
-    {
-      "name": "Amin Yahyaabadi"
-    }
-  ],
+  "author": "Julian Waller, Amin Yahyaabadi",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/julusian/node-freetype2/issues"
+    "url": "https://github.com/ericfreese/node-freetype2/issues"
   },
-  "homepage": "https://github.com/julusian/node-freetype2",
+  "homepage": "https://github.com/ericfreese/node-freetype2",
   "scripts": {
     "install": "pkg-prebuilds-verify ./binding-options.js || node-gyp rebuild",
     "build": "node-gyp build",
