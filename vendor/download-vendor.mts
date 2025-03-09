@@ -1,6 +1,6 @@
 // script to download Freetype from https://sourceforge.net/projects/freetype/files/freetype2/
 
-const freetypeVersion = '2.11.1';
+const freetypeVersion = '2.13.3';
 
 import { existsSync } from 'fs';
 import { rm, rename, writeFile, readFile } from 'fs/promises';
