@@ -31,7 +31,8 @@
     "build": "node-gyp build",
     "build.dev": "node-gyp configure --debug && node-gyp configure --debug -- -f compile_commands_json && node-gyp build --debug",
     "rebuild": "node-gyp clean configure build",
-    "test": "jest"
+    "test": "jest",
+    "vendor": "cd vendor && yarn && yarn run vendor"
   },
   "binary": {
     "napi_versions": [
