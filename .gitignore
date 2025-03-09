@@ -1,7 +1,7 @@
 /*.node.gz
 /*.tgz
 /build/
-/node_modules/
+node_modules/
 /npm-*
 /temp/
 /prebuilds
@@ -9,6 +9,11 @@
 /example/*-output.png
 /spec/schema.json
 /*.log
+/vendor/freetype.tar
+/vendor/freetype/builds
+/vendor/freetype/docs
+/vendor/freetype/ChangeLog*
+/vendor/freetype/.clang-format
 
 package-lock.json
 .yarn
