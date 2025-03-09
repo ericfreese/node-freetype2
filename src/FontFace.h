@@ -1,7 +1,9 @@
-#ifndef NODE_FREETYPE2_FONTFACE_H
-#define NODE_FREETYPE2_FONTFACE_H
+#pragma once
 
-#include "util.h"
+#include <napi.h>
+
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 class FontFace : public Napi::ObjectWrap<FontFace> {
   public:
@@ -39,5 +41,3 @@ class FontFace : public Napi::ObjectWrap<FontFace> {
     // Napi::Value GetSubGlyphInfo(const Napi::CallbackInfo &info);
 
 };
-
-#endif
