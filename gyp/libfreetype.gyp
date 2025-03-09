@@ -71,12 +71,20 @@
         '../vendor/freetype/src/psaux/psaux.c',       # PostScript Type 1 parsing
         '../vendor/freetype/src/pshinter/pshinter.c', # PS hinting module
         '../vendor/freetype/src/psnames/psnames.c',   # PostScript glyph names support
+
+        # Debug zlib verbosity
+        '../vendor/freetype/src/gzip/z_verbose.c',
       ],
       'conditions': [
         [ 'OS=="mac"', {
           'sources': [
             '../vendor/freetype/src/base/ftmac.c',        # only on the Macintosh
           ],
+        }],
+        ['OS=="debug"', {
+          'defines': [
+            'DEBUG',
+          ]
         }],
       ],
       'direct_dependent_settings': {
