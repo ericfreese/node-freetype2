@@ -13,7 +13,7 @@ void throwJsException(const Napi::Env& env, FT_Error errorCode) {
 bool validateProp(const Napi::Env& env, bool isCorrect, const char* propName) {
   if (!isCorrect) {
     char str[255];
-    sprintf(str, "%s is not valid", propName);
+    snprintf(str, sizeof(str), "%s is not valid", propName);
 
     Napi::TypeError::New(env, str).ThrowAsJavaScriptException();
   }
