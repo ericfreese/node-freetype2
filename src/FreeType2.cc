@@ -1,6 +1,6 @@
-#include "util.h"
-#include "FontFace.h"
-#include "enums.h"
+#include "./util.h"
+#include "./FontFace.h"
+#include "./enums.h"
 
 Napi::Value NewMemoryFace(const Napi::CallbackInfo &info)
 {
