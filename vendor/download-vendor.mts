@@ -56,8 +56,6 @@ async function main() {
         rm(`${freetypeName}.tar.xz`, { recursive: true, force: true }),
         // docs
         rm("./freetype/docs", { recursive: true, force: true }),
-        // ChangeLog
-        glob("ChangeLog*", { cwd: freeTypePath }).then(files => Promise.all(files.map(file => rm(file, { force: true })))),
         // clang-format
         rm("./freetype/.clang-format", { recursive: true, force: true }),
         // builds
