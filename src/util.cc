@@ -1,4 +1,4 @@
-#include "util.h"
+#include "./util.h"
 
 void throwJsException(const Napi::Env& env, FT_Error errorCode) {
     const char *errString = FT_Error_String(errorCode);
@@ -6,7 +6,7 @@ void throwJsException(const Napi::Env& env, FT_Error errorCode) {
     {
       Napi::TypeError::New(env, errString).ThrowAsJavaScriptException();
     } else {
-      Napi::TypeError::New(env, "An unknown error occured").ThrowAsJavaScriptException();
+      Napi::TypeError::New(env, "An unknown error occurred").ThrowAsJavaScriptException();
     }
 }
 
