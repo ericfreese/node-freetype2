@@ -68,5 +68,5 @@
     "vendor/freetype/LICENSE.TXT",
     "prebuilds"
   ],
-  "packageManager": "yarn@4.3.1"
+  "packageManager": "yarn@4.7.0"
 }
