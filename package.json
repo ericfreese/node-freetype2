@@ -28,9 +28,10 @@
   "homepage": "https://github.com/ericfreese/node-freetype2",
   "scripts": {
     "install": "pkg-prebuilds-verify ./binding-options.js || node-gyp rebuild",
-    "build": "node-gyp build",
+    "clean": "node-gyp clean && shx rm -rf prebuilds",
+    "build": "node-gyp configure build",
     "build.dev": "node-gyp configure --debug && node-gyp configure --debug -- -f compile_commands_json && node-gyp build --debug",
-    "rebuild": "node-gyp clean configure build",
+    "rebuild": "yarn run clean && npm run build",
     "test": "jest",
     "vendor": "cd vendor && yarn && yarn run vendor"
   },
@@ -52,6 +53,7 @@
     "ajv": "^8.16.0",
     "jest": "^29.7.0",
     "sharp": "^0.32",
+    "shx": "^0.3.4",
     "ts-json-schema-generator": "^1.5.1"
   },
   "files": [
