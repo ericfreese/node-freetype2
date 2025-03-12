@@ -1,8 +1,5 @@
-#ifndef NODE_FREETYPE2_ENUMS_H
-#define NODE_FREETYPE2_ENUMS_H
+#pragma once
 
-#include "util.h"
+#include <napi.h>
 
 void InitializeEnums(const Napi::Env& env, Napi::Object& exports);
-
-#endif

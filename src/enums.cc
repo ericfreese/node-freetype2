@@ -1,4 +1,7 @@
-#include "enums.h"
+#include "./enums.h"
+
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 void InitializeEnums(const Napi::Env& env, Napi::Object& exports) {
     Napi::Object renderMode = Napi::Object::New(env);

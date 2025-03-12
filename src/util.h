@@ -1,7 +1,5 @@
-#ifndef NODE_FREETYPE2_UTIL_H
-#define NODE_FREETYPE2_UTIL_H
+#pragma once
 
-#define NAPI_VERSION 6
 #include <napi.h>
 
 #include <ft2build.h>
@@ -20,4 +18,3 @@ struct InstanceData {
   Napi::FunctionReference fontFace;
 };
 
-#endif

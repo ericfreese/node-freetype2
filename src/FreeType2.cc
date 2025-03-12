@@ -1,6 +1,6 @@
-#include "util.h"
-#include "FontFace.h"
-#include "enums.h"
+#include "./util.h"
+#include "./FontFace.h"
+#include "./enums.h"
 
 Napi::Value NewMemoryFace(const Napi::CallbackInfo &info)
 {
@@ -136,7 +136,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
   FT_Init_FreeType(&instanceData->library);
 
   char version[32];
-  sprintf(version, "%i.%i.%i", FREETYPE_MAJOR, FREETYPE_MINOR, FREETYPE_PATCH);
+  snprintf(version, sizeof(version), "%i.%i.%i", FREETYPE_MAJOR, FREETYPE_MINOR, FREETYPE_PATCH);
   exports.Set("FreeTypeVersion", version);
 
   exports.Set("NewFace", Napi::Function::New(env, NewFace));
