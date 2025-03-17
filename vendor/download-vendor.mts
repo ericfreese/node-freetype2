@@ -3,8 +3,7 @@
 const freetypeVersion = '2.13.3';
 
 import { existsSync } from 'fs';
-import { rm, rename, writeFile, readFile } from 'fs/promises';
-import glob from 'fast-glob'
+import { rm, rename, writeFile, readFile, copyFile } from 'fs/promises';
 import { DownloaderHelper } from 'node-downloader-helper';
 import { decompress } from '@napi-rs/lzma/xz'
 import * as tar from 'tar'
@@ -49,6 +48,9 @@ async function main() {
 
     // Rename the extracted directory to "freetype"
     await rename(freetypeName, "freetype")
+
+    // copy z_verbose.c to freetype/src/gzip/
+    await copyFile("./z_verbose.c", "./freetype/src/gzip/z_verbose.c")
 
     // remove non-needed files
     await Promise.all([
