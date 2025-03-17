@@ -32,7 +32,6 @@
         '../vendor/freetype/src/base/ftfstype.c',     # optional
         '../vendor/freetype/src/base/ftgasp.c',       # optional, see <ftgasp.h>
         '../vendor/freetype/src/base/ftgxval.c',      # optional, see <ftgxval.h>
-        '../vendor/freetype/src/base/ftlcdfil.c',     # optional, see <ftlcdfil.h>
         '../vendor/freetype/src/base/ftmm.c',         # optional, see <ftmm.h>
         '../vendor/freetype/src/base/ftotval.c',      # optional, see <ftotval.h>
         '../vendor/freetype/src/base/ftpatent.c',     # optional
@@ -41,7 +40,6 @@
         '../vendor/freetype/src/base/ftsynth.c',      # optional, see <ftsynth.h>
         '../vendor/freetype/src/base/fttype1.c',      # optional, see <t1tables.h>
         '../vendor/freetype/src/base/ftwinfnt.c',     # optional, see <ftwinfnt.h>
-        # '../vendor/freetype/src/base/ftxf86.c',       # optional, see <ftxf86.h>
 
         # font drivers (optional; at least one is needed)
         '../vendor/freetype/src/bdf/bdf.c',           # BDF font driver
@@ -56,8 +54,8 @@
         '../vendor/freetype/src/winfonts/winfnt.c',   # Windows FONT / FNT font driver
 
         # rasterizers (optional; at least one is needed for vector formats)
-        '../vendor/freetype/src/raster/raster.c',     # monochrome rasterizer
         '../vendor/freetype/src/smooth/smooth.c',     # anti-aliasing rasterizer
+        '../vendor/freetype/src/raster/raster.c',     # monochrome rasterizer
         '../vendor/freetype/src/sdf/sdf.c',           # Signed Distance Field driver
 
         # auxiliary modules (optional)
@@ -71,6 +69,12 @@
         '../vendor/freetype/src/psaux/psaux.c',       # PostScript Type 1 parsing
         '../vendor/freetype/src/pshinter/pshinter.c', # PS hinting module
         '../vendor/freetype/src/psnames/psnames.c',   # PostScript glyph names support
+
+        # LCD filter
+        '../vendor/freetype/src/base/ftlcdfil.c',     # optional, see <ftlcdfil.h>
+
+        # SVG renderer
+        '../vendor/freetype/src/svg/ftsvg.c',
 
         # Debug zlib verbosity
         '../vendor/freetype/src/gzip/z_verbose.c',
