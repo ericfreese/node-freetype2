@@ -4,7 +4,6 @@
     },
     "devDependencies": {
         "@napi-rs/lzma": "^1.4.1",
-        "fast-glob": "^3.3.3",
         "node-downloader-helper": "^2.1.9",
         "tar": "^7.4.3",
         "tsx": "^4.19.3"
