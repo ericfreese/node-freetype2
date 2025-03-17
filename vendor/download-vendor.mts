@@ -55,13 +55,7 @@ async function main() {
     // remove non-needed files
     await Promise.all([
         rm(tarPath, { recursive: true, force: true }),
-        rm(`${freetypeName}.tar.xz`, { recursive: true, force: true }),
-        // docs
-        rm("./freetype/docs", { recursive: true, force: true }),
-        // clang-format
-        rm("./freetype/.clang-format", { recursive: true, force: true }),
-        // builds
-        rm("./freetype/builds", { recursive: true, force: true })
+        rm(`${freetypeName}.tar.xz`, { recursive: true, force: true })
     ])
 
     // Write the version to the version file
